@@ -7,10 +7,16 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>chaud </p>
+    {% endif %}
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/logout">Logout</a>
+            You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/SnowTricks/logout">Logout</a>
+            
+            {% for item in app.user %}
+                <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
+            {% endfor %}
         </div>
     {% endif %}
 

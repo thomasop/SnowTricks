@@ -40,6 +40,11 @@ class User implements UserInterface
      */
     private $tricks;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -132,7 +137,11 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     
@@ -168,5 +177,12 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
 
+    }
+
+    public function setRoles(string $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }
