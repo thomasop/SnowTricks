@@ -26,28 +26,25 @@ class HomeController extends AbstractController
     /**
      * @Route("/user", name="user")
      */
+<<<<<<< HEAD
+=======
+    /*
+>>>>>>> loginuser
     public function user()
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = new User();
-        dd($user);
-        /*
+<<<<<<< HEAD
+       
+    
+=======
         $user->setPseudo('thomas');
         $user->setPassword('$2y$13$tQDMscQXOnJikOTa21lxjeIPDPQq1StAE/Uo083MyPpFrtMAsfBWK');
         $user->setEmail('tdss33@hotmail.fr');
-
-        $trick = new Trick();
-        $trick->setUser();
-        $trick->setName();
-        $trick->setDescription();
-        $trick->setType();
-        $trick->setPicture();
-        $trick->setVideo();
-        */
-
-        //$entityManager->persist($user);
-        //$entityManager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
         return new Response('Saved new product with id '.$user->getId()); 
     }
-    
+    */
+>>>>>>> loginuser
 }
