@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+{% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/SnowTricks/logout">Logout</a>
+            
+            {% for item in app.user %}
+                <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
+            {% endfor %}
+        </div>
+    {% endif %}
+<header>
+    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="/blog/">Accueil</a></li>
+        <li class="nav-item list-inline-item">
+        <a href="/SnowTricks/login">connexion</a>
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
+    </ul>
+</header>
+<div>
+    
+    {% for i in trick%}
+    
+        <p>{{ i.id }}</p>
+        <p>{{ i.name }}</p>
+        <p>{{ i.type }}</p>
+        <p>{{ i.description }}</p>
+        <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
