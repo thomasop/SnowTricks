@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Comment{% endblock %}
 
 {% block body %}
 {% if app.user %}
@@ -24,13 +24,20 @@
 </header>
 <div>
     
-    {% for i in trick%}
+    <p>{{ trick.id }}</p>
+    <p>{{ trick.name }}</p>
+    <p>{{ trick.description }}</p>
+    <p>{{ trick.type }}</p>
+</div>
+<div>
+    
+    {% for i in comment%}
     
         <p>{{ i.id }}</p>
         <p>{{ i.name }}</p>
-        <p>{{ i.type }}</p>
-        <p>{{ i.description }}</p>
-        <a href="http://localhost:8000/SnowTricks/comment/{{ i.id }}">Lire la suite</a>
+        <p>{{ i.content }}</p>
+        <p>{{ i.trick_id }}</p>
+        <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
     {% endfor %}
 
 </div>
