@@ -34,6 +34,18 @@ class CommentRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
+    public function findByField($id)
+    {
+        return $this->createQueryBuilder('comment')
+            ->andWhere('comment.id = :id')
+            ->setParameter('id', $id)
+            //->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

@@ -23,7 +23,7 @@ class CommentController extends AbstractController
         ->find($id);
 
         $comment = $commentRepository
-        ->findAll();
+        ->findByField($id);
         return $this->render('comment/comment.html.twig', ['trick' => $trick, 'comment' => $comment]);
     }
 }
