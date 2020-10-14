@@ -22,25 +22,21 @@ class TrickUpdateController extends AbstractController
     //private $entityManager;
 
     /**
-    * @Route("/update_trick", name="update_trick")
+    * @Route("/update_trick/{id}", name="update_trick")
     */
-    public function new($id, Request $request)
+    public function new(Request $request, Trick $trick, EntityManagerInterface $em)
     {
         // creates a task object and initializes some data for this example
-        $entityManager = $this->getDoctrine()->getManager();
-        $product = $entityManager->getRepository(Trick::class)->find($id);
-        $trick = new Trick();
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
-        }
-        $form = $this->createForm(TrickType::class, $trick);
+        //$entityManager = $this->getDoctrine()->getManager();
+        //$product = $entityManager->getRepository(Trick::class)->find($id);
+        //$trick = new Trick();
+        $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $trick = $form->getData();
 
-            $entityManager->flush();
+           //$trick = $form->getData();
+            //var_dump($product);
+            $em->flush();
             return $this->redirectToRoute('home');
         }
         return $this->render('form/formtrick.html.twig', [
