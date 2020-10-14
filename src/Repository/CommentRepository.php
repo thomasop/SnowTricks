@@ -19,33 +19,6 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findAll()
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT * FROM comment
-            ORDER BY id ASC
-            ';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
-    }
-
-    public function findByField($id)
-    {
-        return $this->createQueryBuilder('comment')
-            ->andWhere('comment.id = :id')
-            ->setParameter('id', $id)
-            //->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */
