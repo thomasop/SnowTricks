@@ -11,7 +11,10 @@ use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 //use Symfony\Component\Validator\Constraints\Image;
+//use Symfony\Component\Validator\Constraints\File;
+//use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -47,8 +50,15 @@ class TrickType extends AbstractType
                     'placeholder' => 'Type du trick',
                 ],
             ])
-            ->add('picture', TextType::class,[
+            ->add('picture', FileType::class,[
                 'label' => 'Image',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '5M',
+                    ])
+                ],
             ])
 
             ->add('video', TextType::class,[

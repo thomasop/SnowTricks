@@ -32,6 +32,7 @@
         <p>{{ i.description }}</p>
         <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
         <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
+        <a href="{{ asset('uploads/pictures/' ~ i.picture) }}">View brochure (PDF)</a>
     {% endfor %}
 
 </div>
