@@ -33,7 +33,7 @@ class TrickAddController extends AbstractController
     /**
     * @Route("/add_trick", name="add_trick")
     */
-    public function trickAdd(Request $request)
+    public function trickAdd(Request $request, SluggerInterface $slugger)
     {
         //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -45,11 +45,12 @@ class TrickAddController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $image = $form->get('image')->getData();
+            $image = $form->get('picture')->getData();
 
             if ($image === null) {
                 $image = 'default.jpg';
                 $trick->setImage($image);
+                //dd($image);
             }
             else {
                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
@@ -65,7 +66,7 @@ class TrickAddController extends AbstractController
                 // ... handle exception if something happens during file upload
                 }
     
-                $trick->setImage($newFilename);
+                $trick->setPicture($newFilename);
             }
 
             // On récupère les images transmises

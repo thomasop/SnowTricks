@@ -33,6 +33,7 @@
         <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
         <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
         <a href="{{ asset('uploads/pictures/' ~ i.picture) }}">View brochure (PDF)</a>
+        <img class="card-img-top home" src="/uploads/pictures/{{ i.picture }}" alt="Trick">
     {% endfor %}
 
 </div>

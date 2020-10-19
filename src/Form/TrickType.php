@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\File;
 //use Symfony\Component\Validator\Constraints\File;
 //use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image as img;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,10 +56,17 @@ class TrickType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new Image([
+                    new Img([
                         'maxSize' => '5M',
                     ])
                 ],
+            ])
+            
+            ->add('images', FileType::class,[
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
             ])
 
             ->add('video', TextType::class,[
