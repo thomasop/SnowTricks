@@ -53,12 +53,12 @@ class Trick
     private $video;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="Tricks",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trickId",cascade={"persist"})
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="Tricks", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trickId", cascade={"persist"})
      */
     private $videos;
 
