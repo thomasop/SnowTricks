@@ -41,6 +41,11 @@ class User implements UserInterface
     private $tricks;
 
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="userId")
+     */
+    private $comments;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];

@@ -11,8 +11,12 @@ use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 //use Symfony\Component\Validator\Constraints\Image;
+//use Symfony\Component\Validator\Constraints\File;
+//use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image as img;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,10 +29,7 @@ class TrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user', EntityType::class,[
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
+            
             ->add('Name', TextType::class, [
                 'label' => 'Titre',
                 'attr' => [
@@ -41,18 +42,34 @@ class TrickType extends AbstractType
                     'placeholder' => 'Description du trick',
                 ],
             ])
-            ->add('type', TextType::class, [
-                'label' => 'Type',
-                'attr' => [
-                    'placeholder' => 'Type du trick',
+            
+            ->add('picture', FileType::class,[
+                'label' => 'Image',
+                'data_class' => null,
+                'required' => false,
+                'constraints' => [
+                    new Img([
+                        'maxSize' => '5M',
+                    ])
                 ],
             ])
-            ->add('picture', TextType::class,[
-                'label' => 'Image',
+            
+            ->add('images', FileType::class,[
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
             ])
 
             ->add('video', TextType::class,[
-                'label' => 'Video',
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('categoryId', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'title',
+                'label' => 'Catégorie',
             ])
             ->add('save', SubmitType::class)
         ;

@@ -17,21 +17,23 @@
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="/blog/">Accueil</a></li>
         <li class="nav-item list-inline-item">
-        <a href="/SnowTricks/login">connexion</a>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
+        <a class="navbar-brand" href="{{ path('app_login') }}">connexion</a></li>
+        
     </ul>
 </header>
+<a href="{{ path('add_trick') }}">create</a>
 <div>
     
     {% for i in trick%}
     
         <p>{{ i.id }}</p>
         <p>{{ i.name }}</p>
-        <p>{{ i.type }}</p>
+        
         <p>{{ i.description }}</p>
         <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
         <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
+        <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
+        <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
     {% endfor %}
 
 </div>

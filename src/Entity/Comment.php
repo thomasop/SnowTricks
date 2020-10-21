@@ -23,6 +23,11 @@ class Comment
      */
     private $trick;
 
+     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     */
+    private $userId;
+
     /**
      * @ORM\Column(type="string", length=100)
      */
