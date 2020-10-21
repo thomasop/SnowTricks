@@ -38,9 +38,9 @@ class Trick
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist"})
      */
-    private $type;
+    private $categoryId;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -48,17 +48,12 @@ class Trick
     private $picture;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $video;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="Trick",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trickId", cascade={"persist"})
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="Trick",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trickId", cascade={"persist"})
      */
     private $videos;
 
@@ -113,17 +108,7 @@ class Trick
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    
 
     public function getPicture()
     {
@@ -133,6 +118,18 @@ class Trick
     public function setPicture($picture)
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getCategoryId(): ?Category
+    {
+        return $this->categoryId;
+    }
+
+    public function setCategoryId(?Category $categoryId): self
+    {
+        $this->categoryId = $categoryId;
 
         return $this;
     }

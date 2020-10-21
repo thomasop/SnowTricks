@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Entity\Image;
+use App\Entity\Video;
 use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Handlers\TrickAddHandler;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TrickAddController extends AbstractController
 {
@@ -22,10 +25,12 @@ class TrickAddController extends AbstractController
 
     
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage
         //Request $request
     ) {
         $this->entityManager = $entityManager;
+        $this->tokenStorage = $tokenStorage;;
         //$this->request = $request;
     }
 
@@ -67,11 +72,18 @@ class TrickAddController extends AbstractController
                 }
     
                 $trick->setPicture($newFilename);
+               // $img = new Image();
+                //$img->setName($newFilename);
+                //dd($img);
+                
+                //$trick->addImage($img);
+                
             }
 
             // On récupère les images transmises
+            
             $images = $form->get('images')->getData();            
-
+            //dd($images);
             // On boucle sur les images
             foreach($images as $image){
                 
@@ -91,9 +103,30 @@ class TrickAddController extends AbstractController
                 // On crée l'image dans la base de données
                 $img = new Image();
                 $img->setName($newFilename);
-                $trick->addImage($img);
-            }
+                $img->setTrickId($trick);
+                $this->entityManager->persist($img);
+                //dd($img);
+                //$trick->addImage($img);
 
+            }
+            
+            $videos = $form->get('video')->getData();
+
+            if ($videos !== null) {
+                //if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
+                    $video = new Video();
+                    //$video_id = $match[1];
+                    $video->setUrl('https://www.youtube.com/watch?v=_WS5ZNl043s');
+                    $video->setTrickId($trick);
+
+                    $this->entityManager->persist($video);
+                    //$trick->addVideo($video);
+                    //dd(addVideo($video));
+                //}
+            }
+            $trick->setUser($this->tokenStorage->getToken()->getUser());
+            //$trick->addVideo($video);
+            //dd($trick->addVideo($video));
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
             

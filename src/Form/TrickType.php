@@ -29,10 +29,7 @@ class TrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user', EntityType::class,[
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
+            
             ->add('Name', TextType::class, [
                 'label' => 'Titre',
                 'attr' => [
@@ -45,15 +42,10 @@ class TrickType extends AbstractType
                     'placeholder' => 'Description du trick',
                 ],
             ])
-            ->add('type', TextType::class, [
-                'label' => 'Type',
-                'attr' => [
-                    'placeholder' => 'Type du trick',
-                ],
-            ])
+            
             ->add('picture', FileType::class,[
                 'label' => 'Image',
-                'mapped' => false,
+                'data_class' => null,
                 'required' => false,
                 'constraints' => [
                     new Img([
@@ -70,7 +62,14 @@ class TrickType extends AbstractType
             ])
 
             ->add('video', TextType::class,[
-                'label' => 'Video',
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('categoryId', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'title',
+                'label' => 'Catégorie',
             ])
             ->add('save', SubmitType::class)
         ;
