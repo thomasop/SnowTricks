@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Comment{% endblock %}
 
 {% block body %}
 {% if app.user %}
@@ -17,23 +17,25 @@
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="/blog/">Accueil</a></li>
         <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">connexion</a></li>
-        
+        <a class="navbar-brand" href="/SnowTricks/login">connexion</a>
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
     </ul>
 </header>
-<a href="{{ path('add_trick') }}">create</a>
+<div>
+    <p>{{ trick.name }}</p>
+    <p>{{ trick.description }}</p>
+    <p>{{ trick.picture }}</p>
+</div>
 <div>
     
-    {% for i in trick%}
+    {% for i in comment%}
     
         <p>{{ i.id }}</p>
         <p>{{ i.name }}</p>
-        
-        <p>{{ i.description }}</p>
-        <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
-        <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
-        <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
-        <a href="http://localhost:8000/comment/{{ i.id }}">Lire la suite</a>
+        <p>{{ i.content }}</p>
+        <p>{{ i.trick.id }}</p>
+        <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
     {% endfor %}
 
 </div>
