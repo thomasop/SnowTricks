@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/SnowTricks/comment/{id}", name="comment")
+     * @Route("/comment/{id}", name="comment")
      */
     public function comment($id, TrickRepository $trickRepository, CommentRepository $commentRepository)
     {
