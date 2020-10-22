@@ -10,9 +10,12 @@
     {% if is_granted('ROLE_ADMIN') %}
         <p>chaud </p>
     {% endif %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <p>froid </p>
+    {% endif %}
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_login') }}">Logout</a>
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
             
             {% for item in app.user %}
                 <li><a href="{{ item.roles }}">{{ item.id }}</a></li>

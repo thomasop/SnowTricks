@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TrickAddController extends AbstractController
@@ -37,6 +38,7 @@ class TrickAddController extends AbstractController
 
     /**
     * @Route("/add_trick", name="add_trick")
+    *
     */
     public function trickAdd(Request $request, SluggerInterface $slugger)
     {
