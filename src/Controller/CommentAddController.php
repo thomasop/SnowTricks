@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Image;
-use App\Entity\Video;
-use App\Form\TrickType;
+use App\Entity\Trick;
+use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Handlers\TrickAddHandler;
 use App\Responders\TrickAddResponder;
@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class TrickAddController extends AbstractController
+class CommentAddController extends AbstractController
 {
         // creates a task object and initializes some data for this example
     /** @var EntityManagerInterface */
@@ -36,25 +36,31 @@ class TrickAddController extends AbstractController
 
 
     /**
-    * @Route("/add_comment/{id}", name="add_trick")
+    * @Route("/add_comment/{id}", name="add_comment")
     */
-    public function commentAdd(Request $request, SluggerInterface $slugger)
+    public function commentAdd($id, Request $request, SluggerInterface $slugger)
     {
         //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+       
+        $trick = new Trick();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         
-        
+        $trick = $this->getDoctrine()
+        ->getRepository(Trick::class)
+        ->find($id);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            
-            $comment->setUser($this->tokenStorage->getToken()->getUser());
+            $comment->setUserId($this->tokenStorage->getToken()->getUser());
+            $comment->setTrick($trick);
+            $comment->setDate(new \DateTime('now'));
             //$trick->addVideo($video);
             //dd($trick->addVideo($video));
-            $this->entityManager->persist($trick);
+            //dd($comment);
+            $this->entityManager->persist($comment);
             $this->entityManager->flush();
             
             //$this->session->getFlashBag()->add("success", "Trick créé !");
@@ -64,7 +70,7 @@ class TrickAddController extends AbstractController
             
             return $this->redirectToRoute('home');
         }
-        return $this->render('form/formtrick.html.twig', [
+        return $this->render('form/formcomment.html.twig', [
             'form' => $form->createView()
             ]);
         
