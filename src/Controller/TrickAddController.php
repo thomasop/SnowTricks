@@ -113,16 +113,16 @@ class TrickAddController extends AbstractController
             $videos = $form->get('video')->getData();
 
             if ($videos !== null) {
-                //if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
+                if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
                     $video = new Video();
-                    //$video_id = $match[1];
-                    $video->setUrl('https://www.youtube.com/watch?v=_WS5ZNl043s');
+                    $video_id = $match[1];
+                    $video->setUrl('https://www.youtube.com/watch?v=_WS5ZNl043s' . $video_id);
                     $video->setTrickId($trick);
 
                     $this->entityManager->persist($video);
                     //$trick->addVideo($video);
                     //dd(addVideo($video));
-                //}
+                }
             }
             $trick->setUser($this->tokenStorage->getToken()->getUser());
             //$trick->addVideo($video);
@@ -138,7 +138,8 @@ class TrickAddController extends AbstractController
             return $this->redirectToRoute('home');
         }
         return $this->render('form/formtrick.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'trick' => $trick
             ]);
         //return $this->responder->response($form);
     }

@@ -4,8 +4,34 @@
 
 {% block body %}
 
-{{ form(form) }}
 
+{{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div>
+        <div>
+            {{ form_row(form.Name) }}
+        </div>
+        <div>
+            {{ form_row(form.description) }}
+        </div>
+        <div>
+            {{ form_row(form.picture) }}
+        </div>
+        <div>
+            {{ form_row(form.images) }}
+        </div>
+        <div>
+            {{ form_row(form.video) }}
+        </div>
+        <div>
+            {{ form_row(form.categoryId) }}
+        </div>
+        {{ form_row(form.save, { 'label': 'Submit me' }) }}
+    </div>
+{{ form_end(form) }}
 
 
 {% endblock %}
