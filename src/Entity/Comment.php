@@ -34,11 +34,6 @@ class Comment
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $picture;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -51,6 +46,18 @@ class Comment
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
     }
 
     public function getTrick(): ?Trick
@@ -73,18 +80,6 @@ class Comment
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(string $picture): self
-    {
-        $this->picture = $picture;
 
         return $this;
     }
