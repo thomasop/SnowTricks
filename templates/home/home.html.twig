@@ -33,7 +33,7 @@
         <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
         <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
         <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
-        <a href="http://localhost:8000/comment/{{ i.id }}">Lire la suite</a>
+        <a href="{{ path('comment', {id: i.id}) }}">Lire la suite</a>
     {% endfor %}
 
 </div>

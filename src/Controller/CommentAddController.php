@@ -68,7 +68,7 @@ class CommentAddController extends AbstractController
          
     
             
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('comment', ['id' => $id]);
         }
         return $this->render('form/formcomment.html.twig', [
             'form' => $form->createView()
