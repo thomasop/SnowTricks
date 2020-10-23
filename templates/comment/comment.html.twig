@@ -35,7 +35,7 @@
         <p>{{ i.name }}</p>
         <p>{{ i.content }}</p>
         <p>{{ i.trick.id }}</p>
-        <a href="http://localhost:8000/SnowTricks/comment">Lire la suite</a>
+        <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
     {% endfor %}
 
 </div>
