@@ -36,6 +36,7 @@
         <p>{{ i.content }}</p>
         <p>{{ i.trick.id }}</p>
         <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>
+        <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
     {% endfor %}
 
 </div>
