@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class CommentUpdateController extends AbstractController
 {
@@ -23,6 +25,7 @@ class CommentUpdateController extends AbstractController
 
     /**
     * @Route("/update_comment/{id}/{trickid}", name="update_comment")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function new($id, $trickid, Request $request, Comment $comment, EntityManagerInterface $em)
     {

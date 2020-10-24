@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class CommentDeleteController extends AbstractController
 {
@@ -33,6 +35,7 @@ class CommentDeleteController extends AbstractController
 
     /**
     * @Route("/delete_comment/{id}/{trickid}", name="delete_comment")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function delete($id, $trickid, CommentRepository $commentRepository)
     {

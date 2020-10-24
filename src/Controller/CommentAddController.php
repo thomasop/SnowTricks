@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class CommentAddController extends AbstractController
 {
@@ -37,6 +39,7 @@ class CommentAddController extends AbstractController
 
     /**
     * @Route("/add_comment/{id}", name="add_comment")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function commentAdd($id, Request $request, SluggerInterface $slugger)
     {
