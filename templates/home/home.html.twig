@@ -5,7 +5,7 @@
 {% block body %}
 {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/SnowTricks/logout">Logout</a>
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
             
             {% for item in app.user %}
                 <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
@@ -21,7 +21,9 @@
         
     </ul>
 </header>
-<a href="{{ path('add_trick') }}">create</a>
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('add_trick') }}">create</a>
+{% endif %}
 <div>
     
     {% for i in trick%}
@@ -30,8 +32,10 @@
         <p>{{ i.name }}</p>
         
         <p>{{ i.description }}</p>
-        <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
-        <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
+            <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
+        {% endif %}
         <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
         <a href="{{ path('comment', {id: i.id}) }}">Lire la suite</a>
     {% endfor %}
