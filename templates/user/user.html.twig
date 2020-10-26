@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}user{% endblock %}
+
+{% block body %}
+{% for u in user%}
+    
+        <p>{{ u.id }}</p>
+        <p>{{ u.pseudo }}</p>
+        
+        <p>{{ u.email }}</p>
+        <a class="navbar-brand" href="{{ path('user_delete', {id: u.id}) }}">delete</a></li>
+  {% endfor %}      
+{% endblock %}

@@ -18,7 +18,10 @@
         <a class="navbar-brand" href="/blog/">Accueil</a></li>
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('app_login') }}">connexion</a></li>
-        
+        {% if app.user %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">user</a></li>
+        {% endif %}
     </ul>
 </header>
 {% if is_granted('ROLE_ADMIN') %}

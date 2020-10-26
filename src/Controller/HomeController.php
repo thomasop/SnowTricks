@@ -28,6 +28,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/user/{id}", name="user")
      */
+    /*
     public function user($id, TrickRepository $trickRepository)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -46,4 +47,5 @@ class HomeController extends AbstractController
         //$entityManager->flush();
         return new Response('Saved new product with id '.$comment->getId() . $comment->getTrick()); 
     }
+    */
 }
