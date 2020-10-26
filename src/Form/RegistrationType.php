@@ -48,7 +48,19 @@ class RegistrationType extends AbstractType
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    ],
+            ])
+            ->add('avatar', FileType::class, [
+                'label' => 'Avatar :',
+                'data_class' => null,
+                'attr' => [
+                'placeholder' => 'Ajouter un avatar'
                 ],
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '5M',
+                    ])
+                ]
             ])
             
             ->add('save', SubmitType::class)
