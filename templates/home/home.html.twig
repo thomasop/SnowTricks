@@ -22,6 +22,9 @@
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">user</a>
          {% endif %}
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="{{ path('app_register') }}">inscription</a></li>
+        
     </ul>
 </header>
 {% if is_granted('ROLE_ADMIN') %}

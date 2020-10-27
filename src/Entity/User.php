@@ -50,6 +50,11 @@ class User implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatar;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -84,6 +89,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+    
     public function getEmail(): ?string
     {
         return $this->email;
@@ -98,12 +115,23 @@ class User implements UserInterface
     
     public function getRoles(): array
     {
+        
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+        
+        //return array('ROLE_USER');
     }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    
     /**
      * @return Collection|Trick[]
      */
@@ -185,10 +213,12 @@ class User implements UserInterface
 
     }
 
+    /*
     public function setRoles(string $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
+    */
 }
