@@ -18,7 +18,10 @@
         <a class="navbar-brand" href="/blog/">Accueil</a></li>
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('app_login') }}">connexion</a></li>
-        
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('home') }}">user</a>
+         {% endif %}
     </ul>
 </header>
 {% if is_granted('ROLE_ADMIN') %}
@@ -26,7 +29,7 @@
 {% endif %}
 <div>
     
-    {% for i in trick%}
+    {% for i in trick %}
     
         <p>{{ i.id }}</p>
         <p>{{ i.name }}</p>
