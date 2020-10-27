@@ -50,38 +50,44 @@ class TrickAddController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $image = $form->get('picture')->getData();
+            $images = $form->get('picture')->getData();
 
-            if ($image === null) {
-                $image = 'default.jpg';
-                $trick->setImage($image);
+            if ($images === null) {
+                $images = 'default.jpg';
+                $trick->setImage($images);
                 //dd($image);
             }
             else {
-                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-                try {
-                    $image->move(
-                        $this->getParameter('pictures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-                }
-    
-                $trick->setPicture($newFilename);
+                foreach($images as $image){
+
+                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
+                    try {
+                        $image->move(
+                            $this->getParameter('pictures_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    }
+        
+                    $trick->setPicture($newFilename);
+                    $img = new Image();
+                    $img->setName($newFilename);
+                    $img->setTrickId($trick);
+                    $this->entityManager->persist($img);
                // $img = new Image();
                 //$img->setName($newFilename);
                 //dd($img);
-                
+                }
                 //$trick->addImage($img);
                 
             }
 
             // On récupère les images transmises
-            
+            /*
             $images = $form->get('images')->getData();            
             //dd($images);
             // On boucle sur les images
@@ -109,7 +115,7 @@ class TrickAddController extends AbstractController
                 //$trick->addImage($img);
 
             }
-            
+            */
             $videos = $form->get('video')->getData();
 
             if ($videos !== null) {

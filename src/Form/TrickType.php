@@ -45,22 +45,18 @@ class TrickType extends AbstractType
             
             ->add('picture', FileType::class,[
                 'label' => 'Image',
-                'data_class' => null,
                 'required' => false,
-                'constraints' => [
-                    new Img([
-                        'maxSize' => '5M',
-                    ])
-                ],
+                'multiple' => true,
+                'mapped' => false
+                
             ])
-            
+            /*
             ->add('images', FileType::class,[
                 'label' => false,
                 'multiple' => true,
-                'mapped' => false,
                 'required' => false
             ])
-
+*/
             ->add('video', TextType::class,[
                 'label' => false,
                 'mapped' => false,
