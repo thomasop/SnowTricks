@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Handlers\TrickAddHandler;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickAddController extends AbstractController
 {
@@ -38,7 +40,7 @@ class TrickAddController extends AbstractController
 
     /**
     * @Route("/add_trick", name="add_trick")
-    *
+    * @IsGranted("ROLE_ADMIN")
     */
     public function trickAdd(Request $request, SluggerInterface $slugger)
     {

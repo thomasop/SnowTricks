@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class TrickUpdateController extends AbstractController
 {
@@ -23,6 +25,7 @@ class TrickUpdateController extends AbstractController
 
     /**
     * @Route("/update_trick/{id}", name="update_trick")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function new(Request $request, Trick $trick, EntityManagerInterface $em)
     {

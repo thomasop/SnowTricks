@@ -8,9 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Handlers\TrickAddHandler;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickDeleteController extends AbstractController
 {
@@ -23,6 +25,7 @@ class TrickDeleteController extends AbstractController
 
     /**
     * @Route("/delete_trick/{id}", name="delete_trick")
+    * @IsGranted("ROLE_ADMIN")
     */
     public function delete($id, TrickRepository $trickRepository)
     {
