@@ -4,17 +4,21 @@ namespace App\Tests\Entity;
 
 use App\Entity\Trick;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-class TrickTest extends TestCase
+class TrickTest extends KernelTestCase
 {
 	public function testName()
 	{
-		$trick = new Trick();
-		$name = "Test nom";
-
-		$trick->setName($name);
-		$this->assertEquals("Test nom", $trick->getName());
+		$trick = (new Trick())
+		//$name = "Test nom";
+		->setName("Test nom")
+		->setDescription("Test description")
+		->setPicture("Test image");
+		self::bootKernel();
+		$error = self::$container->get('validator')->validate($trick);
+		$this->assertCount(0, $error);
 	}
 
 	public function testDescription()

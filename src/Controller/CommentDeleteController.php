@@ -45,6 +45,9 @@ class CommentDeleteController extends AbstractController
         ->find($id);
         // ... perform some action, such as saving the task to the database
         // for example, if Task is a Doctrine entity, save it!
+        if (!$comment) {
+            throw $this->createNotFoundException('No livre found for id '.$id);
+        } 
          $entityManager = $this->getDoctrine()->getManager();
          $entityManager->Remove($comment);
          $entityManager->flush();
