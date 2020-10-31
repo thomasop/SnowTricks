@@ -28,10 +28,10 @@
     <p>{{ trick.picture }}</p>
 </div>
 <div>
-{% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('add_comment', {id: trick.id}) }}">create comment</a>
-{% endif %}
     
+{% if is_granted('ROLE_ADMIN') %}
+    {{ form(form) }}
+{% endif %}
     {% for i in comment%}
     
         <p>{{ i.id }}</p>
