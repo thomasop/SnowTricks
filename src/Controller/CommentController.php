@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Tool\CommentAddForm;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Driver\Connection;
@@ -27,11 +28,13 @@ class CommentController extends AbstractController
     
     public function __construct(
         EntityManagerInterface $entityManager,
-        TokenStorageInterface $tokenStorage
+        //TokenStorageInterface $tokenStorage
+        CommentAddForm $commentAddForm
         //Request $request
     ) {
         $this->entityManager = $entityManager;
-        $this->tokenStorage = $tokenStorage;;
+        //$this->tokenStorage = $tokenStorage;;
+        $this->commentAddForm = $commentAddForm;
         //$this->request = $request;
     }
 
@@ -53,26 +56,17 @@ class CommentController extends AbstractController
         //$trick = $this->getDoctrine()
         //->getRepository(Trick::class)
         //->find($id);
-        $form->handleRequest($request);
+        //$form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $comment->setUserId($this->tokenStorage->getToken()->getUser());
-            $comment->setTrick($trick);
-            $comment->setDate(new \DateTime('now'));
-            //$trick->addVideo($video);
-            //dd($trick->addVideo($video));
-            //dd($comment);
-            $this->entityManager->persist($comment);
-            $this->entityManager->flush();
-            
-            //$this->session->getFlashBag()->add("success", "Trick créé !");
-            
-         
-    
+        if ($this->commentAddForm->form($comment, $form) === true) {
             
             return $this->redirectToRoute('comment', ['id' => $id]);
         }
+         
+    
+            
+            //return $this->redirectToRoute('comment', ['id' => $id]);
+        //}
         //return $this->render('form/formcomment.html.twig', [
          //   'form' => $form->createView()
           //  ]);

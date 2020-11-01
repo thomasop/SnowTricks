@@ -1,68 +1,52 @@
 <?php
 
-namespace App\Controller;
+namespace App\Tool;
 
-use App\Entity\Trick;
 use App\Entity\Image;
 use App\Entity\Video;
-use App\Form\TrickType;
-use Symfony\Component\HttpFoundation\Response;
-use App\Tool\TrickAddForm;
-use App\Responders\TrickAddResponder;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Trick;
+use App\Tool\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\String\Slugger\SluggerInterface;
-//use App\Tool\FileUploader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-//use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class TrickAddController extends AbstractController
+
+class TrickAddForm
 {
-        // creates a task object and initializes some data for this example
     /** @var EntityManagerInterface */
     private $entityManager;
-    //private $fileUploader;
-    private $trickAddForm;
-
+    /** @var Request */
+    private $request;
+    /** @var TokenStorageInterface */
+    private $tokenStorage;
+    /** FileUploader */
+    private $fileUploader;
+    /** @var SessionInterface */
+    //private $session;
     
     public function __construct(
-        EntityManagerInterface $entityManager,
-        //TokenStorageInterface $tokenStorage,
-       // FileUploader $fileUploader, 
-        TrickAddForm $trickAddForm
-    ) {
-        $this->trickAddForm = $trickAddForm;
+    
+        TokenStorageInterface $tokenStorage, 
+        EntityManagerInterface $entityManager, 
+        RequestStack $request, 
+        FileUploader $fileUploader
+        //SessionInterface $session
+    
+    ){
+
         $this->entityManager = $entityManager;
-        //$this->tokenStorage = $tokenStorage;
-        //$this->FileUploader = $fileUploader;
+        $this->request = $request;
+        $this->tokenStorage = $tokenStorage;
+        $this->fileUploader = $fileUploader;
+        //$this->session = $session;
     }
 
+    public function form(Trick $trick, FormInterface $form){
 
-    /**
-    * @Route("/add_trick", name="add_trick")
-    * @IsGranted("ROLE_ADMIN")
-    */
-    public function trickAdd(Request $request)
-    {
-        $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
-
-        if ($this->trickAddForm->form($trick, $form) === true) {
-            
-            return $this->redirectToRoute('home');
-        }
-        return $this->render('form/formtrick.html.twig', [
-            'form' => $form->createView(),
-            'trick' => $trick
-            ]);
-    }
-}
-        /*
-        $form->handleRequest($request);
+        $form->handleRequest($this->request->getCurrentRequest());
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
@@ -74,7 +58,7 @@ class TrickAddController extends AbstractController
                 foreach($images as $image){
 
                     $newImage = $this->fileUploader->upload($image);
-                    
+                    /*
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
@@ -87,7 +71,7 @@ class TrickAddController extends AbstractController
                     } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                     }
-                    
+                    */
                     $trick->setPicture($newImage);
                     $img = new Image();
                     $img->setName($newImage);
@@ -112,6 +96,8 @@ class TrickAddController extends AbstractController
             //dd($trick->addVideo($video));
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
-            
-            return $this->redirectToRoute('home');
-        }*/
+            return true;
+        }
+        return false;
+    }
+}
