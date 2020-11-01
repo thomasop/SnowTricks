@@ -27,12 +27,12 @@ class CommentUpdateController extends AbstractController
     * @Route("/update_comment/{id}/{trickid}", name="update_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($id, $trickid, Request $request, Comment $comment, EntityManagerInterface $em)
+    public function new($id, $trickid, Request $request, EntityManagerInterface $em)
     {
         // creates a task object and initializes some data for this example
         //$entityManager = $this->getDoctrine()->getManager();
         //$product = $entityManager->getRepository(Trick::class)->find($id);
-        //$trick = new Trick();
+        $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){

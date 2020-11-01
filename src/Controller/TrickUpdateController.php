@@ -10,6 +10,8 @@ use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+//use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -37,12 +39,12 @@ class TrickUpdateController extends AbstractController
     * @Route("/update_trick/{id}", name="update_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new(Request $request, Trick $trick, EntityManagerInterface $em)
+    public function new(Request $request, EntityManagerInterface $em)
     {
         // creates a task object and initializes some data for this example
         //$entityManager = $this->getDoctrine()->getManager();
         //$product = $entityManager->getRepository(Trick::class)->find($id);
-        //$trick = new Trick();
+        $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
         //$form->handleRequest($request);
         if ($this->trickUpdateForm->form($trick, $form) === true){
