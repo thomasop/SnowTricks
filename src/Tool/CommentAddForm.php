@@ -41,10 +41,10 @@ class CommentAddForm
         $this->fileUploader = $fileUploader;
     }
 
-    public function form(Comment $comment, FormInterface $form){
+    public function form(Comment $comment, Trick $trick, FormInterface $form){
 
         $form->handleRequest($this->request->getCurrentRequest());
-        $trick = new Trick;
+        //$trick = new Trick;
         if ($form->isSubmitted() && $form->isValid()) {
             
             $comment->setUserId($this->tokenStorage->getToken()->getUser());
@@ -52,7 +52,7 @@ class CommentAddForm
             $comment->setDate(new \DateTime('now'));
             //$trick->addVideo($video);
             //dd($trick->addVideo($video));
-            dd($comment);
+            //dd($comment);
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
         return true;

@@ -58,7 +58,7 @@ class CommentController extends AbstractController
         //->find($id);
         //$form->handleRequest($request);
         
-        if ($this->commentAddForm->form($comment, $form) === true) {
+        if ($this->commentAddForm->form($comment, $trick, $form) === true) {
             
             return $this->redirectToRoute('comment', ['id' => $id]);
         }
