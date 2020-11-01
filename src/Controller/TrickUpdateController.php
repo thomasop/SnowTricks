@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
+use App\Tool\TrickUpdateForm;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,17 @@ class TrickUpdateController extends AbstractController
     /** @var Responder */
     private $responder;
     /** @var EntityManagerInterface */
-    //private $entityManager;
+    private $trickUpdateForm;
+
+    public function __construct(
+        //TokenStorageInterface $tokenStorage,
+       // FileUploader $fileUploader, 
+       TrickUpdateForm $trickUpdateForm
+    ) {
+        $this->trickUpdateForm = $trickUpdateForm;
+        //$this->tokenStorage = $tokenStorage;
+        //$this->FileUploader = $fileUploader;
+    }
 
     /**
     * @Route("/update_trick/{id}", name="update_trick")
@@ -34,12 +44,12 @@ class TrickUpdateController extends AbstractController
         //$product = $entityManager->getRepository(Trick::class)->find($id);
         //$trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        //$form->handleRequest($request);
+        if ($this->trickUpdateForm->form($trick, $form) === true){
 
            //$trick = $form->getData();
             //var_dump($product);
-            $em->flush();
+            //$em->flush();
             return $this->redirectToRoute('home');
         }
         return $this->render('form/formtrick.html.twig', [
