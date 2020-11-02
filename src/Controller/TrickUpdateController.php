@@ -39,12 +39,12 @@ class TrickUpdateController extends AbstractController
     * @Route("/update_trick/{id}", name="update_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new(Request $request, EntityManagerInterface $em)
+    public function new(Request $request, EntityManagerInterface $em, Trick $trick)
     {
         // creates a task object and initializes some data for this example
         //$entityManager = $this->getDoctrine()->getManager();
         //$product = $entityManager->getRepository(Trick::class)->find($id);
-        $trick = new Trick();
+        //$trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
         //$form->handleRequest($request);
         if ($this->trickUpdateForm->form($trick, $form) === true){

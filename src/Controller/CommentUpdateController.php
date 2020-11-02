@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
+use App\Tool\CommentUpdateForm;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,28 +21,38 @@ class CommentUpdateController extends AbstractController
     /** @var Responder */
     private $responder;
     /** @var EntityManagerInterface */
-    //private $entityManager;
+    private $commentUpdateForm;
+
+    public function __construct(
+        //TokenStorageInterface $tokenStorage,
+       // FileUploader $fileUploader, 
+       CommentUpdateForm $commentUpdateForm
+    ) {
+        $this->commentUpdateForm = $commentUpdateForm;
+        //$this->tokenStorage = $tokenStorage;
+        //$this->FileUploader = $fileUploader;
+    }
 
     /**
     * @Route("/update_comment/{id}/{trickid}", name="update_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($id, $trickid, Request $request, EntityManagerInterface $em)
+    public function new($id, $trickid, Request $request, Comment $comment)
     {
         // creates a task object and initializes some data for this example
         //$entityManager = $this->getDoctrine()->getManager();
         //$product = $entityManager->getRepository(Trick::class)->find($id);
-        $comment = new Comment();
+        //$comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        //$form->handleRequest($request);
+        if ($this->commentUpdateForm->form($comment, $form) === true){
 
            //$trick = $form->getData();
             //var_dump($product);
-            $em->flush();
+            //$em->flush();
             return $this->redirectToRoute('comment', ['id' => $trickid]);
         }
-        return $this->render('form/formtrick.html.twig', [
+        return $this->render('form/formcomment.html.twig', [
             'form' => $form->createView()
             ]);
         // ... perform some action, such as saving the task to the database
