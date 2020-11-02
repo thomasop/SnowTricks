@@ -6,11 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Trick;
+use App\Entity\Image;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Tool\CommentAddForm;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
+use App\Repository\ImageRepository;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +43,11 @@ class CommentController extends AbstractController
     /**
      * @Route("/comment/{id}", name="comment")
      */
-    public function comment($id, TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
+    public function comment($id, ImageRepository $imageRepository, TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
     {
         $trick = new Trick();
         $comment = new Comment();
+        $image = new Image();
         $form = $this->createForm(CommentType::class, $comment);
 
         $commentt = $commentRepository
@@ -52,6 +55,8 @@ class CommentController extends AbstractController
 
         $trick = $trickRepository
         ->find($id);
+        $image = $imageRepository
+        ->findBy(['trickId' => $id]);
 
         //$trick = $this->getDoctrine()
         //->getRepository(Trick::class)
@@ -70,6 +75,6 @@ class CommentController extends AbstractController
         //return $this->render('form/formcomment.html.twig', [
          //   'form' => $form->createView()
           //  ]);
-        return $this->render('comment/comment.html.twig', ['trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
+        return $this->render('comment/comment.html.twig', ['image' => $image, 'trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
     }
 }

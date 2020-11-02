@@ -33,7 +33,15 @@
     <p>{{ trick.picture }}</p>
 </div>
 <div>
-    
+    {% for p in image %}
+        <p>{{ p.name }}</p>
+        {% if is_granted('ROLE_ADMIN') %}
+        
+            <a href="{{ path('delete_image', {id: p.id}) }}">delete image</a>
+        {% endif %}
+    {% endfor %}
+</div>
+<div>
 {% if is_granted('ROLE_ADMIN') %}
     {{ form(form) }}
 {% endif %}
