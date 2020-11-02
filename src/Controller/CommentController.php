@@ -10,6 +10,7 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Tool\CommentAddForm;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,7 +42,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/comment/{id}", name="comment")
      */
-    public function comment($id, TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
+    public function comment($id, VideoRepository $videoRepository, TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
     {
         $trick = new Trick();
         $comment = new Comment();
@@ -53,6 +54,8 @@ class CommentController extends AbstractController
         $trick = $trickRepository
         ->find($id);
 
+        $video = $videoRepository
+        ->findBy(['trickId' => $id]);
         //$trick = $this->getDoctrine()
         //->getRepository(Trick::class)
         //->find($id);
@@ -70,6 +73,6 @@ class CommentController extends AbstractController
         //return $this->render('form/formcomment.html.twig', [
          //   'form' => $form->createView()
           //  ]);
-        return $this->render('comment/comment.html.twig', ['trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
+        return $this->render('comment/comment.html.twig', ['video' => $video, 'trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
     }
 }
