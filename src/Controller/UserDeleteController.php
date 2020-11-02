@@ -10,6 +10,7 @@ use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserDeleteController extends AbstractController
@@ -19,7 +20,13 @@ class UserDeleteController extends AbstractController
     /** @var Responder */
     private $responder;
     /** @var EntityManagerInterface */
-    //private $entityManager;
+    private $session;
+
+    public function __construct(
+        SessionInterface $session
+    ) {
+        $this->session = $session;
+    }
 
     /**
     * @Route("/delete_user/{id}", name="user_delete")
@@ -40,7 +47,10 @@ class UserDeleteController extends AbstractController
          $entityManager->Remove($user);
          $entityManager->flush();
 
-        
+         $this->session->getFlashBag()->add(
+            'success',
+            'User supprimé!'
+        );
         
         return $this->redirectToRoute('home');
     }

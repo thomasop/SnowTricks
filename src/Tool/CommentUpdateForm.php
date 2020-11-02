@@ -25,19 +25,19 @@ class CommentUpdateForm
     /** FileUploader */
     private $fileUploader;
     /** @var SessionInterface */
-    //private $session;
+    private $session;
     
     public function __construct(
     
         EntityManagerInterface $entityManager, 
-        RequestStack $request
-        //SessionInterface $session
+        RequestStack $request,
+        SessionInterface $session
     
     ){
 
         $this->entityManager = $entityManager;
         $this->request = $request;
-        //$this->session = $session;
+        $this->session = $session;
     }
 
     public function form(Comment $comment, FormInterface $form){
@@ -48,6 +48,10 @@ class CommentUpdateForm
 
             //dd($form);
             $this->entityManager->flush();
+            $this->session->getFlashBag()->add(
+                'success',
+                'Commentaire modifié!'
+            );
             return true;
         }
         return false;

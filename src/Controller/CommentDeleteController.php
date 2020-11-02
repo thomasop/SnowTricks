@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 
 class CommentDeleteController extends AbstractController
@@ -22,15 +24,15 @@ class CommentDeleteController extends AbstractController
     /** @var Responder */
     private $responder;
     /** @var EntityManagerInterface */
-    //private $entityManager;
+    private $session;
 
 
     public function __construct(
-        TokenStorageInterface $tokenStorage
-        //Request $request
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session
     ) {
         $this->tokenStorage = $tokenStorage;;
-        //$this->request = $request;
+        $this->session = $session;
     }
 
     /**
@@ -55,7 +57,10 @@ class CommentDeleteController extends AbstractController
          $entityManager->Remove($comment);
          $entityManager->flush();
 
-        
+         $this->session->getFlashBag()->add(
+            'success',
+            'Commentaire supprimé!'
+        );
         //$trickid = $comment->getTrick();
         return $this->redirectToRoute('comment', ['id' => $trickid]);
     }

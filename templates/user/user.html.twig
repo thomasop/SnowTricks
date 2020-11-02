@@ -3,6 +3,11 @@
 {% block title %}user{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 {% for u in user%}
     
         <p>{{ u.id }}</p>

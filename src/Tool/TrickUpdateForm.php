@@ -25,15 +25,15 @@ class TrickUpdateForm
     /** FileUploader */
     private $fileUploader;
     /** @var SessionInterface */
-    //private $session;
+    private $session;
     
     public function __construct(
     
         TokenStorageInterface $tokenStorage, 
         EntityManagerInterface $entityManager, 
         RequestStack $request, 
-        FileUploader $fileUploader
-        //SessionInterface $session
+        FileUploader $fileUploader,
+        SessionInterface $session
     
     ){
 
@@ -41,7 +41,7 @@ class TrickUpdateForm
         $this->request = $request;
         $this->tokenStorage = $tokenStorage;
         $this->fileUploader = $fileUploader;
-        //$this->session = $session;
+        $this->session = $session;
     }
 
     public function form(Trick $trick, FormInterface $form){
@@ -121,6 +121,11 @@ class TrickUpdateForm
             //dd($trick->addVideo($video));
             //$this->entityManager->persist($trick);
             $this->entityManager->flush();
+
+            $this->session->getFlashBag()->add(
+                'success',
+                'Trick modifié!'
+            );
             return true;
         }
         return false;

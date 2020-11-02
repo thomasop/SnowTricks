@@ -12,6 +12,11 @@
             {% endfor %}
         </div>
     {% endif %}
+    {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 <header>
     <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
         <li class="nav-item list-inline-item">

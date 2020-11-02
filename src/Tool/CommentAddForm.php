@@ -24,6 +24,7 @@ class CommentAddForm
     private $tokenStorage;
     /** FileUploader */
     private $fileUploader;
+    private $session;
     
     public function __construct(
     
@@ -31,7 +32,8 @@ class CommentAddForm
         EntityManagerInterface $entityManager, 
         RequestStack $request,
         UserPasswordEncoderInterface $passwordEncoder,
-        FileUploader $fileUploader
+        FileUploader $fileUploader,
+        SessionInterface $session
     
     ){
         $this->passwordEncoder = $passwordEncoder;
@@ -39,6 +41,7 @@ class CommentAddForm
         $this->request = $request;
         $this->tokenStorage = $tokenStorage;
         $this->fileUploader = $fileUploader;
+        $this->session = $session;
     }
 
     public function form(Comment $comment, Trick $trick, FormInterface $form){
@@ -55,6 +58,10 @@ class CommentAddForm
             //dd($comment);
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+            $this->session->getFlashBag()->add(
+                'success',
+                'Commentaire ajouté!'
+            );
         return true;
         }
         return false;

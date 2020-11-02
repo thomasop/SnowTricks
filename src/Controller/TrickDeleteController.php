@@ -10,6 +10,7 @@ use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,7 +22,14 @@ class TrickDeleteController extends AbstractController
     /** @var Responder */
     private $responder;
     /** @var EntityManagerInterface */
-    //private $entityManager;
+    private $session;
+
+    public function __construct(
+        SessionInterface $session
+    
+    ){
+        $this->session = $session;
+    }
 
     /**
     * @Route("/delete_trick/{id}", name="delete_trick")
@@ -43,7 +51,10 @@ class TrickDeleteController extends AbstractController
          $entityManager->Remove($trick);
          $entityManager->flush();
 
-        
+         $this->session->getFlashBag()->add(
+            'success',
+            'Trick supprimé!'
+        );
         
         return $this->redirectToRoute('home');
     }

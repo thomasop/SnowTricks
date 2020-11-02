@@ -23,6 +23,7 @@ class RegistrationForm
     private $tokenStorage;
     /** FileUploader */
     private $fileUploader;
+    private $session;
     
     public function __construct(
     
@@ -30,7 +31,8 @@ class RegistrationForm
         EntityManagerInterface $entityManager, 
         RequestStack $request,
         UserPasswordEncoderInterface $passwordEncoder,
-        FileUploader $fileUploader
+        FileUploader $fileUploader,
+        SessionInterface $session
     
     ){
         $this->passwordEncoder = $passwordEncoder;
@@ -38,6 +40,7 @@ class RegistrationForm
         $this->request = $request;
         $this->tokenStorage = $tokenStorage;
         $this->fileUploader = $fileUploader;
+        $this->session = $session;
     }
 
     public function form(User $user, FormInterface $form){
@@ -73,6 +76,10 @@ class RegistrationForm
             $user->setRoles(['ROLE_ADMIN']);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+            $this->session->getFlashBag()->add(
+                'success',
+                'Compte créé, veuillez verifier votre email!'
+            );
             return true;
         }
         return false;
