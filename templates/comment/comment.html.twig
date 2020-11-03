@@ -33,7 +33,9 @@
     <p>{{ trick.picture }}</p>
 </div>
 <div>
-    
+    <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+</div>
+<div>
 {% if is_granted('ROLE_ADMIN') %}
     {{ form(form) }}
 {% endif %}
