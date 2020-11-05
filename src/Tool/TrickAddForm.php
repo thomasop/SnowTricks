@@ -47,7 +47,6 @@ class TrickAddForm
     public function form(Trick $trick, FormInterface $form){
 
         $form->handleRequest($this->request->getCurrentRequest());
-        
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
             if ($images === null) {

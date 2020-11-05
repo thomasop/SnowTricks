@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function new(Request $request)
+    public function new(Request $request, \Swift_Mailer $mailer)
     {
         // just setup a fresh $task object (remove the example data)
         $user = new User();
@@ -34,7 +34,18 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
 
         if ($this->registrationForm->form($user, $form) === true) {
-            
+            $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('thomasdasilva010@gmail.com')
+            ->setTo('thomasdasilva010@gmail.com')
+            ->setBody(
+                $this->renderView(
+                    // templates/emails/registration.html.twig
+                    'security/email.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
+            $mailer->send($message);
             return $this->redirectToRoute('app_login');
         }
         

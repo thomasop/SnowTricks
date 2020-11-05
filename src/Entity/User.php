@@ -62,7 +62,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $status = null;
+    private $status = false;
 
     public function __construct()
     {
