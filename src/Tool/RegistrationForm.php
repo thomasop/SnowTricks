@@ -43,7 +43,7 @@ class RegistrationForm
         $this->session = $session;
     }
 
-    public function form(User $user, FormInterface $form){
+    public function form(User $user, FormInterface $form, \Swift_Mailer $mailer){
 
         $form->handleRequest($this->request->getCurrentRequest());
         
@@ -76,6 +76,17 @@ class RegistrationForm
             $user->setRoles(['ROLE_ADMIN']);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
+            $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('thomasdasilva010@gmail.com')
+            ->setTo('thomasdasilva010@gmail.com')
+            ->setBody(
+                $this->renderView(
+                    // templates/emails/registration.html.twig
+                    'security/email.html.twig',
+                    ['user' => $user]
+                ),
+                'text/html'
+            );
             $this->session->getFlashBag()->add(
                 'success',
                 'Compte créé, veuillez verifier votre email!'

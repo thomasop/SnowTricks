@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create trick{% endblock %}
+
+{% block body %}
+To login, go to: <a href="{{ path('app_verify_email') }}">Comfirmer votre email</a>.
+{{ user.id }}
+Thanks!
+{% endblock %}
