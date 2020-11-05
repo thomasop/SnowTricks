@@ -57,10 +57,16 @@ class TrickType extends AbstractType
                 'required' => false
             ])
 */
-            ->add('video', TextType::class,[
-                'label' => false,
-                'mapped' => false,
-                'required' => false,
+            ->add('videos', CollectionType::class,[
+                'entry_type' => VideoType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                  /*
+                'prototype' => true,
+                
+                */
             ])
             ->add('categoryId', EntityType::class, [
                 'class' => Category::class,

@@ -1,34 +1,91 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Create trick{% endblock %}
+{% block javascripts %}
+<script>var $collectionHolder;
 
+// setup an "add a tag" link
+var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
+var $newLinkLi = $('<li></li>').append($addTagButton);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('ul.videos');
+
+    $collectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.append($newLinkLi);
+     
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find('input').length);
+
+    $addTagButton.on('click', function(e) {
+        // add a new tag form (see next code block)
+        addTagForm($collectionHolder, $newLinkLi);
+    });
+
+    $removeTagButton.on('click', function(e) {
+        // add a new tag form (see next code block)
+        removeTagForm($collectionHolder, $removeLinkLi);
+    });
+});
+function addTagForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    var newForm = prototype;
+    // You need this only if you didn't set 'label' => false in your tags field in TaskType
+    // Replace '__name__label__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    // newForm = newForm.replace(/__name__label__/g, index);
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    newForm = newForm.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+    addTagFormDeleteLink($newFormLi);
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Delete this tag</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+</script>
+{% endblock %}
 {% block body %}
-
-
 {{ form_start(form) }}
-    <div class="my-custom-class-for-errors">
-        {{ form_errors(form) }}
-    </div>
-
-    <div>
-        <div>
-            {{ form_row(form.Name) }}
-        </div>
-        <div>
-            {{ form_row(form.description) }}
-        </div>
-        <div>
-            {{ form_row(form.picture) }}
-        </div>
-        <div>
-            {{ form_row(form.video) }}
-        </div>
-        <div>
-            {{ form_row(form.categoryId) }}
-        </div>
-        {{ form_row(form.save, { 'label': 'Submit me' }) }}
-    </div>
+        {{ form_row(form.Name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.picture) }}
+        
+        <ul class="videos" id="video_list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+            {% for row in form.videos %}
+            <li>{{ form_row(row) }}</li>
+            {% endfor %}
+        </ul>
+        {{ form_row(form.categoryId) }}
 {{ form_end(form) }}
+
 
 
 {% endblock %}

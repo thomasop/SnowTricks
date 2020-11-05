@@ -47,7 +47,7 @@ class TrickAddForm
     public function form(Trick $trick, FormInterface $form){
 
         $form->handleRequest($this->request->getCurrentRequest());
-        
+        $videos = new Video();
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
             if ($images === null) {
@@ -79,22 +79,32 @@ class TrickAddForm
                     $this->entityManager->persist($img);
                 }                
             }
-            $videos = $form->get('video')->getData();
+            $videos = $trick->getVideos();
+            // dd($videos);
+            //if ($videos) {
+                //if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
+                //$video = new Video();
+                foreach ($videos as $video) {
 
-            if ($videos !== null) {
-                if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
-                    $video = new Video();
-                    $video_id = $match[1];
-                    $video->setUrl('https://www.youtube.com/watch?v=_WS5ZNl043s' . $video_id);
                     $video->setTrickId($trick);
-
+                    $video->setUrl($video->getUrl());
                     $this->entityManager->persist($video);
                 }
-            }
+                //$video_id = $match[1];
+                //$video->setUrl($videos);
+                //$video->setTrickId($trick);
+                
+               // $this->entityManager->persist($video);
+                //dd($video);
+              //  }
+            //}
+
             $trick->setUser($this->tokenStorage->getToken()->getUser());
             //$trick->addVideo($video);
             //dd($trick->addVideo($video));
+            //dd($videos);
             $this->entityManager->persist($trick);
+            
             $this->entityManager->flush();
 
             $this->session->getFlashBag()->add(

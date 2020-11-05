@@ -14,14 +14,8 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('url', TextType::class, [
-            'attr' => [
-                'placeholder' => 'Modifier ou ajouter une video',
-            ],
-            
-        ])
-        ->add('save', SubmitType::class)
-        ;
+        ->add('url')
+                    ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
