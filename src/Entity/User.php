@@ -62,10 +62,17 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $status = false;
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
 
     public function __construct()
     {
+        $this->enabled = false;
+        $this->roles = ['ROLE_ADMIN'];
         $this->tricks = new ArrayCollection();
     }
 
@@ -127,7 +134,7 @@ class User implements UserInterface
         
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
         
@@ -141,14 +148,14 @@ class User implements UserInterface
         return $this;
     }
     
-    public function status(): bool
+    public function getEnabled(): bool
     {
-        return $this->status;
+        return $this->enabled;
     }
 
-    public function setStatus(bool $status): self
+    public function setEnabled(bool $enabled): self
     {
-        $this->status = $status;
+        $this->enabled = $enabled;
 
         return $this;
     }
@@ -232,5 +239,17 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
 
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
     }
 }
