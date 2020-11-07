@@ -42,6 +42,10 @@
         {% if is_granted('ROLE_ADMIN') %}
         
             <a href="{{ path('delete_image', {id: p.id}) }}">delete image</a>
+    {% for v in video%}
+        {{ v.url}}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('delete_video', {id: v.id}) }}">delete video</a>
         {% endif %}
     {% endfor %}
 </div>
