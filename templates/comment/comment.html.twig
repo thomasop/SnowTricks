@@ -37,6 +37,13 @@
     <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
     <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
 {% endif %}
+    {% for p in image %}
+        <p>{{ p.name }}</p>
+        {% if is_granted('ROLE_ADMIN') %}
+        
+            <a href="{{ path('delete_image', {id: p.id}) }}">delete image</a>
+        {% endif %}
+    {% endfor %}
 </div>
 <div>
 {% if is_granted('ROLE_ADMIN') %}
