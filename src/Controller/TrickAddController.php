@@ -47,14 +47,28 @@ class TrickAddController extends AbstractController
     * @IsGranted("ROLE_ADMIN")
     */
     public function trickAdd(Request $request)
-    {
+    { 
+        //echo 'ok';
         $trick = new Trick();
+        
+        $tag1 = new Video();
+        
+        $tag1->setUrl('https://www.youtube.com/watch?v=hm8B01jS8jk');
+        //$trick->getVideos()->add($tag1);
+        $trick->addVideo($tag1);
+       /*
+        $tag2 = new Video();
+        $tag2->setUrl('https://www.youtube.com/watch?v=gfdgfdgg');
+        $trick->getVideos()->add($tag2);
+        */
         $form = $this->createForm(TrickType::class, $trick);
-
+        //var_dump($form->createView());
         if ($this->trickAddForm->form($trick, $form) === true) {
             
             return $this->redirectToRoute('home');
         }
+        
+
         return $this->render('form/formtrick.html.twig', [
             'form' => $form->createView(),
             'trick' => $trick

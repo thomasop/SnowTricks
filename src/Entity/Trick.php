@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+//use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,6 +65,7 @@ class Trick
 
     public function __construct()
     {
+        $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
@@ -134,17 +136,16 @@ class Trick
         return $this;
     }
 
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
+    
+    
+/*
     public function setVideo(string $video): self
     {
         $this->video = $video;
 
         return $this;
     }
+    */
 
     /**
      * @return Collection|Image[]
