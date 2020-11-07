@@ -3,7 +3,6 @@
 {% block title %}Create trick{% endblock %}
 
 {% block body %}
-To login, go to: <a href="{{ path('app_verify_email') }}">Comfirmer votre email</a>.
-{{ user.id }}
+To login, go to: <a href="{{ url('app_verify_email', {"token": token}) }}">Comfirmer votre email</a>.
 Thanks!
 {% endblock %}

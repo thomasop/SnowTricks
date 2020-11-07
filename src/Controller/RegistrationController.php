@@ -6,21 +6,29 @@ use App\Entity\User;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationType;
 use App\Tool\RegistrationForm;
+use App\Repository\UserRepository;
 use App\Responders\RegistrationResponder;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\Mailer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class RegistrationController extends AbstractController
 {
 
     public function __construct(
         
-        RegistrationForm $registrationForm
+        RegistrationForm $registrationForm,
+        UserRepository $userRepository,
+        SessionInterface $session
     
     ){
         $this->registrationForm = $registrationForm;
+        $this->userRepository = $userRepository;
+        $this->session = $session;
     }
 
     /**
@@ -36,12 +44,12 @@ class RegistrationController extends AbstractController
         if ($this->registrationForm->form($user, $form) === true) {
             $message = (new \Swift_Message('Hello Email'))
             ->setFrom('thomasdasilva010@gmail.com')
-            ->setTo('thomasdasilva010@gmail.com')
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
                     // templates/emails/registration.html.twig
                     'security/email.html.twig',
-                    ['user' => $user]
+                    ['token' => $user->getToken()]
                 ),
                 'text/html'
             );
@@ -55,29 +63,41 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/verify/email", name="app_verify_email")
+     * @Route("/verify-email/{token}", name="app_verify_email")
      */
-    public function verifyUserEmail($id, UserRepository $userRepository, Request $request): Response
+    public function verifyUserEmail($token)
     {
         // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $userRepository
-        ->find($id);
+        $user = $this->userRepository
+        ->findOneBy(["token" => $token]);
         // On valide l'email
         
-        try {
+        if($user) {
             $entityManager = $this->getDoctrine()->getManager();
             //$this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-            $user->setStatus('1');
+            $user->setEnabled(true);
+            $user->setToken(null);
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        } catch (VerifyEmailExceptionInterface $exception) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->session->getFlashBag()->add(
+                'success',
+                'compte valide!'
+            );
+            return $this->redirectToRoute('app_login');
+        } 
+        else  {
+            
+            $this->session->getFlashBag()->add(
+                'success',
+                'compte non valide!'
+            );
             return $this->redirectToRoute('app_register');
         }
 
         //$this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_login');
+        
     }
 
 

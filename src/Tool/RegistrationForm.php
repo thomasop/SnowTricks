@@ -73,6 +73,7 @@ class RegistrationForm
                 );
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
+            $user->setToken($this->generateToken());
             $user->setRoles(['ROLE_ADMIN']);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -83,5 +84,10 @@ class RegistrationForm
             return true;
         }
         return false;
+    }
+
+    private function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 }
