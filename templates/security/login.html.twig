@@ -17,10 +17,18 @@
         </div>
     {% endif %}
     {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <header>
+    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+    </ul>
+</header>
 <form method="post">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail">Email</label>
