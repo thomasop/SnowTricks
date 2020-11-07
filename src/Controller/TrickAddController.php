@@ -53,7 +53,7 @@ class TrickAddController extends AbstractController
         
         $tag1 = new Video();
         
-        $tag1->setUrl('https://www.youtube.com/watch?v=hm8B01jS8jk');
+        $tag1->setUrl('');
         //$trick->getVideos()->add($tag1);
         $trick->addVideo($tag1);
        /*

@@ -36,10 +36,10 @@ class CommentDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_comment/{id}/{trickid}", name="delete_comment")
+    * @Route("/delete_comment/{id}", name="delete_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $trickid, CommentRepository $commentRepository)
+    public function delete($id, CommentRepository $commentRepository)
     {
         // creates a task object and initializes some data for this example
         //$task->setTask('Write a blog post');
@@ -48,6 +48,7 @@ class CommentDeleteController extends AbstractController
         
         $comment = $commentRepository
         ->find($id);
+        //Sdd($comment);
         // ... perform some action, such as saving the task to the database
         // for example, if Task is a Doctrine entity, save it!
         if (!$comment) {
@@ -62,6 +63,6 @@ class CommentDeleteController extends AbstractController
             'Commentaire supprimé!'
         );
         //$trickid = $comment->getTrick();
-        return $this->redirectToRoute('comment', ['id' => $trickid]);
+        return $this->redirectToRoute('home');
     }
 }

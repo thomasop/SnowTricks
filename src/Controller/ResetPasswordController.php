@@ -2,7 +2,132 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\UserType;
+use App\Form\ResetPasswordType;
+use Symfony\Component\HttpFoundation\Response;
+use App\Tool\TrickUpdateForm;
+use App\Repository\UserRepository;
+use App\Responders\TrickAddResponder;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ResetPasswordController {
+
+
+class ResetPasswordController extends AbstractController{
+
+    private $entityManager;
+    //private $passwordEncoder;
+
+    
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        SessionInterface $session,
+        UserPasswordEncoderInterface $passwordEncoder
+    ) {
+        $this->entityManager = $entityManager;
+        $this->session = $session;
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
+    /**
+    * @Route("/forgot-password", name="forgot_password")
+    */
+    public function forgotPassword(Request $request, UserRepository $userRepository, \Swift_Mailer $mailer){
+       $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())  {
+            $email = $form->get('email')->getData();
+            //$email = $request->get('email');
+           
+            //dd($email); 
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
+            //dd($user);
+            $user->setToken($this->generateToken());
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('thomasdasilva010@gmail.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    // templates/emails/registration.html.twig
+                    'security/emailreset.html.twig',
+                    ['token' => $user->getToken()]
+                ),
+                'text/html'
+            );
+            $mailer->send($message);
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('form/formforgotpassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    private function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+    }
+
+
+    /**
+    * @Route("/reset-password/{token}", name="reset_password")
+    */
+    public function resetPassword($token, Request $request) {
+
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["token" => $token]);
+        // On valide l'email
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(ResetPasswordType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $form->get('password')->getData();
+            if($user) {
+                $entityManager = $this->getDoctrine()->getManager();
+                //$this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+                
+                $user->setToken(null);
+                $user->setPassword(
+                    $this->passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'mot de passe modifié!'
+                );
+                return $this->redirectToRoute('app_login');
+                } 
+            else  {
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'mot de passe pas modifié!'
+                );
+                
+            }
+            
+        }
+        return $this->render('form/formresetpassword.html.twig', [
+                'form' => $form->createView()
+            ]);
+        //$this->addFlash('success', 'Your email address has been verified.');
+    }
+
     
 }
