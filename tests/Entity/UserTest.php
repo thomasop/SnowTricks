@@ -4,10 +4,25 @@ namespace App\Tests\Entity;
 
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-class UserTest extends TestCase
+
+class UserTest extends KernelTestCase
 {
+
+	public function testUser()
+	{
+		$name = "okfl";
+		$user = (new User())
+		->setPseudo($name)
+		->setPassword("dfdgggddggdg")
+		->setEmail("tdss33@hotmail.com");
+		self::bootKernel();
+		$error = self::$container->get('validator')->validate($user);
+		$this->assertCount(0, $error);
+	}
+
 	public function testPseudoUser()
 	{
 		$user = new User();

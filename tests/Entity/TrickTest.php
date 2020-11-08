@@ -9,13 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TrickTest extends KernelTestCase
 {
-	public function testName()
+	public function testNameTrick()
 	{
+		$name = "okfl";
 		$trick = (new Trick())
-		//$name = "Test nom";
-		->setName("Test nom")
-		->setDescription("Test description")
-		->setPicture("Test image");
+		->setName($name)
+		->setDescription($name);
 		self::bootKernel();
 		$error = self::$container->get('validator')->validate($trick);
 		$this->assertCount(0, $error);
@@ -26,8 +25,8 @@ class TrickTest extends KernelTestCase
 		$trick = new Trick();
 		$description = "Test description";
 
-		$trick->setDescription($description);
-		$this->assertEquals("Test description", $trick->getDescription());
+		$trick->setName($description);
+		$this->assertEquals("Test description", $trick->getName());
 	}
 
 	public function testPicture()

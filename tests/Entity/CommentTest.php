@@ -4,10 +4,24 @@ namespace App\Tests\Entity;
 
 use App\Entity\Comment;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 
-class CommentTest extends TestCase
+
+class CommentTest extends KernelTestCase
 {
+
+	public function testCommentOk()
+	{
+		$name = "okfl";
+		$user = (new Comment())
+		->setName($name)
+		->setContent("dfdgggddggdg");
+		self::bootKernel();
+		$error = self::$container->get('validator')->validate($user);
+		$this->assertCount(0, $error);
+	}
+
 	public function testPseudo()
 	{
 		$comment = new Comment();

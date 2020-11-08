@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-//use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,12 +28,26 @@ class Trick
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(
+     *      message = "Ce champ est requis !"
+     * )
+     * @Assert\Length(
+     *      max = 50,
+     *      maxMessage = "La description du trick ne peut pas contenir plus que {{ limit }} caractères !"
+     * )
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank(
+     *      message = "Ce champ est requis !"
+     * )
+     * @Assert\Length(
+     *      max = 500,
+     *      maxMessage = "La description du trick ne peut pas contenir plus que {{ limit }} caractères !"
+     * )
      */
     private $description;
 
@@ -45,6 +58,10 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Image(
+     *      maxSize = "500k",
+     *      maxSizeMessage = "Votre avatar ne doit pas dépasser 500 ko",
+     * )
      */
     private $picture;
 

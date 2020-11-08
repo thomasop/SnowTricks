@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity({"pseudo", "email"})
  */
 class User implements UserInterface
 {
@@ -23,11 +25,23 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotBlank(
+     *      message = "Ce champ est requis !"
+     * )
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(
+     *      message = "Ce champ est requis !"
+     * )
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 254,
+     *      minMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !",
+     *      maxMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !"
+     * )
      */
     private $password;
 
@@ -35,6 +49,13 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=100)
      * @Assert\Email(
      *      message = "Veuillez entrer un email valide !"
+     * )
+     * @Assert\NotBlank(
+     *      message = "Ce champ est requis !"
+     * )
+     * @Assert\Length(
+     *      max = 250,
+     *      maxMessage = "Votre email ne peut pas contenir plus que {{ limit }} caractères !"
      * )
      */
     private $email;
@@ -56,6 +77,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Image(
+     *      maxSize = "500k",
+     *      maxSizeMessage = "Votre avatar ne doit pas dépasser 500 ko",
+     * )
      */
     private $avatar;
 
