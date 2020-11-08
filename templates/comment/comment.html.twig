@@ -20,13 +20,15 @@
 <header>
     <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
         <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="/blog/">Accueil</a></li>
+        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
         <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="/SnowTricks/login">connexion</a>
+        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
         <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
+        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+        
     </ul>
 </header>
+<a class="navbar-brand" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
 <div>
     <p>{{ trick.name }}</p>
     <p>{{ trick.description }}</p>
