@@ -44,7 +44,7 @@
         
         <p>{{ i.description }}</p>
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('delete_trick', {id: i.id}) }}">delete</a>
+            <a href="{{ path('one_trick', {id: i.id}) }}">delete</a>
             <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
         {% endif %}
         <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
