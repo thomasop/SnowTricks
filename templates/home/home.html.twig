@@ -3,15 +3,6 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-{% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-            
-            {% for item in app.user %}
-                <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
-            {% endfor %}
-        </div>
-    {% endif %}
     {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
@@ -27,37 +18,56 @@
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
          {% endif %}
-         {% if is_granted('ROLE_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('user_profile', {id: app.user.id}) }}">User profile</a>
-         {% endif %}
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+        {% if app.user %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+        {% endif %}
     </ul>
 </header>
-<div>
-
+<img src="../uploads/pictures/homepicture.jpg" class="bg">
+<div class="button">
+    <a href="#trick"><img src="../css/icons/arrow-down.svg" width="42" height="46" title="White flower" alt="Flower"></a>
 </div>
 {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('add_trick') }}">create</a>
 {% endif %}
-<div>
-    
-    {% for i in trick %}
-    
-        <p>{{ i.id }}</p>
-        <p>{{ i.name }}</p>
-        
-        <p>{{ i.description }}</p>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('one_trick', {id: i.id}) }}">delete</a>
-            <a href="{{ path('update_trick', {id: i.id}) }}">update</a>
-        {% endif %}
-        <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="400" height="341">
-        <a href="{{ path('comment', {id: i.id}) }}">Lire la suite</a>
-    {% endfor %}
-
+<div class="trick">
+    <p id="trick"> Les tricks</p>
+    <div class="row">
+        {% for i in trick %}
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <img class="" src="/uploads/pictures/{{ i.picture }}" alt="Trick" width="350" height="301">
+                <div class="card-body">
+                    <p>{{ i.name }}</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('one_trick', {id: i.id}) }}"><img src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                        <a href="{{ path('update_trick', {id: i.id}) }}"><img src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                    {% endif %}
+                    <a href="{{ path('comment', {id: i.id}) }}">Lire la suite</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-
-
+<footer class="text-white bg-primary mt-3 card-group">
+    <div class="card-body">
+        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts/1">ici</a></p>
+    </div>
+    <div class="card-body">
+        <div>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+        </div>
+        <div>
+            <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+        </div>
+    </div> 
+    <div class="card-body">     
+        <a class="text-success" href="/blog/connect">Connexion</a>
+    </div>
+</footer>
 {% endblock %}
