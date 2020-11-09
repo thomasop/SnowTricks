@@ -17,8 +17,11 @@
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
     </ul>
 </header>
-{{ form(form) }}
-
-
+{{ form_start(form) }}
+    {{ form_row(form.url) }}
+    <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+{{ form_end(form) }}
 
 {% endblock %}
