@@ -68,7 +68,7 @@ class RegistrationForm
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
                 );
             // ... perform some action, such as saving the task to the database

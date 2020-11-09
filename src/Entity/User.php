@@ -34,11 +34,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(
-     *      message = "Ce champ est requis !"
+     *      message = "Ce champ email est ok !"
      * )
      * @Assert\Length(
-     *      min = 8,
-     *      max = 254,
+     *      min = 4,
+     *      max = 100,
      *      minMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !",
      *      maxMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !"
      * )
@@ -51,7 +51,7 @@ class User implements UserInterface
      *      message = "Veuillez entrer un email valide !"
      * )
      * @Assert\NotBlank(
-     *      message = "Ce champ est requis !"
+     *      message = "Ce champ email est requis !"
      * )
      * @Assert\Length(
      *      max = 250,

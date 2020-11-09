@@ -27,12 +27,16 @@
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
          {% endif %}
+         {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('user_profile', {id: app.user.id}) }}">User profile</a>
+         {% endif %}
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
     </ul>
 </header>
 <div>
-<img src="uploads/pictures/homepicture.jpg" class="img-fluid" alt="Responsive image">
+
 </div>
 {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('add_trick') }}">create</a>
