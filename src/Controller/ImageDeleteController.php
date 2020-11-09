@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Handlers\TrickAddHandler;
+use App\Tool\DeleteFile;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,14 +26,17 @@ class ImageDeleteController extends AbstractController
     private $responder;
     /** @var EntityManagerInterface */
     private $session;
+    private $deleteFile;
 
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        SessionInterface $session,
+        DeleteFile $deleteFile
     ) {
         $this->tokenStorage = $tokenStorage;;
         $this->session = $session;
+        $this->deleteFile = $deleteFile;
     }
 
     /**
@@ -48,6 +52,7 @@ class ImageDeleteController extends AbstractController
         
         $image = $imageRepository
         ->find($id);
+        $this->deleteFile->delete($image->getName());
         // ... perform some action, such as saving the task to the database
         // for example, if Task is a Doctrine entity, save it!
          $entityManager = $this->getDoctrine()->getManager();
