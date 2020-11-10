@@ -49,7 +49,8 @@ class CommentAddForm
         $form->handleRequest($this->request->getCurrentRequest());
         //$trick = new Trick;
         if ($form->isSubmitted() && $form->isValid()) {
-            
+           // dd($this->tokenStorage->getToken()->getUser()->getPseudo());
+            $comment->setName($this->tokenStorage->getToken()->getUser()->getPseudo());
             $comment->setUserId($this->tokenStorage->getToken()->getUser());
             $comment->setTrick($trick);
             $comment->setDate(new \DateTime('now'));

@@ -3,15 +3,7 @@
 {% block title %}Comment{% endblock %}
 
 {% block body %}
-{% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/SnowTricks/logout">Logout</a>
-            
-            {% for item in app.user %}
-                <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
-            {% endfor %}
-        </div>
-    {% endif %}
+
     {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
@@ -25,50 +17,126 @@
         <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-        
+        {% if app.user %}
+            <li class="nav-item list-inline-item">
+            <a href="{{ path('app_logout') }}">Logout</a></li>
+        {% endif %}
     </ul>
 </header>
-<a class="navbar-brand" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
-<div>
-    <p>{{ trick.name }}</p>
-    <p>{{ trick.description }}</p>
-    <p>{{ trick.picture }}</p>
-</div>
-<div>
+<center>
+    <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
+    </center>
+
 {% if is_granted('ROLE_ADMIN') %}
-    <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
-    <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+    <a href="{{ path('one_trick', {id: trick.id}) }}"><img src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+    <a href="{{ path('update_trick', {id: trick.id}) }}"><img src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
 {% endif %}
+<div class="mx-auto" style="width: 800px;">
+    <div class="d-flex flex-wrap">
     {% for p in image %}
-        <p>{{ p.name }}</p>
+        <img class="bgbg" src="/uploads/pictures/{{ p.name }}" alt="Trick">
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('delete_image', {id: p.id}) }}">delete image</a>
         {% endif %}
     {% endfor %}
-    {% for v in video%}
-        {{ v.url}}
+    </div>
+
+    <div class="d-flex flex-wrap">
+        {% for v in video%}
+        <iframe width="200" height="125"
+            src="{{ v.url}}">
+        </iframe>
+
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('delete_video', {id: v.id}) }}">delete video</a>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% if is_granted('ROLE_ADMIN') %}
+    <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
+    <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+{% endif %}
+<div class="mx-auto" style="width: 800px;">
+    <p>{{ trick.name }}</p>
+    <p>{{ trick.description }}</p>
+    <p>{{ trick.categoryId.title }}</p>
 </div>
 <div>
+<a class="navbar-brand" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
+    
+</div>
+<div class="mx-auto" style="width: 800px;">
 {% if is_granted('ROLE_ADMIN') %}
     {{ form(form) }}
 {% endif %}
     {% for i in comment%}
     
-        <p>{{ i.id }}</p>
         <p>{{ i.name }}</p>
         <p>{{ i.content }}</p>
-        <p>{{ i.trick.id }}</p>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>
             <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
         {% endif %}
     {% endfor %}
+    {% if pagination.nbPages > 0 %}
+    <ul class="pagination">
+        {% if pagination.page > 1 %}
+            <li>
+                <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'id': trick.id, 'page': 1})) }} " class="comment_pagination">
+                    <<
+                </a>
+            </li>
+            <li>
+                <a href="{{ path(pagination.nomRoute,
+                    pagination.paramsRoute|merge({'id':trick.id, 'page': pagination.page-1})) }}" class="comment_pagination">
+                    <
+                </a>
+            </li>
+        {% endif %}
 
+        {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+        {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
+            <li {% if p == pagination.page %}class="active"{% endif %}>
+                <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'id': trick.id,'page': p})) }}">
+                    {{ p }}
+                </a>
+            </li>
+        {% endfor %}
+
+        {% if pagination.page < pagination.nbPages %}
+            <li>
+                <a href="{{ path(pagination.nomRoute,
+                    pagination.paramsRoute|merge({'id': trick.id, 'page': pagination.page+1})) }}" class="comment_pagination">
+                    >
+                </a>
+            </li>
+            <li>
+                <a href="{{ path(pagination.nomRoute,
+                    pagination.paramsRoute|merge({'id' :trick.id, 'page': pagination.nbPages})) }}" class="comment_pagination">
+                    >>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
 </div>
 
-
+<footer class="text-white bg-primary mt-3 card-group">
+    <div class="card-body">
+        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts/1">ici</a></p>
+    </div>
+    <div class="card-body">
+        <div>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+        </div>
+        <div>
+            <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+        </div>
+    </div> 
+    <div class="card-body">     
+        <a class="text-success" href="/blog/connect">Connexion</a>
+    </div>
+</footer>
 {% endblock %}

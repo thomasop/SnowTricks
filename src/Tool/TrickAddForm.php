@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Video;
 use App\Entity\Trick;
 use App\Tool\FileUploader;
+use App\Tool\VideoFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -47,7 +48,7 @@ class TrickAddForm
     public function form(Trick $trick, FormInterface $form){
 
         $form->handleRequest($this->request->getCurrentRequest());
-        $videos = new Video();
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
             if ($images === null) {
@@ -79,18 +80,28 @@ class TrickAddForm
                     $this->entityManager->persist($img);
                 }                
             }
-            $videos = $trick->getVideos();
-            // dd($videos);
-            //if ($videos) {
-                //if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
-                //$video = new Video();
-                foreach ($videos as $video) {
+            //$videos = $trick->getVideos();
+            $trock = $form->getData();
+            $videosCollection = $form->getData()->getVideos()->toArray();
 
-                    $video->setTrickId($trick);
-                    $video->setUrl($video->getUrl());
-                    $this->entityManager->persist($video);
-                }
-                //$video_id = $match[1];
+            //dd($trock);
+            VideoFactory::set($videosCollection, $trock);
+            //$videos = $form->get('videos')->getData();
+             
+            //if ($videos) {
+                //
+                //$video = new Video();
+                /*
+                    if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
+                        $video = new Video();
+                        $video_id = $match[1];
+                        dd($video_id);
+
+                        $video->setTrickId($trick);
+                        $video->setUrl('https://www.youtube.com/embed/' . $video_id);
+                        $this->entityManager->persist($video);
+                */
+                //
                 //$video->setUrl($videos);
                 //$video->setTrickId($trick);
                 

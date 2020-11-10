@@ -10,6 +10,7 @@ use App\Entity\Image;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Tool\CommentAddForm;
+use App\Tool\Paging;
 use App\Repository\TrickRepository;
 use App\Repository\VideoRepository;
 use App\Repository\CommentRepository;
@@ -42,20 +43,23 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment/{id}", name="comment")
+     * @Route("/comment/{id}/{page}", name="comment")
      */
-    public function comment($id, ImageRepository $imageRepository, VideoRepository $videoRepository, TrickRepository $trickRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
+    public function comment($id, $page, ImageRepository $imageRepository, VideoRepository $videoRepository, CommentRepository $commentRepository, Request $request, SluggerInterface $slugger)
     {
-        $trick = new Trick();
+        $pagination = new Paging();
+        //$trick = new Trick();
         $comment = new Comment();
         $image = new Image();
         $form = $this->createForm(CommentType::class, $comment);
-
-        $commentt = $commentRepository
-        ->findBy(['trick' => $id]);
-
-        $trick = $trickRepository
+        $trick = $this->getDoctrine()
+        ->getRepository(Trick::class)
         ->find($id);
+        $commentt = $commentRepository
+        ->findByTrickAndPaginate($trick, $page, 5 );
+
+        
+        
         $image = $imageRepository
         ->findBy(['trickId' => $id]);
 
@@ -68,7 +72,7 @@ class CommentController extends AbstractController
         
         if ($this->commentAddForm->form($comment, $trick, $form) === true) {
             
-            return $this->redirectToRoute('comment', ['id' => $id]);
+            return $this->redirectToRoute('comment', ['id' => $id, 'page' => $page]);
         }
          
     
@@ -78,6 +82,6 @@ class CommentController extends AbstractController
         //return $this->render('form/formcomment.html.twig', [
          //   'form' => $form->createView()
           //  ]);
-        return $this->render('comment/comment.html.twig', ['image' => $image, 'video' => $video, 'trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
+        return $this->render('comment/comment.html.twig', ['pagination' =>  $pagination->pagingComments($page, $commentt),'image' => $image, 'video' => $video, 'trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
     }
 }

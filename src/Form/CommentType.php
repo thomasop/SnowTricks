@@ -30,12 +30,6 @@ class CommentType extends AbstractType
     {
         $builder
             
-            ->add('name', TextType::class,[
-                'label' => 'name',
-                
-                
-            ])
-            
             ->add('content', TextType::class, [
                 
                 
