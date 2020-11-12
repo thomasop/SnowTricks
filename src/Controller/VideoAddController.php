@@ -2,82 +2,59 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
-use App\Entity\Video;
-use App\Entity\Trick;
+use App\Entity\{Trick, Video};
 use App\Form\VideoType;
-use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
-use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use App\Tool\VideoAddForm;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Tool\FileUploader;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\String\Slugger\SluggerInterface;
-//use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class VideoAddController extends AbstractController
 {
-        // creates a task object and initializes some data for this example
-    /** @var EntityManagerInterface */
     private $entityManager;
-    //private $request;
-    private $fileUploader;
+    private $videoAddForm;
+    private $tokenStorage;
     private $session;
-    
+
     public function __construct(
-        FileUploader $fileUploader,
         EntityManagerInterface $entityManager,
+        VideoAddForm $videoAddForm,
+        TokenStorageInterface $tokenStorage,
         SessionInterface $session
-    
     ){
-        $this->fileUploader = $fileUploader;
         $this->session = $session;
+        $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
+        $this->videoAddForm = $videoAddForm;
     }
 
     /**
     * @Route("/add_video/{id}", name="add_video")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($id, Request $request)
+    public function commentAdd($id)
     {
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-       
-        $trick = new Trick();
+        $ok = $this->tokenStorage->getToken()->getUser();
         $video = new Video();
         $trick = $this->getDoctrine()
-        ->getRepository(Trick::class)
-        ->find($id);
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-           // $user = $form->getData();
-            //$picture->setName($newAvatar);
-            $video->setTrickId($trick);
-            
-            $this->entityManager->persist($video);
-            //dd($picture);
-            $this->entityManager->flush();
-            
-            //$this->session->getFlashBag()->add("success", "Trick créé !");
-            
-         
-    
-            
-            return $this->redirectToRoute('home');
+            ->getRepository(Trick::class)
+            ->find($id);
+        if($ok == $trick->getUser()) {
+            $form = $this->createForm(VideoType::class, $video);
+            if ($this->videoAddForm->form($video, $trick, $form) === true) {
+                return $this->redirectToRoute('comment', ['id' => $id, 'page' => '1']);
+            }
+            return $this->render('form/formvideo.html.twig', [
+                'form' => $form->createView()
+                ]);
         }
-        return $this->render('form/formvideo.html.twig', [
-            'form' => $form->createView()
-            ]);
-        
+        $this->session->getFlashBag()->add(
+            'success',
+            'Vous n\'avez pas acces a cette page!'
+        );
+        return $this->redirectToRoute('home');
     } 
-    
 }

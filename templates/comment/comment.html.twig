@@ -14,12 +14,13 @@
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
         <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
         {% if app.user %}
             <li class="nav-item list-inline-item">
-            <a href="{{ path('app_logout') }}">Logout</a></li>
+            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+        {% else %}
+            <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
         {% endif %}
     </ul>
 </header>
@@ -28,15 +29,19 @@
     </center>
 
 {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('one_trick', {id: trick.id}) }}"><img src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-    <a href="{{ path('update_trick', {id: trick.id}) }}"><img src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+    {% if app.user.id == trick.user.id %}
+        <a href="{{ path('one_trick', {id: trick.id}) }}"><img src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+        <a href="{{ path('update_trick', {id: trick.id}) }}"><img src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+    {% endif %}
 {% endif %}
 <div class="mx-auto" style="width: 800px;">
     <div class="d-flex flex-wrap">
     {% for p in image %}
         <img class="bgbg" src="/uploads/pictures/{{ p.name }}" alt="Trick">
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('delete_image', {id: p.id}) }}">delete image</a>
+            {% if app.user.id == trick.user.id %}
+                <a href="{{ path('delete_image', {id: p.id, trickid: trick.id}) }}">delete image</a>
+            {% endif %}
         {% endif %}
     {% endfor %}
     </div>
@@ -48,14 +53,18 @@
         </iframe>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('delete_video', {id: v.id}) }}">delete video</a>
+            {% if app.user.id == trick.user.id %}
+                <a href="{{ path('delete_video', {id: v.id, trickid: trick.id}) }}">delete video</a>
+            {% endif %}
         {% endif %}
         {% endfor %}
     </div>
 </div>
 {% if is_granted('ROLE_ADMIN') %}
-    <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
-    <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+    {% if app.user.id == trick.user.id %}
+        <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
+        <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+    {% endif %}
 {% endif %}
 <div class="mx-auto" style="width: 800px;">
     <p>{{ trick.name }}</p>
@@ -75,8 +84,10 @@
         <p>{{ i.name }}</p>
         <p>{{ i.content }}</p>
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>
-            <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
+            {% if app.user.id == i.userId.id %}
+                <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>
+                <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
+            {% endif %}
         {% endif %}
     {% endfor %}
     {% if pagination.nbPages > 0 %}

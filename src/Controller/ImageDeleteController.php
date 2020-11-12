@@ -2,68 +2,62 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
+use App\Entity\Image;
 use App\Repository\ImageRepository;
-use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
 use App\Tool\DeleteFile;
-use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ImageDeleteController extends AbstractController
 {
-    /** @var TrickAddHandler */
-    //private $handler;
-    /** @var Responder */
-    private $responder;
     /** @var EntityManagerInterface */
     private $session;
     private $deleteFile;
-
+    private $tokenStorage;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
         SessionInterface $session,
-        DeleteFile $deleteFile
+        DeleteFile $deleteFile,
+        TokenStorageInterface $tokenStorage
     ) {
-        $this->tokenStorage = $tokenStorage;;
         $this->session = $session;
         $this->deleteFile = $deleteFile;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
-    * @Route("/delete_image/{id}", name="delete_image")
+    * @Route("/delete_image/{id}/{trickid}", name="delete_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, ImageRepository $imageRepository)
+    public function delete($id, $trickid)
     {
-        // creates a task object and initializes some data for this example
-        //$task->setTask('Write a blog post');
-        //$task->setDueDate(new \DateTime('tomorrow'));
-        //var_dump($id);
-        
-        $image = $imageRepository
-        ->find($id);
-        $this->deleteFile->delete($image->getName());
-        // ... perform some action, such as saving the task to the database
-        // for example, if Task is a Doctrine entity, save it!
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->Remove($image);
-         $entityManager->flush();
+        $ok = $this->tokenStorage->getToken()->getUser();
+        $trick = $this->getDoctrine()
+            ->getRepository(Trick::class)
+            ->find($trickid);
+        $image = $this->getDoctrine()
+            ->getRepository(Image::class)
+            ->find($id);
+        if($ok == $trick->getUser()) {
+            $this->deleteFile->delete($image->getName());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->Remove($image);
+            $entityManager->flush();
 
-         $this->session->getFlashBag()->add(
+            $this->session->getFlashBag()->add(
+                'success',
+                'Image supprimé!'
+            );
+            return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+        }
+        $this->session->getFlashBag()->add(
             'success',
-            'Image supprimé!'
+            'Vous n\'avez pas acces a cette page!'
         );
-        //$trickid = $comment->getTrick();
         return $this->redirectToRoute('home');
     }
 }

@@ -19,13 +19,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
-
 class ResetPasswordController extends AbstractController{
 
     private $entityManager;
-    //private $passwordEncoder;
-
     
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -46,13 +42,9 @@ class ResetPasswordController extends AbstractController{
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())  {
             $email = $form->get('email')->getData();
-            //$email = $request->get('email');
-           
-            //dd($email); 
+            
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
-            //dd($user);
             $user->setToken($this->generateToken());
-
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -62,7 +54,6 @@ class ResetPasswordController extends AbstractController{
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
-                    // templates/emails/registration.html.twig
                     'security/emailreset.html.twig',
                     ['token' => $user->getToken()]
                 ),
@@ -81,23 +72,18 @@ class ResetPasswordController extends AbstractController{
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 
-
     /**
     * @Route("/reset-password/{token}", name="reset_password")
     */
     public function resetPassword($token, Request $request) {
 
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["token" => $token]);
-        // On valide l'email
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $form->get('password')->getData();
             if($user) {
                 $entityManager = $this->getDoctrine()->getManager();
-                //$this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
                 
                 $user->setToken(null);
                 $user->setPassword(
@@ -119,15 +105,10 @@ class ResetPasswordController extends AbstractController{
                     'success',
                     'mot de passe pas modifié!'
                 );
-                
             }
-            
         }
         return $this->render('form/formresetpassword.html.twig', [
                 'form' => $form->createView()
             ]);
-        //$this->addFlash('success', 'Your email address has been verified.');
     }
-
-    
 }

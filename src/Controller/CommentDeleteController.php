@@ -5,17 +5,13 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
-use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CommentDeleteController extends AbstractController
 {
@@ -25,44 +21,44 @@ class CommentDeleteController extends AbstractController
     private $responder;
     /** @var EntityManagerInterface */
     private $session;
-
+    private $tokenStorage;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        SessionInterface $session,
+        TokenStorageInterface $tokenStorage
     ) {
-        $this->tokenStorage = $tokenStorage;;
         $this->session = $session;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
-    * @Route("/delete_comment/{id}", name="delete_comment")
+    * @Route("/delete_comment/{id}/{trickid}", name="delete_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, CommentRepository $commentRepository)
+    public function delete($id, $trickid)
     {
-        // creates a task object and initializes some data for this example
-        //$task->setTask('Write a blog post');
-        //$task->setDueDate(new \DateTime('tomorrow'));
-        //var_dump($id);
-        
-        $comment = $commentRepository
+        $ok = $this->tokenStorage->getToken()->getUser();
+        $comment = $this->getDoctrine()
+        ->getRepository(Comment::class)
         ->find($id);
-        //Sdd($comment);
-        // ... perform some action, such as saving the task to the database
-        // for example, if Task is a Doctrine entity, save it!
-        if (!$comment) {
-            throw $this->createNotFoundException('No livre found for id '.$id);
-        } 
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->Remove($comment);
-         $entityManager->flush();
+        if ($ok == $comment->getUserId()) {
+            if (!$comment) {
+                throw $this->createNotFoundException('Pas de commentaire trouvé avec l\'id '.$id);
+            } 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->Remove($comment);
+            $entityManager->flush();
 
-         $this->session->getFlashBag()->add(
+            $this->session->getFlashBag()->add(
+                'success',
+                'Commentaire supprimé!'
+            );
+            return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+        }
+        $this->session->getFlashBag()->add(
             'success',
-            'Commentaire supprimé!'
+            ' Vous n\'avez pas acces a cette page!'
         );
-        //$trickid = $comment->getTrick();
         return $this->redirectToRoute('home');
     }
 }

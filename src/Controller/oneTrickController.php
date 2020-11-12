@@ -3,58 +3,46 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-//use App\Entity\Image;
-//use App\Entity\Video;
-//use App\Form\TrickType;
-use Symfony\Component\HttpFoundation\Response;
 use App\Repository\TrickRepository;
-//use App\Responders\TrickAddResponder;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\String\Slugger\SluggerInterface;
-//use App\Tool\FileUploader;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-//use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class oneTrickController extends AbstractController
 {
-        // creates a task object and initializes some data for this example
-    /** @var EntityManagerInterface */
-    private $entityManager;
-    //private $fileUploader;
+    private $session;
+    private $tokenStorage;
 
-    
     public function __construct(
-        EntityManagerInterface $entityManager
-        //TokenStorageInterface $tokenStorage,
-       
-    ) {
-        $this->entityManager = $entityManager;
-        //$this->tokenStorage = $tokenStorage;
-        //$this->FileUploader = $fileUploader;
+        SessionInterface $session,
+        TokenStorageInterface $tokenStorage
+    ){
+        $this->session = $session;
+        $this->tokenStorage = $tokenStorage;
     }
-
 
     /**
     * @Route("/one_trick/{id}", name="one_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function oneTrick($id, Request $request, TrickRepository $trickRepository)
+    public function oneTrick($id)
     { 
-        //echo 'ok';
-        $trick = new Trick();
-        $trick = $trickRepository
-        ->findOneBy(['id' => $id]);
-        
-       
-        
-
-        return $this->render('trick/trick.html.twig', [
-            'trick' => $trick
-            ]);
+        $ok = $this->tokenStorage->getToken()->getUser();
+        $trick = $this->getDoctrine()
+            ->getRepository(Trick::class)
+            ->findOneBy(['id' => $id]);
+        if($ok == $trick->getUser()) {
+            return $this->render('trick/trick.html.twig', [
+                'trick' => $trick
+                ]);
+        }
+        $this->session->getFlashBag()->add(
+            'success',
+            'Vous n\'avez pas acces a cette page!'
+        );
+        return $this->redirectToRoute('home');
     }
 }

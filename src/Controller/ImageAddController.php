@@ -2,86 +2,64 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
-use App\Entity\Image;
-use App\Entity\Trick;
+use App\Entity\{Image, Trick};
 use App\Form\ImageType;
 use Symfony\Component\HttpFoundation\Response;
-use App\Handlers\TrickAddHandler;
-use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Tool\FileUploader;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\String\Slugger\SluggerInterface;
-//use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Tool\ImageAddForm;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ImageAddController extends AbstractController
 {
-        // creates a task object and initializes some data for this example
     /** @var EntityManagerInterface */
     private $entityManager;
-    //private $request;
-    private $fileUploader;
+    private $imageAddForm;
+    private $tokenStorage;
     private $session;
     
     public function __construct(
-        FileUploader $fileUploader,
         EntityManagerInterface $entityManager,
+        ImageAddForm $imageAddForm,
+        TokenStorageInterface $tokenStorage,
         SessionInterface $session
     
     ){
-        $this->fileUploader = $fileUploader;
         $this->session = $session;
+        $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
+        $this->imageAddForm = $imageAddForm;
     }
 
     /**
     * @Route("/add_image/{id}", name="add_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($id, Request $request)
+    public function commentAdd($id)
     {
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-       
-        $trick = new Trick();
+        $ok = $this->tokenStorage->getToken()->getUser();
         $picture = new Image();
         $trick = $this->getDoctrine()
-        ->getRepository(Trick::class)
-        ->find($id);
-        $form = $this->createForm(ImageType::class, $picture);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-           // $user = $form->getData();
-            $image = $form->get('name')->getData();
-
-            $newAvatar = $this->fileUploader->upload($image);
-
-            $picture->setName($newAvatar);
-            $picture->setTrickId($trick);
+            ->getRepository(Trick::class)
+            ->find($id);
+        if($ok == $trick->getUser()) {
+            $form = $this->createForm(ImageType::class, $picture);
             
-            $this->entityManager->persist($picture);
-            //dd($picture);
-            $this->entityManager->flush();
-            
-            //$this->session->getFlashBag()->add("success", "Trick créé !");
-            
-         
-    
-            
-            return $this->redirectToRoute('home');
+            if ($this->imageAddForm->form($picture, $trick, $form) === true) {
+                return $this->redirectToRoute('comment', ['id' => $id, 'page' => '1']);
+            }
+            return $this->render('form/formimage.html.twig', [
+                'form' => $form->createView()
+                ]);
         }
-        return $this->render('form/formimage.html.twig', [
-            'form' => $form->createView()
-            ]);
-        
-    } 
-    
+        $this->session->getFlashBag()->add(
+            'success',
+            'Vous n\'avez pas acces a cette page!'
+        );
+        return $this->redirectToRoute('home');
+    }
 }
