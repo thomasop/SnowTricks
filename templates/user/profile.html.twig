@@ -22,11 +22,9 @@
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
     </ul>
 </header>
-        <p>{{ user.id }}</p>
         <p>{{ user.pseudo }}</p>
-        <p>{{ user.token }}</p>
         <p>{{ user.email }}</p>
         <img src="../uploads/pictures/{{ user.avatar }}" class="" alt="avatar">
         
-        <a class="navbar-brand" href="">Modifier son profile</a></li>
+        <a class="navbar-brand" href="{{ path('update_user', {id: user.id}) }}">Modifier son pseudo ou son avatar</a></li>
 {% endblock %}

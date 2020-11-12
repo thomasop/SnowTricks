@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class UserDeleteController extends AbstractController
 {
@@ -21,6 +22,7 @@ class UserDeleteController extends AbstractController
 
     /**
     * @Route("/delete_user/{id}", name="user_delete")
+    * @IsGranted("ROLE_SUPER_ADMIN")
     */
     public function delete($id)
     {

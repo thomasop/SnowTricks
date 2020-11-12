@@ -35,7 +35,7 @@ class TrickUpdateController extends AbstractController
     * @Route("/update_trick/{id}", name="update_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new(Trick $trick)
+    public function new($id, Trick $trick)
     {
         $ok = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
@@ -51,5 +51,6 @@ class TrickUpdateController extends AbstractController
                 'form' => $form->createView()
                 ]);
         }
+        return $this->redirectToRoute('home');
     }
 }
