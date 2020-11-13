@@ -47,17 +47,21 @@
     </div>
 
     <div class="d-flex flex-wrap">
+        
         {% for v in video%}
-        <iframe width="200" height="125"
-            src="{{ v.url}}">
-        </iframe>
-
-        {% if is_granted('ROLE_ADMIN') %}
-            {% if app.user.id == trick.user.id %}
-                <a href="{{ path('delete_video', {id: v.id, trickid: trick.id}) }}">delete video</a>
-            {% endif %}
-        {% endif %}
+            {% if v.url != null %}
+                <iframe width="200" height="125"
+                    src="{{ v.url}}">
+                </iframe>
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% if app.user.id == trick.user.id %}
+                        <a href="{{ path('delete_video', {id: v.id, trickid: trick.id}) }}">delete video</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}  
         {% endfor %}
+        
+
     </div>
 </div>
 {% if is_granted('ROLE_ADMIN') %}

@@ -15,7 +15,7 @@ class VideoFactory
             
             /** @var Video $video */
             $videos[] = $video->getUrl();
-            //dd($video->getUrl());
+            //dd($videoIdExtractor->urlToId($video->getUrl()));
             $video->setTrickId($trick);
             $video->setUrl($videoIdExtractor->urlToId($video->getUrl()));
            // dd($videoIdExtractor->urlToId($video->getUrl()));

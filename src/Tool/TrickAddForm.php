@@ -51,13 +51,16 @@ class TrickAddForm
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
-            if ($images === null) {
+            
+            if ($images === []) {
                 $images = 'default.jpg';
-                $trick->setImage($images);
+                //dd($images);
+                $trick->setPicture($images);
             }
             else {
+                //dd('ok');
                 foreach($images as $image){
-
+                    
                     $newImage = $this->fileUploader->upload($image);
                     /*
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
@@ -80,16 +83,15 @@ class TrickAddForm
                     $this->entityManager->persist($img);
                 }                
             }
+            //$videos = $form->get('videos')->getData();
+             
+            
             //$videos = $trick->getVideos();
             $trock = $form->getData();
             $videosCollection = $form->getData()->getVideos()->toArray();
-
             //dd($trock);
             VideoFactory::set($videosCollection, $trock);
-            //$videos = $form->get('videos')->getData();
-             
-            //if ($videos) {
-                //
+            
                 //$video = new Video();
                 /*
                     if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $videos, $match)) {
@@ -117,7 +119,10 @@ class TrickAddForm
             $this->entityManager->persist($trick);
             
             $this->entityManager->flush();
-
+            if($form->getData()->getVideos()[0]->getUrl() == null){
+                $this->entityManager->Remove($form->getData()->getVideos()[0]);
+                $this->entityManager->flush();
+            }
             $this->session->getFlashBag()->add(
                 'success',
                 'Trick ajouté!'

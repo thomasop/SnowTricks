@@ -26,7 +26,7 @@ class Video
      *     message="Veuillez insérer un lien Youtube valide !"
      * )
      */
-    private $url;
+    private $url = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
@@ -44,7 +44,7 @@ class Video
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl($url): self
     {
         $this->url = $url;
 

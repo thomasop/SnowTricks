@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Form\TrickType;
+use App\Form\TrickUpdateType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\TrickUpdateForm;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,12 +43,14 @@ class TrickUpdateController extends AbstractController
             ->getRepository(Trick::class)
             ->find($id);
         if ($ok == $trick->getUser()) {
-            $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
+            $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
+            $trick->setPicture($file);
+            $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
             if ($this->trickUpdateForm->form($trick, $form) === true){
 
                 return $this->redirectToRoute('home');
             }
-            return $this->render('form/formtrick.html.twig', [
+            return $this->render('form/formupdatetrick.html.twig', [
                 'form' => $form->createView()
                 ]);
         }

@@ -14,7 +14,7 @@ class VideoIdExtractor
             return 'https://www.youtube.com/embed/' . $match[1];
         }
 
-        return false;
+        return null;
     }
 
 }

@@ -73,7 +73,7 @@ class Trick
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trickId", cascade={"persist"})
      */
-    private $videos;
+    private $videos = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"persist", "remove"})

@@ -24,7 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class TrickType extends AbstractType
+class TrickUpdateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,32 +43,8 @@ class TrickType extends AbstractType
                 ],
             ])
             
-            ->add('picture', FileType::class,[
-                'label' => 'Image',
-                'required' => false,
-                'multiple' => true,
-                'mapped' => false
-                
-            ])
-            /*
-            ->add('images', FileType::class,[
-                'label' => false,
-                'multiple' => true,
-                'required' => false
-            ])
-*/
-            ->add('videos', CollectionType::class,[
-                'entry_type' => VideoType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'required' => false,
-                  /*
-                'prototype' => true,
-                
-                */
-            ])
+          
+            
             ->add('categoryId', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'title',
