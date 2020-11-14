@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{Trick, Video, Image};
+use App\Entity\{Trick, Video};
 use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\TrickAddForm;
