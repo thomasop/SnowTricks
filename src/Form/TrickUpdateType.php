@@ -42,6 +42,12 @@ class TrickUpdateType extends AbstractType
                     'placeholder' => 'Description du trick',
                 ],
             ])
+            ->add('picture', FileType::class,[
+                'label' => 'Image principale',
+                'required' => false,
+                'mapped' => false
+                
+            ])
             
           
             

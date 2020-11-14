@@ -54,7 +54,9 @@ class TrickDeleteController extends AbstractController
             ->getRepository(Image::class)
             ->findBy(['trickId' => $id]);
         if ($ok == $trick->getUser()) {
-            $this->deleteFile->delete($trick->getPicture());
+            if ($trick->getPicture() != "default.jpg"){
+                $this->deleteFile->delete($trick->getPicture());
+            }
             foreach ($img as $image){
                 $filename = "../public/uploads/pictures/";
                 if (file_exists($filename . $image->getName())) {
@@ -67,7 +69,12 @@ class TrickDeleteController extends AbstractController
             }
             
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->Remove($video);
+            if($video){
+                //dd('ok');
+                $entityManager->Remove($video);
+            }
+            //dd('no');
+            
             $entityManager->Remove($trick);
             $entityManager->flush();
 

@@ -45,6 +45,7 @@ class TrickUpdateController extends AbstractController
         if ($ok == $trick->getUser()) {
             $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
             $trick->setPicture($file);
+            //dd('/Users/thomasdasilva/Sites/Lab/SnowTricks/public/uploads/pictures/'.$trick->getPicture());
             $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
             if ($this->trickUpdateForm->form($trick, $form) === true){
 

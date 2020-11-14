@@ -5,7 +5,7 @@ namespace App\Tool;
 use App\Entity\Image;
 use App\Entity\Video;
 use App\Entity\Trick;
-use App\Tool\FileUploader;
+use App\Tool\{FileUploader, DeleteFile};
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -22,6 +22,7 @@ class TrickUpdateForm
     private $request;
     /** @var TokenStorageInterface */
     private $tokenStorage;
+    private $deleteFile;
     /** FileUploader */
     private $fileUploader;
     /** @var SessionInterface */
@@ -31,7 +32,8 @@ class TrickUpdateForm
     
         TokenStorageInterface $tokenStorage, 
         EntityManagerInterface $entityManager, 
-        RequestStack $request, 
+        RequestStack $request,
+        DeleteFile $deleteFile,
         FileUploader $fileUploader,
         SessionInterface $session
     
@@ -39,6 +41,7 @@ class TrickUpdateForm
 
         $this->entityManager = $entityManager;
         $this->request = $request;
+        $this->deleteFile = $deleteFile;
         $this->tokenStorage = $tokenStorage;
         $this->fileUploader = $fileUploader;
         $this->session = $session;
@@ -49,7 +52,22 @@ class TrickUpdateForm
         $form->handleRequest($this->request->getCurrentRequest());
         
         if ($form->isSubmitted() && $form->isValid()) {
-
+            //dd($form);
+            $images = $form->get('picture')->getData();
+            
+            if ($images == null) {
+                //$images = ;
+                $trick->setPicture($trick->getPicture()->getBasename());
+            }
+            else {
+                if ($trick->getPicture()->getBasename() != "default.jpg"){
+                    
+                    $this->deleteFile->delete($trick->getPicture()->getBasename());
+                }
+                $newImage = $this->fileUploader->upload($images);
+                $trick->setPicture($newImage);
+                           
+           }
             //$images = $form->get('picture')->getData();
             //if ($form->get('picture')->getData() !== null) {
                 /*
