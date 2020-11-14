@@ -51,7 +51,7 @@ class TrickAddForm
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
-            
+            //dd($images);
             if ($images === []) {
                 $images = 'default.jpg';
                 //dd($images);
@@ -89,7 +89,7 @@ class TrickAddForm
             //$videos = $trick->getVideos();
             $trock = $form->getData();
             $videosCollection = $form->getData()->getVideos()->toArray();
-            //dd($trock);
+            //dd($videosCollection = $form->getData()->getVideos()->toArray());
             VideoFactory::set($videosCollection, $trock);
             
                 //$video = new Video();
