@@ -46,47 +46,38 @@ class TrickAddForm
     }
 
     public function form(Trick $trick, FormInterface $form){
-
+        //dd($form);
         $form->handleRequest($this->request->getCurrentRequest());
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('picture')->getData();
             
-            if ($images === []) {
+            $images = $form->get('picture')->getData();
+            if ($images === null) {
                 $images = 'default.jpg';
                 //dd($images);
                 $trick->setPicture($images);
             }
             else {
-                //dd('ok');
-                foreach($images as $image){
+                $newImage = $this->fileUploader->upload($images);
+                $trick->setPicture($newImage);
+            }
+            $picture = $form->get('images')->getData();
+            foreach($picture as $image){
+                
+                $newImage = $this->fileUploader->upload($image);
                     
-                    $newImage = $this->fileUploader->upload($image);
-                    /*
-                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-                    try {
-                        $image->move(
-                            $this->getParameter('pictures_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                    }
-                    */
-                    $trick->setPicture($newImage);
-                    $img = new Image();
-                    $img->setName($newImage);
-                    $img->setTrickId($trick);
-                    $this->entityManager->persist($img);
-                }                
+                    
+                $img = new Image();
+                $img->setName($newImage);
+                $img->setTrickId($trick);
+                $this->entityManager->persist($img);
+                              
             }
             //$videos = $form->get('videos')->getData();
              
             
             //$videos = $trick->getVideos();
+            //dd($form->getData()->getVideos()->toArray());
             $trock = $form->getData();
             $videosCollection = $form->getData()->getVideos()->toArray();
             //dd($trock);

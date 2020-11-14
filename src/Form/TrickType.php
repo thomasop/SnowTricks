@@ -42,21 +42,18 @@ class TrickType extends AbstractType
                     'placeholder' => 'Description du trick',
                 ],
             ])
-            
             ->add('picture', FileType::class,[
-                'label' => 'Image',
+                'label' => 'Image principale',
                 'required' => false,
-                'multiple' => true,
                 'mapped' => false
                 
             ])
-            /*
             ->add('images', FileType::class,[
-                'label' => false,
+                'label' => 'Image secondaire',
+                'mapped' => false,
+                'required' => false,
                 'multiple' => true,
-                'required' => false
             ])
-*/
             ->add('videos', CollectionType::class,[
                 'entry_type' => VideoType::class,
                 'entry_options' => ['label' => false],
@@ -64,10 +61,6 @@ class TrickType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
-                  /*
-                'prototype' => true,
-                
-                */
             ])
             ->add('categoryId', EntityType::class, [
                 'class' => Category::class,
