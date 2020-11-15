@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Video;
-use App\Repository\VideoRepository;
+use App\Entity\{Video, Trick};
+use App\Repository\{VideoRepository, TrickRepository};
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;

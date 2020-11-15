@@ -12,7 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity({"pseudo", "email"})
+ * @UniqueEntity(
+ *     fields={"pseudo"},
+ *     errorPath="pseudo",
+ *     message="Ce pseudo est deja utilisé."
+ * )
  */
 class User implements UserInterface
 {
@@ -24,7 +28,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150, unique=true)
      * @Assert\NotBlank(
      *      message = "Ce champ est requis !"
      * )
@@ -37,7 +41,7 @@ class User implements UserInterface
      *      message = "Ce champ email est ok !"
      * )
      * @Assert\Length(
-     *      min = 4,
+     *      min = 8,
      *      max = 100,
      *      minMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !",
      *      maxMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !"
@@ -46,7 +50,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\Email(
      *      message = "Veuillez entrer un email valide !"
      * )

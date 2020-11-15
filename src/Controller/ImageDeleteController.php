@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
-use App\Repository\ImageRepository;
+use App\Entity\{Image, Trick};
+use App\Repository\{ImageRepository, TrickRepository};
 use App\Tool\DeleteFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;

@@ -29,12 +29,9 @@
 <img src="../uploads/pictures/homepage.jpg" class="bg">
 <a href="#trick" class="button"><img src="../css/icons/arrow-down.svg" width="42" height="46" title="White flower" alt="Flower"></a>
 {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('add_trick') }}">create</a>
+    <a href="{{ path('add_trick') }}"><img src="../css/icons/plus.svg" width="22" height="26" title="White flower" alt="Flower"></a>
 {% endif %}
 
-{% if app.user %}
-    {{ app.user.id }}
-    {% endif %}
 <div class="trick">
     <p id="trick"> Les tricks</p>
     <div class="row">

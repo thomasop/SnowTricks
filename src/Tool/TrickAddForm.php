@@ -51,38 +51,42 @@ class TrickAddForm
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
-            //dd($images);
-            if ($images === []) {
+           // dd($images);
+            if ($images === null) {
                 $images = 'default.jpg';
                 //dd($images);
                 $trick->setPicture($images);
             }
             else {
-                //dd('ok');
-                foreach($images as $image){
-                    
-                    $newImage = $this->fileUploader->upload($image);
-                    /*
-                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
-                    try {
-                        $image->move(
-                            $this->getParameter('pictures_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                    }
-                    */
-                    $trick->setPicture($newImage);
+                $newImage = $this->fileUploader->upload($images);
+                $trick->setPicture($newImage);
+            }
+            $picture = $form->get('images')->getData();
+            //dd($picture);
+                foreach($picture as $image){
+                        
+                    $newImages = $this->fileUploader->upload($image);
+                        /*
+                        $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                        // this is needed to safely include the file name as part of the URL
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
+                        try {
+                            $image->move(
+                                $this->getParameter('pictures_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                        }
+                        */
+                        
                     $img = new Image();
-                    $img->setName($newImage);
+                    $img->setName($newImages);
                     $img->setTrickId($trick);
                     $this->entityManager->persist($img);
-                }                
-            }
+                                    
+                }
             //$videos = $form->get('videos')->getData();
              
             

@@ -44,19 +44,19 @@ class TrickType extends AbstractType
             ])
             
             ->add('picture', FileType::class,[
-                'label' => 'Image',
+                'label' => 'Image principale',
                 'required' => false,
-                'multiple' => true,
                 'mapped' => false
                 
             ])
-            /*
+            
             ->add('images', FileType::class,[
                 'label' => false,
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'mapped' => false
             ])
-*/
+
             ->add('videos', CollectionType::class,[
                 'entry_type' => VideoType::class,
                 'entry_options' => ['label' => false],
