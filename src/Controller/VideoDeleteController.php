@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\{Video, Trick};
-use App\Repository\{VideoRepository, TrickRepository};
+use App\Entity\Video;
+use App\Entity\Trick;
+use App\Repository\VideoRepository;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +23,7 @@ class VideoDeleteController extends AbstractController
     public function __construct(
         SessionInterface $session,
         TokenStorageInterface $tokenStorage
-    
-    ){
+    ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
     }
@@ -33,14 +34,14 @@ class VideoDeleteController extends AbstractController
     */
     public function delete($id, $trickid)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($trickid);
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
             ->find($id);
-        if($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->Remove($video);
             $entityManager->flush();

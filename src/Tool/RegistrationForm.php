@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class RegistrationForm
 {
     /** @var EntityManagerInterface */
@@ -21,20 +20,19 @@ class RegistrationForm
     private $request;
     /** @var TokenStorageInterface */
     private $tokenStorage;
-    /** FileUploader */
+    /** @var FileUploader */
     private $fileUploader;
+    /** @var SessionInterface */
     private $session;
     
     public function __construct(
-    
-        TokenStorageInterface $tokenStorage, 
-        EntityManagerInterface $entityManager, 
+        TokenStorageInterface $tokenStorage,
+        EntityManagerInterface $entityManager,
         RequestStack $request,
         UserPasswordEncoderInterface $passwordEncoder,
         FileUploader $fileUploader,
         SessionInterface $session
-    
-    ){
+    ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;
         $this->request = $request;
@@ -43,8 +41,8 @@ class RegistrationForm
         $this->session = $session;
     }
 
-    public function form(User $user, FormInterface $form){
-
+    public function form(User $user, FormInterface $form)
+    {
         $form->handleRequest($this->request->getCurrentRequest());
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,27 +50,19 @@ class RegistrationForm
             $image = $form->get('avatar')->getData();
 
             if ($image === null) {
-                $image = 'default.jpg';
+                $image = 'defaultavatar.png';
                 $user->setAvatar($image);
-            }
-            else {
+            } else {
                 $newAvatar = $this->fileUploader->upload($image);
-
                 $user->setAvatar($newAvatar);
-                
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             }
-
-            //On encode le password
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
                     $user,
                     $form->get('password')->getData()
                 )
-                );
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
+            );
+            
             $user->setToken($this->generateToken());
             $user->setRoles(['ROLE_ADMIN']);
             $this->entityManager->persist($user);

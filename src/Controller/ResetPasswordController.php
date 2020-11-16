@@ -19,8 +19,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ResetPasswordController extends AbstractController{
-
+class ResetPasswordController extends AbstractController
+{
     private $entityManager;
     
     public function __construct(
@@ -36,11 +36,13 @@ class ResetPasswordController extends AbstractController{
     /**
     * @Route("/forgot-password", name="forgot_password")
     */
-    public function forgotPassword(Request $request, UserRepository $userRepository, \Swift_Mailer $mailer){
-       $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+    public function forgotPassword(Request $request, UserRepository $userRepository, \Swift_Mailer $mailer)
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())  {
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form);
             $email = $form->get('email')->getData();
             
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
@@ -75,14 +77,14 @@ class ResetPasswordController extends AbstractController{
     /**
     * @Route("/reset-password/{token}", name="reset_password")
     */
-    public function resetPassword($token, Request $request) {
-
+    public function resetPassword($token, Request $request)
+    {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["token" => $token]);
         $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $form->get('password')->getData();
-            if($user) {
+            if ($user) {
                 $entityManager = $this->getDoctrine()->getManager();
                 
                 $user->setToken(null);
@@ -99,8 +101,7 @@ class ResetPasswordController extends AbstractController{
                     'mot de passe modifié!'
                 );
                 return $this->redirectToRoute('app_login');
-                } 
-            else  {
+            } else {
                 $this->session->getFlashBag()->add(
                     'success',
                     'mot de passe pas modifié!'

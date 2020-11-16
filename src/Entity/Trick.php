@@ -155,14 +155,14 @@ class Trick
 
     
     
-/*
-    public function setVideo(string $video): self
-    {
-        $this->video = $video;
+    /*
+        public function setVideo(string $video): self
+        {
+            $this->video = $video;
 
-        return $this;
-    }
-    */
+            return $this;
+        }
+        */
 
     /**
      * @return Collection|Image[]

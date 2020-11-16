@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Tool\DeleteFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,11 +14,14 @@ class UserDeleteController extends AbstractController
 {
     /** @var EntityManagerInterface */
     private $session;
+    private $deleteFile;
 
     public function __construct(
-        SessionInterface $session
+        SessionInterface $session,
+        DeleteFile $deleteFile
     ) {
         $this->session = $session;
+        $this->deleteFile = $deleteFile;
     }
 
     /**
@@ -29,12 +33,13 @@ class UserDeleteController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
-
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->Remove($user);
-         $entityManager->flush();
-
-         $this->session->getFlashBag()->add(
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->Remove($user);
+        $entityManager->flush();
+        if($user->getAvatar() != "defaultvatar.png" ){
+            $this->deleteFile->delete($user->getAvatar());
+        }
+        $this->session->getFlashBag()->add(
             'success',
             'User supprimé!'
         );

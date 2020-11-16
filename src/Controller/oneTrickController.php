@@ -19,7 +19,7 @@ class oneTrickController extends AbstractController
     public function __construct(
         SessionInterface $session,
         TokenStorageInterface $tokenStorage
-    ){
+    ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
     }
@@ -29,12 +29,12 @@ class oneTrickController extends AbstractController
     * @IsGranted("ROLE_ADMIN")
     */
     public function oneTrick($id)
-    { 
-        $ok = $this->tokenStorage->getToken()->getUser();
+    {
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->findOneBy(['id' => $id]);
-        if($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             return $this->render('trick/trick.html.twig', [
                 'trick' => $trick
                 ]);

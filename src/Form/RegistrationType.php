@@ -30,7 +30,7 @@ class RegistrationType extends AbstractType
                 'label' => 'pseudo',
             ])
 
-            ->add('email', EmailType::class,[
+            ->add('email', EmailType::class, [
                 'label' => 'Email :'
             ])
             ->add('password', PasswordType::class, [
@@ -44,6 +44,7 @@ class RegistrationType extends AbstractType
                 'attr' => [
                 'placeholder' => 'Ajouter un avatar'
                 ],
+                'required' => false
             ])
             
             ->add('save', SubmitType::class)

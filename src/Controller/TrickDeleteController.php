@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\{Trick, Video, Image};
-use App\Repository\{TrickRepository, ImageRepository, VideoRepository};
+use App\Entity\Trick;
+use App\Entity\Video;
+use App\Entity\Image;
+use App\Repository\TrickRepository;
+use App\Repository\ImageRepository;
+use App\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\DeleteFile;
 use Symfony\Component\Filesystem\Filesystem;
@@ -31,7 +35,7 @@ class TrickDeleteController extends AbstractController
         SessionInterface $session,
         DeleteFile $deleteFile,
         TokenStorageInterface $tokenStorage
-    ){
+    ) {
         $this->session = $session;
         $this->deleteFile = $deleteFile;
         $this->tokenStorage = $tokenStorage;
@@ -43,7 +47,7 @@ class TrickDeleteController extends AbstractController
     */
     public function delete($id)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
             ->findOneBy(['trickId' => $id]);
@@ -53,11 +57,11 @@ class TrickDeleteController extends AbstractController
         $img = $this->getDoctrine()
             ->getRepository(Image::class)
             ->findBy(['trickId' => $id]);
-        if ($ok == $trick->getUser()) {
-            if ($trick->getPicture() != "default.jpg"){
+        if ($currentId == $trick->getUser()) {
+            if ($trick->getPicture() != "default.jpg") {
                 $this->deleteFile->delete($trick->getPicture());
             }
-            foreach ($img as $image){
+            foreach ($img as $image) {
                 $filename = "../public/uploads/pictures/";
                 if (file_exists($filename . $image->getName())) {
                     echo "Le fichier" . $image->getName() . "existe.";
@@ -69,7 +73,7 @@ class TrickDeleteController extends AbstractController
             }
             
             $entityManager = $this->getDoctrine()->getManager();
-            if($video){
+            if ($video) {
                 //dd('ok');
                 $entityManager->Remove($video);
             }

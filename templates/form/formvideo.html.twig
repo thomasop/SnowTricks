@@ -1,27 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}add video{% endblock %}
+{% block title %}Ajoutez une video{% endblock %}
 
 {% block body %}
-<header>
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
-         {% endif %}
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-    </ul>
-</header>
+{% include 'header.html.twig' %}
+<p>Ajoutez une video ici!</p>
 {{ form_start(form) }}
     {{ form_row(form.url) }}
-    <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
+    <button class="btn btn-lg btn-primary" type="submit">Ajoutez</button>
 {{ form_end(form) }}
-
+{% include 'footer.html.twig' %}
 {% endblock %}

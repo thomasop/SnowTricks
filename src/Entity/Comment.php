@@ -6,7 +6,6 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
@@ -25,9 +24,9 @@ class Comment
      */
     private $trick;
 
-     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     */
+    /**
+    * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+    */
     private $userId;
 
     /**

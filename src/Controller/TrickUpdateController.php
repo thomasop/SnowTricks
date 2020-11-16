@@ -14,7 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class TrickUpdateController extends AbstractController
 {
     /** @var TrickAddHandler */
@@ -25,8 +24,8 @@ class TrickUpdateController extends AbstractController
     private $tokenStorage;
 
     public function __construct(
-       TrickUpdateForm $trickUpdateForm,
-       TokenStorageInterface $tokenStorage
+        TrickUpdateForm $trickUpdateForm,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->trickUpdateForm = $trickUpdateForm;
         $this->tokenStorage = $tokenStorage;
@@ -38,17 +37,16 @@ class TrickUpdateController extends AbstractController
     */
     public function new($id, Trick $trick)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($id);
-        if ($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
             $trick->setPicture($file);
             //dd('/Users/thomasdasilva/Sites/Lab/SnowTricks/public/uploads/pictures/'.$trick->getPicture());
             $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
-            if ($this->trickUpdateForm->form($trick, $form) === true){
-
+            if ($this->trickUpdateForm->form($trick, $form) === true) {
                 return $this->redirectToRoute('home');
             }
             return $this->render('form/formupdatetrick.html.twig', [

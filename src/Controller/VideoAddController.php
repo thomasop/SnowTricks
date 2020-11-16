@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\{Trick, Video};
+use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\VideoType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Tool\VideoAddForm;
@@ -24,7 +25,7 @@ class VideoAddController extends AbstractController
         VideoAddForm $videoAddForm,
         TokenStorageInterface $tokenStorage,
         SessionInterface $session
-    ){
+    ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
@@ -37,12 +38,12 @@ class VideoAddController extends AbstractController
     */
     public function commentAdd($id)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $video = new Video();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($id);
-        if($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             $form = $this->createForm(VideoType::class, $video);
             if ($this->videoAddForm->form($video, $trick, $form) === true) {
                 return $this->redirectToRoute('comment', ['id' => $id, 'page' => '1']);
@@ -56,5 +57,5 @@ class VideoAddController extends AbstractController
             'Vous n\'avez pas acces a cette page!'
         );
         return $this->redirectToRoute('home');
-    } 
+    }
 }

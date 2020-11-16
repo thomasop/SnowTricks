@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{Image, Trick};
+use App\Entity\{Trick, Image};
 use App\Form\ImageType;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,8 +27,7 @@ class ImageAddController extends AbstractController
         ImageAddForm $imageAddForm,
         TokenStorageInterface $tokenStorage,
         SessionInterface $session
-    
-    ){
+    ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
@@ -41,12 +40,12 @@ class ImageAddController extends AbstractController
     */
     public function commentAdd($id)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $picture = new Image();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($id);
-        if($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             $form = $this->createForm(ImageType::class, $picture);
             
             if ($this->imageAddForm->form($picture, $trick, $form) === true) {

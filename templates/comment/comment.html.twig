@@ -1,29 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comment{% endblock %}
+{% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
 
-    {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-<header>
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        {% if app.user %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
-        {% else %}
-            <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-        {% endif %}
-    </ul>
-</header>
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% include 'header.html.twig' %}
 <center>
     <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
     </center>
@@ -136,22 +122,5 @@
     </ul>
 {% endif %}
 </div>
-
-<footer class="text-white bg-primary mt-3 card-group">
-    <div class="card-body">
-        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts/1">ici</a></p>
-    </div>
-    <div class="card-body">
-        <div>
-            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
-        </div>
-        <div>
-            <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
-        </div>
-    </div> 
-    <div class="card-body">     
-        <a class="text-success" href="/blog/connect">Connexion</a>
-    </div>
-</footer>
+{% include 'footer.html.twig' %}
 {% endblock %}

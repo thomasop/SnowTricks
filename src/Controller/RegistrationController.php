@@ -13,13 +13,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RegistrationController extends AbstractController
 {
-
     public function __construct(
-        
         RegistrationForm $registrationForm,
         SessionInterface $session
-    
-    ){
+    ) {
         $this->registrationForm = $registrationForm;
         $this->session = $session;
     }
@@ -62,7 +59,7 @@ class RegistrationController extends AbstractController
         ->getRepository(User::class)
         ->findOneBy(["token" => $token]);
         
-        if($user) {
+        if ($user) {
             $entityManager = $this->getDoctrine()->getManager();
             $user->setEnabled(true);
             $user->setToken(null);
@@ -73,8 +70,7 @@ class RegistrationController extends AbstractController
                 'compte valide!'
             );
             return $this->redirectToRoute('app_login');
-        } 
-        else  {
+        } else {
             $this->session->getFlashBag()->add(
                 'success',
                 'Une erreur est survenu, veillez reessayez!'

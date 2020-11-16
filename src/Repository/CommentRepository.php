@@ -50,7 +50,7 @@ class CommentRepository extends ServiceEntityRepository
 
         $paginator = new Paginator($qb);
 
-        if ( ($paginator->count() <= $firstResult) && $page != 1) {
+        if (($paginator->count() <= $firstResult) && $page != 1) {
             throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
         }
 

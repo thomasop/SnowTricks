@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class CommentAddForm
 {
     /** @var EntityManagerInterface */
@@ -27,15 +26,13 @@ class CommentAddForm
     private $session;
     
     public function __construct(
-    
-        TokenStorageInterface $tokenStorage, 
-        EntityManagerInterface $entityManager, 
+        TokenStorageInterface $tokenStorage,
+        EntityManagerInterface $entityManager,
         RequestStack $request,
         UserPasswordEncoderInterface $passwordEncoder,
         FileUploader $fileUploader,
         SessionInterface $session
-    
-    ){
+    ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;
         $this->request = $request;
@@ -44,12 +41,12 @@ class CommentAddForm
         $this->session = $session;
     }
 
-    public function form(Comment $comment, Trick $trick, FormInterface $form){
-
+    public function form(Comment $comment, Trick $trick, FormInterface $form)
+    {
         $form->handleRequest($this->request->getCurrentRequest());
         //$trick = new Trick;
         if ($form->isSubmitted() && $form->isValid()) {
-           // dd($this->tokenStorage->getToken()->getUser()->getPseudo());
+            // dd($this->tokenStorage->getToken()->getUser()->getPseudo());
             $comment->setName($this->tokenStorage->getToken()->getUser()->getPseudo());
             $comment->setUserId($this->tokenStorage->getToken()->getUser());
             $comment->setTrick($trick);
@@ -63,7 +60,7 @@ class CommentAddForm
                 'success',
                 'Commentaire ajouté!'
             );
-        return true;
+            return true;
         }
         return false;
     }

@@ -24,10 +24,10 @@ class CommentUpdateController extends AbstractController
     private $tokenStorage;
     private $session;
 
-    public function __construct( 
-       CommentUpdateForm $commentUpdateForm,
-       TokenStorageInterface $tokenStorage,
-       SessionInterface $session
+    public function __construct(
+        CommentUpdateForm $commentUpdateForm,
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session
     ) {
         $this->commentUpdateForm = $commentUpdateForm;
         $this->tokenStorage = $tokenStorage;
@@ -40,23 +40,23 @@ class CommentUpdateController extends AbstractController
     */
     public function new($id, $trickid, Request $request, Comment $comment)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $commentId = $this->getDoctrine()
             ->getRepository(Comment::class)
             ->find($id);
-        if ($ok == $commentId->getUserId()){
+        if ($currentId == $commentId->getUserId()) {
             $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);
-            if ($this->commentUpdateForm->form($comment, $form) === true){
+            if ($this->commentUpdateForm->form($comment, $form) === true) {
                 return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
             }
             return $this->render('form/formcomment.html.twig', [
                 'form' => $form->createView()
                 ]);
-        } 
+        }
         $this->session->getFlashBag()->add(
             'success',
             ' Vous n\'avez pas acces a cette page!'
         );
-        return $this->redirectToRoute('home');      
+        return $this->redirectToRoute('home');
     }
 }

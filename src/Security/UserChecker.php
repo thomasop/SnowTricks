@@ -12,7 +12,6 @@ class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $user)
     {
-    
         if (!$user instanceof AppUser) {
             return;
         }
@@ -30,6 +29,5 @@ class UserChecker implements UserCheckerInterface
         }
 
         // user account is expired, the user may be notified
-        
     }
 }

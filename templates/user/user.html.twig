@@ -4,37 +4,22 @@
 
 {% block body %}
 {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        <header>
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
-         {% endif %}
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-    </ul>
-</header>
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+{% include 'header.html.twig' %}
 {% for u in user%}
-    
-        <p>{{ u.id }}</p>
-        <p>{{ u.pseudo }}</p>
-        <p>{{ u.token }}</p>
-        <p>{{ u.enabled }}</p>
-        <p>{{ u.email }}</p>
-        {% if u.enabled == true %}
-         <p>ok</p>
-        {% endif %}
-        {% if u.enabled == false %}
-         <p>no</p>
-        {% endif %}
-        <a class="navbar-brand" href="{{ path('user_delete', {id: u.id}) }}">delete</a></li>
-  {% endfor %}      
+    <p>{{ u.pseudo }}</p>
+    <p>{{ u.email }}</p>
+    <p>Compte validé?
+    {% if u.enabled == true %}
+        <p>oui</p>
+    {% else %}
+        <p>non</p>
+    {% endif %}
+    <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="150" height="101">
+    <a class="navbar-brand" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a></li>
+{% endfor %}
+{% include 'footer.html.twig' %}
 {% endblock %}

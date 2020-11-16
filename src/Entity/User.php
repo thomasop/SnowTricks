@@ -43,7 +43,7 @@ class User implements UserInterface
      * @Assert\Length(
      *      min = 8,
      *      max = 100,
-     *      minMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !",
+     *      minMessage = "Votre mot de passe ne peut pas contenir moin que {{ limit }} caractères !",
      *      maxMessage = "Votre mot de passe ne peut pas contenir plus que {{ limit }} caractères !"
      * )
      */
@@ -160,7 +160,6 @@ class User implements UserInterface
     
     public function getRoles(): array
     {
-        
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_ADMIN';
@@ -267,7 +266,6 @@ class User implements UserInterface
      */
     public function eraseCredentials(): void
     {
-
     }
 
     public function getToken(): ?string

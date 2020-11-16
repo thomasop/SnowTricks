@@ -1,0 +1,18 @@
+<footer class="text-white bg-primary mt-3 card-group">
+    <div class="card-body">
+        <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-success" href="/#trick">ici</a></p>
+    </div>
+    <div class="card-body">
+        <div>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+        </div>
+    </div> 
+    <div class="card-body">     
+        {% if app.user %}
+            <a class="text-success" href="{{ path('app_logout') }}">deconnexion</a></li>
+        {% else %}
+            <a class="text-success" href="{{ path('app_login') }}">Connexion</a></li>
+        {% endif %}
+    </div>
+</footer>

@@ -1,24 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create comment{% endblock %}
+{% block title %}Modifiez un commentaire{% endblock %}
 
 {% block body %}
-<header>
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
-         {% endif %}
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-    </ul>
-</header>
+{% include 'header.html.twig' %}
+<p>Modifiez un commentaire ici!</p>
 {{ form(form) }}
-
-
-
+{% include 'footer.html.twig' %}
 {% endblock %}

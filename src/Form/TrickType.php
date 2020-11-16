@@ -43,21 +43,21 @@ class TrickType extends AbstractType
                 ],
             ])
             
-            ->add('picture', FileType::class,[
+            ->add('picture', FileType::class, [
                 'label' => 'Image principale',
                 'required' => false,
                 'mapped' => false
                 
             ])
             
-            ->add('images', FileType::class,[
+            ->add('images', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'required' => false,
                 'mapped' => false
             ])
 
-            ->add('videos', CollectionType::class,[
+            ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
@@ -66,7 +66,7 @@ class TrickType extends AbstractType
                 'required' => false,
                   /*
                 'prototype' => true,
-                
+
                 */
             ])
             ->add('categoryId', EntityType::class, [

@@ -28,8 +28,9 @@ class UserType extends AbstractType
 
             
 
-            ->add('email', EmailType::class,[
-                'label' => 'Email :'
+            ->add('email', EmailType::class, [
+                'label' => 'Email :',
+                'mapped' => false,
             ])
             
             
@@ -42,7 +43,6 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
         ]);
     }
 }

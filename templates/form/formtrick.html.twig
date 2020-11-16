@@ -1,37 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create trick{% endblock %}
+{% block title %}Creation d'un trick{% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/collectionAddVideo.js') }}"></script>
 {% endblock %}
 {% block body %}
-<header>
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
-         {% endif %}
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-    </ul>
-</header>
+{% include 'header.html.twig' %}
 {{ form_start(form) }}
-        {{ form_row(form.Name) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.picture) }}
-        {{ form_row(form.images) }}
-        <ul class="videos" id="video_list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
-            {% for row in form.videos %}
-            <li>{{ form_row(row) }}</li>
-            {% endfor %}
-        </ul>
-        {{ form_row(form.categoryId) }}
+    {{ form_row(form.Name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.picture) }}
+    {{ form_row(form.images) }}
+    <ul class="videos" id="video_list" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+        {% for row in form.videos %}
+        <li>{{ form_row(row) }}</li>
+        {% endfor %}
+    </ul>
+    {{ form_row(form.categoryId) }}
 {{ form_end(form) }}
-
-
-
+{% include 'footer.html.twig' %}
 {% endblock %}

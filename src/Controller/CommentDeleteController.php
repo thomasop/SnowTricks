@@ -37,14 +37,14 @@ class CommentDeleteController extends AbstractController
     */
     public function delete($id, $trickid)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $comment = $this->getDoctrine()
         ->getRepository(Comment::class)
         ->find($id);
-        if ($ok == $comment->getUserId()) {
+        if ($currentId == $comment->getUserId()) {
             if (!$comment) {
                 throw $this->createNotFoundException('Pas de commentaire trouvé avec l\'id '.$id);
-            } 
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->Remove($comment);
             $entityManager->flush();

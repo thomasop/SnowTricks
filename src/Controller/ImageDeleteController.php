@@ -35,14 +35,14 @@ class ImageDeleteController extends AbstractController
     */
     public function delete($id, $trickid)
     {
-        $ok = $this->tokenStorage->getToken()->getUser();
+        $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->find($trickid);
         $image = $this->getDoctrine()
             ->getRepository(Image::class)
             ->find($id);
-        if($ok == $trick->getUser()) {
+        if ($currentId == $trick->getUser()) {
             $this->deleteFile->delete($image->getName());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->Remove($image);

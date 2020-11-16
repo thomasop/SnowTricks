@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\{Trick, Video};
+use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\TrickAddForm;
@@ -22,7 +23,7 @@ class TrickAddController extends AbstractController
     private $trickAddForm;
 
     public function __construct(
-        EntityManagerInterface $entityManager, 
+        EntityManagerInterface $entityManager,
         TrickAddForm $trickAddForm
     ) {
         $this->trickAddForm = $trickAddForm;
@@ -34,14 +35,13 @@ class TrickAddController extends AbstractController
     * @IsGranted("ROLE_ADMIN")
     */
     public function trickAdd()
-    { 
+    {
         $trick = new Trick();
         $video1 = new Video();
         $video1->setUrl('');
         $trick->addVideo($video1);
         $form = $this->createForm(TrickType::class, $trick);
         if ($this->trickAddForm->form($trick, $form) === true) {
-            
             return $this->redirectToRoute('home');
         }
 

@@ -28,8 +28,9 @@ class ResetPasswordType extends AbstractType
 
             
 
-            ->add('password', PasswordType::class,[
-                'label' => 'password :'
+            ->add('password', PasswordType::class, [
+                'label' => 'password :',
+                'mapped' => false,
             ])
             
             
@@ -41,8 +42,6 @@ class ResetPasswordType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefaults([]);
     }
 }
