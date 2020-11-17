@@ -4,7 +4,16 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-<p>Modifiez un commentaire ici!</p>
-{{ form(form) }}
+<div class="mx-4">
+    <p class="mb-5">Modifiez un commentaire ici!</p>
+    {{ form_start(form) }}
+        <div class="form-group">
+            <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
+            <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
+        </div>
+        <button class="btn btn-primary" type="submit">Modifiez</button>
+    {{ form_end(form) }}
+</div>
 {% include 'footer.html.twig' %}
 {% endblock %}

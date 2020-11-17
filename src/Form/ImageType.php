@@ -15,12 +15,12 @@ class ImageType extends AbstractType
     {
         $builder
         ->add('name', FileType::class, [
+            'label' => 'Image',
             'attr' => [
                 'placeholder' => 'Modifier ou ajouter une image',
             ],
             
         ])
-        ->add('save', SubmitType::class)
         ;
     }
 

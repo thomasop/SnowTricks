@@ -1,7 +1,7 @@
 var $collectionHolder;
 
 // setup an "add a tag" link
-var $addTagButton = $('<button type="button" class="add_tag_link">Ajoutez une video</button>');
+var $addTagButton = $('<button type="button" class="btn btn-primary">Ajoutez une video</button>');
 var $newLinkLi = $('<li></li>').append($addTagButton);
 
 jQuery(document).ready(function() {
@@ -58,7 +58,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Supprimez une video</button>');
+    var $removeFormButton = $('<button type="button" class="btn btn-primary">Supprimez une video</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

@@ -5,6 +5,15 @@
 {% block body %}
 {% include 'header.html.twig' %}
 <p>Ajoutez une image ici!</p>
-{{ form(form) }}
-{% include 'footer.html.twig' %}
+<div class="mx-4">
+    <p class="mb-5">Ajoutez une image ici!</p>
+    {{ form_start(form) }}
+        <div class="form-group">
+            <label>{{ form_label(form.name) }}:</label>
+            <div>{{ form_widget(form.name) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.name) }}</small>
+        </div>
+        <button class="btn btn-primary" type="submit">Ajoutez</button>
+    {{ form_end(form) }}
+</div>{% include 'footer.html.twig' %}
 {% endblock %}

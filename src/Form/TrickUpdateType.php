@@ -56,7 +56,6 @@ class TrickUpdateType extends AbstractType
                 'choice_label' => 'title',
                 'label' => 'Catégorie',
             ])
-            ->add('save', SubmitType::class)
         ;
     }
 

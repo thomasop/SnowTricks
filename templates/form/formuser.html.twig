@@ -4,6 +4,36 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-{{ form(form) }}
+<div class="mx-4">
+    <p class="mb-5">Inscrivez vous ici!</p>
+    {{ form_start(form) }}
+        <div class="form-group">
+            <label>{{ form_label(form.pseudo) }}:</label>
+            <div>{{ form_widget(form.pseudo, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.pseudo) }}</small>
+        </div>
+        <div class="form-group">
+            <label>{{ form_label(form.email) }}:</label>
+            <div>{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.email) }}</small>
+        </div>
+        <div class="form-group">
+            <label>{{ form_label(form.password.first) }}:</label>
+            <div>{{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.password.first) }}</small>
+        </div>
+        <div class="form-group">
+            <label>{{ form_label(form.password.second) }}:</label>
+            <div>{{ form_widget(form.password.second, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.password.second) }}</small>
+        </div>
+        <div class="form-group">
+            <label>{{ form_label(form.avatar) }}:</label>
+            <div>{{ form_widget(form.avatar) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.avatar) }}</small>
+        </div>
+        <button class="btn btn-primary" type="submit">Inscrivez vous</button>
+    {{ form_end(form) }}
+</div>
 {% include 'footer.html.twig' %}
 {% endblock %}

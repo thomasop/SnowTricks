@@ -35,7 +35,6 @@ class CommentType extends AbstractType
                 
                 'label' => 'content',
             ])
-            ->add('save', SubmitType::class)
         ;
     }
 

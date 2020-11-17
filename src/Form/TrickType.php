@@ -51,7 +51,7 @@ class TrickType extends AbstractType
             ])
             
             ->add('images', FileType::class, [
-                'label' => false,
+                'label' => 'Images secondaires',
                 'multiple' => true,
                 'required' => false,
                 'mapped' => false
@@ -74,7 +74,6 @@ class TrickType extends AbstractType
                 'choice_label' => 'title',
                 'label' => 'Catégorie',
             ])
-            ->add('save', SubmitType::class)
         ;
     }
 

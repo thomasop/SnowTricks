@@ -65,14 +65,24 @@
 <a class="navbar-brand" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
     
 </div>
-<div class="mx-auto" style="width: 800px;">
+<div class="mx-auto col-lg-8">
 {% if is_granted('ROLE_ADMIN') %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+        <div class="form-group">
+            <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
+            <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
+            <button class="btn btn-primary" type="submit">Ajoutez</button>
+        </div>
+    {{ form_end(form) }}
+{% else %}
+    <a href="{{ path('app_login') }}">Connectez vous</a> ou <a href="{{ path('app_register') }}">inscrivez-vous</a> pour envoyer un commentaire sur ce trick!
 {% endif %}
     {% for i in comment%}
     
+        <img src="uploads/pictures/{{ i.userId.avatar }}">
         <p>{{ i.name }}</p>
-        <p>{{ i.content }}</p>
+        <p class="text-justify">{{ i.content }}</p>
         {% if is_granted('ROLE_ADMIN') %}
             {% if app.user.id == i.userId.id %}
                 <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>

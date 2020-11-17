@@ -4,10 +4,16 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-<p>Ajoutez une video ici!</p>
-{{ form_start(form) }}
-    {{ form_row(form.url) }}
-    <button class="btn btn-lg btn-primary" type="submit">Ajoutez</button>
-{{ form_end(form) }}
+<div class="mx-4">
+    <p class="mb-5">Ajoutez une video ici!</p>
+    {{ form_start(form) }}
+        <div class="form-group">
+            <label>{{ form_label(form.url) }}:</label>
+            <div>{{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}</div>
+            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.url) }}</small>
+        </div>        
+        <button class="btn btn-lg btn-primary" type="submit">Ajoutez</button>
+    {{ form_end(form) }}
+</div>
 {% include 'footer.html.twig' %}
 {% endblock %}
