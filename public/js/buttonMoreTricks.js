@@ -1,18 +1,22 @@
+
+
 $(function () {
-    $("div.trick").slice(0, 6).show();
-    $("#loadMoreTrick").on("click", function (e) {
+    $("div.tricks").slice(6).hide();
+    $("#loadLessTrick").hide("slow");
+    $("#loadMoreTrick").click(function(e){
         e.preventDefault();
-        $("div.trick:hidden").slice(0, 6).slideDown();
-        if ($("div.trick:hidden").length === 0) {
+        $("div.tricks:hidden").slice(0, 6).slideDown();
+        if ($("div.tricks:hidden").length === 0) {
             $("#loadMoreTrick").hide("slow");
             $("#loadLessTrick").show("slow");
         }
     });
-    $("#loadLessTrick").on("click", function (e) {
+    $("#loadLessTrick").click(function(e){
         e.preventDefault();
-        $("div.trick").slice(6, $("div.trick").length).hide();
+        $("div.tricks").slice(6, $("div.tricks").length).hide();
         $("#loadLessTrick").hide("slow");
         $("#loadMoreTrick").show("slow");
 
     });
 });
+console.log($("div.tricks").slice(0, 6));
