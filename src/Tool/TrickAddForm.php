@@ -3,7 +3,7 @@
 namespace App\Tool;
 
 use App\Entity\{Image, Video, Trick};
-use App\Tool\{FileUploader, VideoFactory};
+use App\Tool\{FileUploader, VideoFactory, SlugBuilder};
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -64,8 +64,9 @@ class TrickAddForm
             $trock = $form->getData();
             $videosCollection = $form->getData()->getVideos()->toArray();
             VideoFactory::set($videosCollection, $trock);
-            
+            $slugBuilder = new SlugBuilder();
             $trick->setUser($this->tokenStorage->getToken()->getUser());
+            $trick->setSlug($slugBuilder->buildSlug($trick->getName()));
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
             if ($form->getData()->getVideos()[0]->getUrl() == null) {

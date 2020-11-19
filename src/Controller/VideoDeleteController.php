@@ -29,15 +29,15 @@ class VideoDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_video/{id}/{trickid}", name="delete_video")
+    * @Route("/delete_video/{id}/{slug}", name="delete_video")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $trickid)
+    public function delete($id, $slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($trickid);
+            ->findOneBy(['slug' => $slug]);
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
             ->find($id);
@@ -50,7 +50,7 @@ class VideoDeleteController extends AbstractController
                 'success',
                 'Video supprimé!'
             );
-            return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

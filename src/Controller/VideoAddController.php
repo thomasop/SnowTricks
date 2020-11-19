@@ -33,20 +33,20 @@ class VideoAddController extends AbstractController
     }
 
     /**
-    * @Route("/add_video/{id}", name="add_video")
+    * @Route("/add_video/{slug}", name="add_video")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($id)
+    public function commentAdd($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $video = new Video();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($id);
+            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             $form = $this->createForm(VideoType::class, $video);
             if ($this->videoAddForm->form($video, $trick, $form) === true) {
-                return $this->redirectToRoute('comment', ['id' => $id, 'page' => '1']);
+                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }
             return $this->render('form/formvideo.html.twig', [
                 'form' => $form->createView()

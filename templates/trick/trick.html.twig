@@ -3,32 +3,31 @@
 {% block title %}Suppression d'un trick{% endblock %}
 
 {% block body %}
-{% if app.user %}
-    <div class="mb-3">
-        You are logged in as {{ app.user.username }}, <a href="http://localhost:8000/SnowTricks/logout">Logout</a>
-        
-        {% for item in app.user %}
-            <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
-        {% endfor %}
-    </div>
-{% endif %}
 {% for message in app.flashes('success') %}
     <div class="alert alert-success">
         {{ message }}
     </div>
 {% endfor %}
 {% include 'header.html.twig' %}
-<div>
-    <p>{{ trick.id }}</p>
-    <p>{{ trick.name }}</p>
-    <p>{{ trick.description }}</p>
-    <p>{{ trick.picture }}</p>
+<div class="boom">
+    <p class="">Nom: {{ trick.name }}</p>
+    <p>Description: {{ trick.description }}</p>
+    <img class="" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
+    {% for ok in trick.videos %}
+        <iframe width="200" height="125"
+            src="{{ ok.url }}">
+        </iframe>
+    {% endfor %}
+    {% for okk in trick.images %}
+        <img class="" src="/uploads/pictures/{{ okk.name }}" alt="Trick">
+    {% endfor %}
+    
 </div>
 <div>
 {% if is_granted('ROLE_ADMIN') %}
     <p>Voulez vous vraiment supprimer ce trick?</p>
-    <a class="navbar-brand" href="{{ path('delete_trick', {id: trick.id}) }}">oui</a></li>
-    <a class="navbar-brand" href="{{ path('home') }}">non</a></li>
+    <a class="btn btn-primary" href="{{ path('delete_trick', {slug: trick.slug}) }}">oui</a></li>
+    <a class="btn btn-primary" href="{{ path('home') }}">non</a></li>
 {% endif %}
 {% include 'footer.html.twig' %}
 {% endblock %}

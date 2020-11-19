@@ -19,9 +19,9 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/comment/{id}/{page}", name="comment")
+     * @Route("/comment/{slug}/{page}", name="comment")
      */
-    public function comment($id, $page)
+    public function comment($slug, $page)
     {
         $pagination = new Paging();
         $comment = new Comment();
@@ -29,22 +29,22 @@ class CommentController extends AbstractController
 
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($id);
-
+            ->findOneBy(['slug' => $slug]);
+        //dd($trick);
         $commentt = $this->getDoctrine()
             ->getRepository(Comment::class)
             ->findByTrickAndPaginate($trick, $page, 5);
 
         $image = $this->getDoctrine()
             ->getRepository(Image::class)
-            ->findBy(['trickId' => $id]);
+            ->findBy(['trickId' => $trick->getId()]);
 
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
-            ->findBy(['trickId' => $id]);
+            ->findBy(['trickId' => $trick->getId()]);
         
         if ($this->commentAddForm->form($comment, $trick, $form) === true) {
-            return $this->redirectToRoute('comment', ['id' => $id, 'page' => $page]);
+            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => $page]);
         }
         return $this->render('comment/comment.html.twig', ['pagination' =>  $pagination->pagingComments($page, $commentt),'image' => $image, 'video' => $video, 'trick' => $trick, 'comment' => $commentt, 'form' => $form->createView()]);
     }

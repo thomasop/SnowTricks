@@ -35,10 +35,10 @@ class CommentUpdateController extends AbstractController
     }
 
     /**
-    * @Route("/update_comment/{id}/{trickid}", name="update_comment")
+    * @Route("/update_comment/{id}/{slug}", name="update_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($id, $trickid, Request $request, Comment $comment)
+    public function new($id, $slug, Request $request, Comment $comment)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $commentId = $this->getDoctrine()
@@ -47,7 +47,7 @@ class CommentUpdateController extends AbstractController
         if ($currentId == $commentId->getUserId()) {
             $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);
             if ($this->commentUpdateForm->form($comment, $form) === true) {
-                return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }
             return $this->render('form/formcomment.html.twig', [
                 'form' => $form->createView()

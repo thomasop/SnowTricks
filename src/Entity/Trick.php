@@ -66,6 +66,11 @@ class Trick
     private $picture;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trickId", cascade={"persist"})
      */
     private $images;
@@ -153,16 +158,17 @@ class Trick
         return $this;
     }
 
-    
-    
-    /*
-        public function setVideo(string $video): self
-        {
-            $this->video = $video;
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
 
-            return $this;
-        }
-        */
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * @return Collection|Image[]

@@ -30,15 +30,15 @@ class ImageDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_image/{id}/{trickid}", name="delete_image")
+    * @Route("/delete_image/{id}/{slug}", name="delete_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $trickid)
+    public function delete($id, $slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($trickid);
+            ->findOneBy(['slug' => $slug]);
         $image = $this->getDoctrine()
             ->getRepository(Image::class)
             ->find($id);
@@ -52,7 +52,7 @@ class ImageDeleteController extends AbstractController
                 'success',
                 'Image supprimé!'
             );
-            return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

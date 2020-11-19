@@ -32,10 +32,10 @@ class CommentDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_comment/{id}/{trickid}", name="delete_comment")
+    * @Route("/delete_comment/{id}/{slug}", name="delete_comment")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $trickid)
+    public function delete($id, $slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $comment = $this->getDoctrine()
@@ -53,7 +53,7 @@ class CommentDeleteController extends AbstractController
                 'success',
                 'Commentaire supprimé!'
             );
-            return $this->redirectToRoute('comment', ['id' => $trickid, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

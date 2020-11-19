@@ -25,15 +25,15 @@ class oneTrickController extends AbstractController
     }
 
     /**
-    * @Route("/one_trick/{id}", name="one_trick")
+    * @Route("/one_trick/{slug}", name="one_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function oneTrick($id)
+    public function oneTrick($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->findOneBy(['id' => $id]);
+            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             return $this->render('trick/trick.html.twig', [
                 'trick' => $trick

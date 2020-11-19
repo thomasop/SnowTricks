@@ -42,21 +42,22 @@ class TrickDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_trick/{id}", name="delete_trick")
+    * @Route("/delete_trick/{slug}", name="delete_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id)
+    public function delete($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $video = $this->getDoctrine()
-            ->getRepository(Video::class)
-            ->findOneBy(['trickId' => $id]);
+        
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($id);
+            ->findOneBy(['slug' => $slug]);
+        $video = $this->getDoctrine()
+            ->getRepository(Video::class)
+            ->findOneBy(['trickId' => $trick->getId()]);
         $img = $this->getDoctrine()
             ->getRepository(Image::class)
-            ->findBy(['trickId' => $id]);
+            ->findBy(['trickId' => $trick->getId()]);
         if ($currentId == $trick->getUser()) {
             if ($trick->getPicture() != "default.jpg") {
                 $this->deleteFile->delete($trick->getPicture());

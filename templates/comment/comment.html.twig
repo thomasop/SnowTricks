@@ -9,31 +9,54 @@
         {{ message }}
     </div>
 {% endfor %}
-{% include 'header.html.twig' %}
-<center>
-    <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
-    </center>
+<header class="header">
+    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
+        {% endif %}
+        {% if app.user %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+        {% else %}
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+        {% endif %}
+    </ul>
+</header>
+<div>
+    <a class="btn btn-outline-primary ml-3" style="margin-top: 3.75rem" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
+</div>
+<center class="mx-auto w-100">
+    <img class="" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
+</center>
 
 {% if is_granted('ROLE_ADMIN') %}
     {% if app.user.id == trick.user.id %}
-        <a href="{{ path('one_trick', {id: trick.id}) }}"><img src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-        <a href="{{ path('update_trick', {id: trick.id}) }}"><img src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+        <a href="{{ path('one_trick', {slug: trick.slug}) }}"><img src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+        <a href="{{ path('update_trick', {slug: trick.slug}) }}"><img src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
     {% endif %}
 {% endif %}
-<div class="mx-auto" style="width: 800px;">
-    <div class="d-flex flex-wrap">
+<div class="mx-auto w-75">
     {% for p in image %}
-        <img class="bgbg" src="/uploads/pictures/{{ p.name }}" alt="Trick">
-        {% if is_granted('ROLE_ADMIN') %}
-            {% if app.user.id == trick.user.id %}
-                <a href="{{ path('delete_image', {id: p.id, trickid: trick.id}) }}">delete image</a>
+        <div class="d-flex flex-column justify-content-center">
+            <div class="">
+                <img class="bgbg" src="/uploads/pictures/{{ p.name }}" alt="Trick">
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                {% if app.user.id == trick.user.id %}
+                    <div>
+                        <a class="btn btn-primary" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
+                    </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
     {% endfor %}
-    </div>
-
-    <div class="d-flex flex-wrap">
-        
+    <div class="d-flex flex-wrap justify-content-center">
         {% for v in video%}
             {% if v.url != null %}
                 <iframe width="200" height="125"
@@ -41,96 +64,120 @@
                 </iframe>
                 {% if is_granted('ROLE_ADMIN') %}
                     {% if app.user.id == trick.user.id %}
-                        <a href="{{ path('delete_video', {id: v.id, trickid: trick.id}) }}">delete video</a>
+                        <div>
+                            <a class="btn btn-primary" href="{{ path('delete_video', {id: v.id, slug: trick.slug}) }}">delete video</a>
+                        </div
                     {% endif %}
                 {% endif %}
             {% endif %}  
         {% endfor %}
-        
-
     </div>
 </div>
 {% if is_granted('ROLE_ADMIN') %}
     {% if app.user.id == trick.user.id %}
-        <a class="navbar-brand" href="{{ path('add_video', {id: trick.id}) }}">add video</a></li>
-        <a class="navbar-brand" href="{{ path('add_image', {id: trick.id}) }}">addimage</a></li>
+        <a class="navbar-brand" href="{{ path('add_video', {slug: trick.slug}) }}">add video</a></li>
+        <a class="navbar-brand" href="{{ path('add_image', {slug: trick.slug}) }}">addimage</a></li>
     {% endif %}
 {% endif %}
-<div class="mx-auto" style="width: 800px;">
+<div class="mx-auto w-75 mb-5">
     <p>{{ trick.name }}</p>
-    <p>{{ trick.description }}</p>
-    <p>{{ trick.categoryId.title }}</p>
+    <div class="text-center">
+        <p>Description: {{ trick.description }}</p>
+    </div>
+    <div class="text-center">
+        <p>Categori: {{ trick.categoryId.title }}</p>
+    </div>
 </div>
-<div>
-<a class="navbar-brand" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
-    
+<div class="text-center my-3 border-top">
+    <h3>Espace de discussion</h3>
 </div>
 <div class="mx-auto col-lg-8">
-{% if is_granted('ROLE_ADMIN') %}
-    {{ form_start(form) }}
-        <div class="form-group">
-            <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
-            <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
-            <button class="btn btn-primary" type="submit">Ajoutez</button>
-        </div>
-    {{ form_end(form) }}
-{% else %}
-    <a href="{{ path('app_login') }}">Connectez vous</a> ou <a href="{{ path('app_register') }}">inscrivez-vous</a> pour envoyer un commentaire sur ce trick!
-{% endif %}
-    {% for i in comment%}
-    
-        <img src="uploads/pictures/{{ i.userId.avatar }}">
-        <p>{{ i.name }}</p>
-        <p class="text-justify">{{ i.content }}</p>
-        {% if is_granted('ROLE_ADMIN') %}
-            {% if app.user.id == i.userId.id %}
-                <a href="{{ path('delete_comment', {id: i.id, trickid: i.trick.id}) }}">delete comment</a>
-                <a href="{{ path('update_comment', {id: i.id, trickid: i.trick.id }) }}">update comment</a>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-    {% if pagination.nbPages > 0 %}
-    <ul class="pagination">
-        {% if pagination.page > 1 %}
-            <li>
-                <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'id': trick.id, 'page': 1})) }} " class="comment_pagination">
-                    <<
-                </a>
-            </li>
-            <li>
-                <a href="{{ path(pagination.nomRoute,
-                    pagination.paramsRoute|merge({'id':trick.id, 'page': pagination.page-1})) }}" class="comment_pagination">
-                    <
-                </a>
-            </li>
-        {% endif %}
-
-        {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
-        {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
-            <li {% if p == pagination.page %}class="active"{% endif %}>
-                <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'id': trick.id,'page': p})) }}">
-                    {{ p }}
-                </a>
-            </li>
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form_start(form) }}
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
+                <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
+                <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
+                <button class="btn btn-primary" type="submit">Ajoutez</button>
+            </div>
+        {{ form_end(form) }}
+    {% else %}
+        <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Connectez vous</a> ou <a class="btn btn-outline-primary" href="{{ path('app_register') }}">inscrivez-vous</a> pour envoyer un commentaire sur ce trick!
+    {% endif %}
+    {% if comment|length > 0 %}
+        {% for i in comment%}
+            <div class="d-flex flex-column border border-primary my-3">
+                <div class="d-flex flex-wrap  ">
+                    <div>
+                        <img class="mx-2 mt-2" src="/uploads/pictures/{{ i.userId.avatar }}" width="50" height="50">
+                    </div>
+                    <div>
+                        <p class="text-justify">{{ i.content }}</p>
+                        <p>écrit le {{ i.date|date('d/m/Y', "Europe/Paris") }} par {{ i.name }} à {{ i.date|date('H:i', "Europe/Paris") }}</p>
+                    </div>
+                </div>
+                <div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if app.user.id == i.userId.id %}
+                            <div>
+                                <a class="btn btn-primary" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
+                                <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">update comment</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         {% endfor %}
 
-        {% if pagination.page < pagination.nbPages %}
-            <li>
-                <a href="{{ path(pagination.nomRoute,
-                    pagination.paramsRoute|merge({'id': trick.id, 'page': pagination.page+1})) }}" class="comment_pagination">
-                    >
-                </a>
-            </li>
-            <li>
-                <a href="{{ path(pagination.nomRoute,
-                    pagination.paramsRoute|merge({'id' :trick.id, 'page': pagination.nbPages})) }}" class="comment_pagination">
-                    >>
-                </a>
-            </li>
+    {% else %}
+        <div class="my-3">
+            <p>Aucun commentaire sur ce trick</p>
+        </div>
+    {% endif %}
+    </div>
+    <div class="mx-auto mb-4" style="width: 305px;">
+        {% if pagination.nbPages > 0 %}
+            <ul class="pagination">
+                {% if pagination.page > 1 %}
+                    <li>
+                        <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug, 'page': 1})) }}" class="btn btn-primary mx-1">
+                            1
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path(pagination.nomRoute,
+                            pagination.paramsRoute|merge({'slug':trick.slug, 'page': pagination.page-1})) }}" class="btn btn-primary mx-1">
+                            Page precedente
+                        </a>
+                    </li>
+                {% endif %}
+
+                {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+                {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
+                    <li {% if p == pagination.page %}class="active"{% endif %}>
+                        <a class="btn btn-primary mx-1" href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug,'page': p})) }}">
+                            {{ p }}
+                        </a>
+                    </li>
+                {% endfor %}
+
+                {% if pagination.page < pagination.nbPages %}
+                    <li>
+                        <a href="{{ path(pagination.nomRoute,
+                            pagination.paramsRoute|merge({'slug': trick.slug, 'page': pagination.page+1})) }}" class="btn btn-primary mx-1">
+                            Page suivante
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path(pagination.nomRoute,
+                            pagination.paramsRoute|merge({'slug' :trick.slug, 'page': pagination.nbPages})) }}" class="btn btn-primary mx-1">
+                            {{ pagination.nbPages }}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         {% endif %}
-    </ul>
-{% endif %}
+    </div>
 </div>
 {% include 'footer.html.twig' %}
 {% endblock %}

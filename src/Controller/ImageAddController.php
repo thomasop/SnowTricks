@@ -35,21 +35,21 @@ class ImageAddController extends AbstractController
     }
 
     /**
-    * @Route("/add_image/{id}", name="add_image")
+    * @Route("/add_image/{slug}", name="add_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($id)
+    public function commentAdd($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $picture = new Image();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($id);
+            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             $form = $this->createForm(ImageType::class, $picture);
             
             if ($this->imageAddForm->form($picture, $trick, $form) === true) {
-                return $this->redirectToRoute('comment', ['id' => $id, 'page' => '1']);
+                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }
             return $this->render('form/formimage.html.twig', [
                 'form' => $form->createView()

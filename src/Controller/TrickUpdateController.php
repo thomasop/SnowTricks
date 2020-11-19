@@ -32,22 +32,22 @@ class TrickUpdateController extends AbstractController
     }
 
     /**
-    * @Route("/update_trick/{id}", name="update_trick")
+    * @Route("/update_trick/{slug}", name="update_trick")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($id, Trick $trick)
+    public function new($slug, Trick $trick)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
-            ->find($id);
+            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
             $trick->setPicture($file);
             //dd('/Users/thomasdasilva/Sites/Lab/SnowTricks/public/uploads/pictures/'.$trick->getPicture());
             $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
             if ($this->trickUpdateForm->form($trick, $form) === true) {
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }
             return $this->render('form/formupdatetrick.html.twig', [
                 'form' => $form->createView()
