@@ -25,11 +25,6 @@ class VerifyUserEmail {
                 'success',
                 'compte valide!'
             );
-        } else {
-            $this->session->getFlashBag()->add(
-                'success',
-                'Utilisateur non trouvé, veillez reessayez!'
-            );
         }
     }
 }

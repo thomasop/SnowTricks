@@ -26,7 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TrickUpdateType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder)
     {
         $builder
             

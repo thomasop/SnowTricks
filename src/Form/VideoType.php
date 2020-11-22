@@ -12,7 +12,7 @@ use Symfony\Component\Form\CallbackTransformer;
 
 class VideoType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder)
     {
         $builder
         ->add('url', null, [

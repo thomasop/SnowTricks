@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ResetPasswordType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder)
     {
         $builder
             ->add('password', RepeatedType::class, [

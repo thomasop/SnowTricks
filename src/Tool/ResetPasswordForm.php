@@ -35,7 +35,6 @@ class ResetPasswordForm {
     public function form(User $user, FormInterface $form) {
         $form->handleRequest($this->request->getCurrentRequest());
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('password')->getData();
             $user->setToken(null);
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(
@@ -52,10 +51,5 @@ class ResetPasswordForm {
             return true;
         }
         return false;
-    }
-
-    private function generateToken()
-    {
-        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 }

@@ -47,10 +47,9 @@ class TrickAddForm
             if ($images === null) {
                 $images = 'default.jpg';
                 $trick->setPicture($images);
-            } else {
-                $newImage = $this->fileUploader->upload($images);
-                $trick->setPicture($newImage);
             }
+            $newImage = $this->fileUploader->upload($images);
+            $trick->setPicture($newImage);
             $picture = $form->get('images')->getData();
             foreach ($picture as $image) {
                 $newImages = $this->fileUploader->upload($image);
@@ -67,6 +66,7 @@ class TrickAddForm
             $slugBuilder = new SlugBuilder();
             $trick->setUser($this->tokenStorage->getToken()->getUser());
             $trick->setSlug($slugBuilder->buildSlug($trick->getName()));
+            $trick->setCreatedAt(new \DateTime('now'));
             $this->entityManager->persist($trick);
             $this->entityManager->flush();
             if ($form->getData()->getVideos()[0]->getUrl() == null) {
