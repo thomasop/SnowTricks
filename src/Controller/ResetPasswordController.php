@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\ResetPasswordType;
+use App\Tool\EmailService;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tool\TrickUpdateForm;
+use App\Tool\ResetPasswordForm;
 use App\Repository\UserRepository;
 use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,27 +23,32 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ResetPasswordController extends AbstractController
 {
     private $entityManager;
+    private $emailService;
+    private $resetPasswordForm;
     
     public function __construct(
         EntityManagerInterface $entityManager,
         SessionInterface $session,
-        UserPasswordEncoderInterface $passwordEncoder
+        EmailService $emailService,
+        UserPasswordEncoderInterface $passwordEncoder,
+        ResetPasswordForm $resetPasswordForm
     ) {
         $this->entityManager = $entityManager;
         $this->session = $session;
+        $this->emailService = $emailService;
         $this->passwordEncoder = $passwordEncoder;
+        $this->resetPasswordForm = $resetPasswordForm;
     }
 
     /**
     * @Route("/forgot-password", name="forgot_password")
     */
-    public function forgotPassword(Request $request, UserRepository $userRepository, \Swift_Mailer $mailer)
+    public function forgotPassword(Request $request, UserRepository $userRepository)
     {
         $user = new User();
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form);
             $email = $form->get('email')->getData();
             
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
@@ -51,17 +57,7 @@ class ResetPasswordController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('thomasdasilva010@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'security/emailreset.html.twig',
-                    ['token' => $user->getToken()]
-                ),
-                'text/html'
-            );
-            $mailer->send($message);
+            $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/emailreset.html.twig');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('form/formforgotpassword.html.twig', [
@@ -81,32 +77,8 @@ class ResetPasswordController extends AbstractController
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["token" => $token]);
         $form = $this->createForm(ResetPasswordType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('password')->getData();
-            if ($user) {
-                $entityManager = $this->getDoctrine()->getManager();
-                
-                $user->setToken(null);
-                $user->setPassword(
-                    $this->passwordEncoder->encodePassword(
-                        $user,
-                        $form->get('password')->getData()
-                    )
-                );
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $this->session->getFlashBag()->add(
-                    'success',
-                    'mot de passe modifié!'
-                );
-                return $this->redirectToRoute('app_login');
-            } else {
-                $this->session->getFlashBag()->add(
-                    'success',
-                    'mot de passe pas modifié!'
-                );
-            }
+        if ($this->resetPasswordForm->form($user, $form) === true) {
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('form/formresetpassword.html.twig', [
                 'form' => $form->createView()

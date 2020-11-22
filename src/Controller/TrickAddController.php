@@ -7,8 +7,6 @@ use App\Entity\Video;
 use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\TrickAddForm;
-use App\Responders\TrickAddResponder;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,17 +15,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickAddController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-    //private $fileUploader;
+    /** @var TrickAddForm */
     private $trickAddForm;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
         TrickAddForm $trickAddForm
     ) {
         $this->trickAddForm = $trickAddForm;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -42,7 +36,7 @@ class TrickAddController extends AbstractController
         $trick->addVideo($video1);
         $form = $this->createForm(TrickType::class, $trick);
         if ($this->trickAddForm->form($trick, $form) === true) {
-            return $this->redirectToRoute('home');
+            return $this->redirect('http://localhost:8000/#trick');
         }
 
         return $this->render('form/formtrick.html.twig', [

@@ -34,7 +34,7 @@ class Trick
      * )
      * @Assert\Length(
      *      max = 50,
-     *      maxMessage = "La description du trick ne peut pas contenir plus que {{ limit }} caractères !"
+     *      maxMessage = "Le nom du trick ne peut pas contenir plus que {{ limit }} caractères !"
      * )
      */
     private $name;

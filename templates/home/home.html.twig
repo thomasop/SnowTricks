@@ -5,77 +5,83 @@
 <script src="{{ asset('js/buttonMoreTricks.js') }}"></script>
 {% endblock %}
 {% block body %}
-    {% for message in app.flashes('success') %}
+    <header class="header">
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
+            {% endif %}
+            {% if app.user %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+            {% else %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </header>
+    <div class="" style="">
+        <div class="">
+            <img src="../uploads/pictures/homepage.jpg" class="bg">
+        </div>
+        <div class="text-right mr-4">
+            <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
+        </div>
+
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="ml-4">
+            <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="50" height="50" title="White flower" alt="Flower"></a>
+        </div>
+    {% endif %}
+    <div class="trick">
+        <div class="text-center">
+            <h3 id="trick"> Les tricks</h3>
+        </div>
+        {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
-<header class="header">
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
-        {% endif %}
-        {% if app.user %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
-        {% else %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-        {% endif %}
-    </ul>
-</header>
-<img src="../uploads/pictures/homepage.jpg" class="bg">
-<div class="text-right mr-3">
-    <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
-</div>
-{% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('add_trick') }}"><img src="../css/icons/plus.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-{% endif %}
-
-<div class="trick">
-    <div class="text-center">
-        <h3 id="trick"> Les tricks</h3>
-    </div>
-    <div class="row mx-1 mt-3">
-        {% for i in trick %}
-        <div class="col-4 mb-3 card tricks border border-primary">
-            <div class="">
-                <img class="card-image pg" src="/uploads/pictures/{{ i.picture }}" alt="Trick">
-                <div class="card-body">
-                    <p class="text-center">{{ i.name }}</p>
-                    <div class="d-flex justify-content-around">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            {% if app.user.id == i.user_id %}
-                                <div>
-                                    <a href="{{ path('one_trick', {slug: i.slug}) }}"><img src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-                                </div>
-                                <div>
-                                    <a href="{{ path('update_trick', {slug: i.slug}) }}"><img src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-                                </div>
+        <div class="row mt-3 full-trick">
+            {% for i in trick %}
+            <div class="col-4 mb-3 card tricks border border-primary">
+                <div class="">
+                    <img class="card-image pg" src="/uploads/pictures/{{ i.picture }}" alt="Trick">
+                    <div class="card-body">
+                        <p class="text-center">{{ i.name }}</p>
+                        <div class="d-flex justify-content-around">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% if app.user.id == i.user_id %}
+                                    <div>
+                                        <a href="{{ path('one_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                                    </div>
+                                    <div>
+                                        <a href="{{ path('update_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        <div class="text-center">
-                            <a class="btn btn-primary" href="{{ path('comment', {slug: i.slug, page: '1'}) }}">Lire la suite</a>
+                            <div class="text-center">
+                                <a class="btn btn-primary" href="{{ path('comment', {slug: i.slug, page: '1'}) }}">Lire la suite</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            
         </div>
-        {% endfor %}
-        
     </div>
-</div>
-<div class="text-center">
-    <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
-    <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
-</div>
-<div class="text-right mr-3">
-    <a href="#trick"><img src="../css/icons/arrow-up-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
-</div>
+    <div class="text-center ">
+        <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
+        <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
+    </div>
+    <div class="text-right mr-3 button-up">
+        <a href="#trick"><img src="../css/icons/arrow-up-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
+    </div>
 {% include 'footer.html.twig' %}
 {% endblock %}

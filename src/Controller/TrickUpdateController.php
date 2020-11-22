@@ -44,13 +44,13 @@ class TrickUpdateController extends AbstractController
         if ($currentId == $trick->getUser()) {
             $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
             $trick->setPicture($file);
-            //dd('/Users/thomasdasilva/Sites/Lab/SnowTricks/public/uploads/pictures/'.$trick->getPicture());
             $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
             if ($this->trickUpdateForm->form($trick, $form) === true) {
                 return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }
             return $this->render('form/formupdatetrick.html.twig', [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'trick' => $file->getBasename()
                 ]);
         }
         return $this->redirectToRoute('home');

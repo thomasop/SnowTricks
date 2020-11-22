@@ -4,20 +4,24 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-<div class="mx-4">
-    <p class="mb-5">Inscrivez vous ici!</p>
+<div class="mx-4 mb-4">
+    <h3 class="my-5">Inscrivez vous ici!</h3>
     {{ form_start(form) }}
+        <div class="text-danger">{{ form_errors(form) }}</div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.pseudo) }}</div>
             <label>{{ form_label(form.pseudo) }}:</label>
             <div>{{ form_widget(form.pseudo, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.pseudo) }}</small>
         </div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.email) }}</div>
             <label>{{ form_label(form.email) }}:</label>
             <div>{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.email) }}</small>
         </div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.password.first) }}</div>
             <label>{{ form_label(form.password.first) }}:</label>
             <div>{{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.password.first) }}</small>
@@ -28,11 +32,12 @@
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.password.second) }}</small>
         </div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.avatar) }}</div>
             <label>{{ form_label(form.avatar) }}:</label>
             <div>{{ form_widget(form.avatar) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.avatar) }}</small>
         </div>
-        <button class="btn btn-primary" type="submit">Inscrivez vous</button>
+        <button class="btn btn-primary button-register" type="submit">Inscrivez vous</button>
     {{ form_end(form) }}
 </div>
 {% include 'footer.html.twig' %}

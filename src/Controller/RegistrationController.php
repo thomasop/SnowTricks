@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Tool\RegistrationForm;
+use App\Tool\{EmailService, VerifyUserEmail};
 use App\Repository\UserRepository;
 use App\Responders\RegistrationResponder;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,35 +14,31 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RegistrationController extends AbstractController
 {
+    private $emailService;
+    private $verifyUserEmail;
+
     public function __construct(
         RegistrationForm $registrationForm,
-        SessionInterface $session
+        SessionInterface $session,
+        EmailService $emailService,
+        VerifyUserEmail $verifyUserEmail
     ) {
         $this->registrationForm = $registrationForm;
         $this->session = $session;
+        $this->emailService = $emailService;
+        $this->verifyUserEmail = $verifyUserEmail;
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function new(\Swift_Mailer $mailer)
+    public function new()
     {
         $user = new User();
-
         $form = $this->createForm(RegistrationType::class, $user);
 
         if ($this->registrationForm->form($user, $form) === true) {
-            $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('thomasdasilva010@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'security/email.html.twig',
-                    ['token' => $user->getToken()]
-                ),
-                'text/html'
-            );
-            $mailer->send($message);
+            $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/email.html.twig');
             return $this->redirectToRoute('app_login');
         }
         
@@ -56,26 +53,11 @@ class RegistrationController extends AbstractController
     public function verifyUserEmail($token)
     {
         $user = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->findOneBy(["token" => $token]);
+            ->getRepository(User::class)
+            ->findOneBy(["token" => $token]);
         
-        if ($user) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $user->setEnabled(true);
-            $user->setToken(null);
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->session->getFlashBag()->add(
-                'success',
-                'compte valide!'
-            );
-            return $this->redirectToRoute('app_login');
-        } else {
-            $this->session->getFlashBag()->add(
-                'success',
-                'Une erreur est survenu, veillez reessayez!'
-            );
-            return $this->redirectToRoute('app_register');
-        }
+        $this->verifyUserEmail->verifyEmail($user);
+        return $this->redirectToRoute('app_login');
+        
     }
 }

@@ -33,3 +33,7 @@ services:
     App\Tool\FileUploader:
         arguments:
             $targetDirectory: '%pictures_directory%'
+
+    App\Tool\EmailService:
+        arguments: ['@swiftmailer.mailer.default']
+        public: true

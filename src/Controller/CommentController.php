@@ -30,7 +30,7 @@ class CommentController extends AbstractController
         $trick = $this->getDoctrine()
             ->getRepository(Trick::class)
             ->findOneBy(['slug' => $slug]);
-        //dd($trick);
+
         $commentt = $this->getDoctrine()
             ->getRepository(Comment::class)
             ->findByTrickAndPaginate($trick, $page, 5);

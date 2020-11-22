@@ -9,17 +9,27 @@
     </div>
 {% endfor %}
 {% include 'header.html.twig' %}
-{% for u in user%}
-    <p>{{ u.pseudo }}</p>
-    <p>{{ u.email }}</p>
-    <p>Compte validé?
-    {% if u.enabled == true %}
-        <p>oui</p>
-    {% else %}
-        <p>non</p>
-    {% endif %}
-    <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="150" height="101">
-    <a class="navbar-brand" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a></li>
-{% endfor %}
+<div class="users-page">
+    {% for u in user%}
+        <div class="border-bottom mx-4">
+            <p>{{ u.pseudo }}</p>
+            <p>{{ u.email }}</p>
+            <div class="d-flex">
+                <p class="mr-2">Compte validé?</p>
+                {% if u.enabled == true %}
+                    <p>oui</p>
+                {% else %}
+                    <p>non</p>
+                {% endif %}
+            </div>
+            <div class="d-flex flex-column">
+                <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
+                <div>
+                    <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% include 'footer.html.twig' %}
 {% endblock %}

@@ -9,12 +9,16 @@
 <div class="mx-4">
     <p class="mb-5">Creez un trick ici!</p>
     {{ form_start(form) }}
+        <div class="text-danger">{{ form_errors(form) }}</div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.Name) }}</div>
             <label for="exampleInputEmail1">{{ form_label(form.Name) }}:</label>
             <div>{{ form_widget(form.Name, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.Name) }}</small>
+            
         </div>
         <div class="form-group">
+            <div class="text-danger">{{ form_errors(form.description) }}</div>
             <label for="exampleInputEmail1">{{ form_label(form.description) }}:</label>
             <div>{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.description) }}</small>
@@ -40,7 +44,7 @@
             <div>{{ form_widget(form.categoryId, { 'attr': {'class': 'form-control'} }) }}</div>
             <small id="emailHelp" class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
         </div>
-        <button class="btn btn-primary" type="submit">Modifiez</button>
+        <button class="btn btn-primary button-add-trick" type="submit">Creez</button>
     {{ form_end(form) }}
 </div>
 {% include 'footer.html.twig' %}

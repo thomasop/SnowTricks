@@ -9,7 +9,7 @@ use App\Repository\TrickRepository;
 use App\Repository\ImageRepository;
 use App\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tool\DeleteFile;
+use App\Tool\{DeleteFile, Remove};
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -30,15 +30,18 @@ class TrickDeleteController extends AbstractController
     private $session;
     private $deleteFile;
     private $tokenStorage;
+    private $remove;
 
     public function __construct(
         SessionInterface $session,
         DeleteFile $deleteFile,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        Remove $remove
     ) {
         $this->session = $session;
         $this->deleteFile = $deleteFile;
         $this->tokenStorage = $tokenStorage;
+        $this->remove = $remove;
     }
 
     /**
@@ -58,37 +61,25 @@ class TrickDeleteController extends AbstractController
         $img = $this->getDoctrine()
             ->getRepository(Image::class)
             ->findBy(['trickId' => $trick->getId()]);
+
         if ($currentId == $trick->getUser()) {
             if ($trick->getPicture() != "default.jpg") {
                 $this->deleteFile->delete($trick->getPicture());
             }
             foreach ($img as $image) {
-                $filename = "../public/uploads/pictures/";
-                if (file_exists($filename . $image->getName())) {
-                    echo "Le fichier" . $image->getName() . "existe.";
-                    //($image->getName());
-                    unlink($filename . $image->getName());
-                } else {
-                    echo "Le fichier" . $image->getName() .  "n'existe pas.";
-                }
+                $this->deleteFile->delete($image->getName());
             }
             
-            $entityManager = $this->getDoctrine()->getManager();
             if ($video) {
-                //dd('ok');
-                $entityManager->Remove($video);
+                $this->remove->removeEntity($video);
             }
-            //dd('no');
-            
-            $entityManager->Remove($trick);
-            $entityManager->flush();
-
+            $this->remove->removeEntity($trick);
             $this->session->getFlashBag()->add(
                 'success',
                 'Trick supprimé!'
             );
             
-            return $this->redirectToRoute('home');
+            return $this->redirect('http://localhost:8000/#trick');
         }
         $this->session->getFlashBag()->add(
             'success',

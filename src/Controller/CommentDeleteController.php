@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Tool\Remove;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,12 +21,15 @@ class CommentDeleteController extends AbstractController
     private $responder;
     /** @var EntityManagerInterface */
     private $session;
+    private $remove;
     private $tokenStorage;
 
     public function __construct(
         SessionInterface $session,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        Remove $remove
     ) {
+        $this->remove = $remove;
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
     }
@@ -39,16 +42,13 @@ class CommentDeleteController extends AbstractController
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $comment = $this->getDoctrine()
-        ->getRepository(Comment::class)
-        ->find($id);
+            ->getRepository(Comment::class)
+            ->find($id);
         if ($currentId == $comment->getUserId()) {
             if (!$comment) {
                 throw $this->createNotFoundException('Pas de commentaire trouvé avec l\'id '.$id);
             }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->Remove($comment);
-            $entityManager->flush();
-
+            $this->remove->removeEntity($comment);
             $this->session->getFlashBag()->add(
                 'success',
                 'Commentaire supprimé!'
@@ -57,7 +57,7 @@ class CommentDeleteController extends AbstractController
         }
         $this->session->getFlashBag()->add(
             'success',
-            ' Vous n\'avez pas acces a cette page!'
+            ' Vous n\'avez pas accès a cette page!'
         );
         return $this->redirectToRoute('home');
     }

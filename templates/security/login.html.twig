@@ -29,29 +29,35 @@
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
     </ul>
 </header>
-<form method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="" name="email"  class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+<div class="mx-4">
+    <form method="post">
+        <h3 class="h3 mb-3 font-weight-normal">Connectez vous</h3>
+        <div class="form-group">
+            <label for="inputEmail">Email:</label>
+            <input type="email" value="" name="email"  class="form-control" required autofocus>
         </div>
-    #}
+        <div class="form-group">
+            <label for="inputPassword">Password:</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+        </div>
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
 
-    <button class="btn btn-lg btn-primary" type="submit">Se connecter</button>
-</form>
-<a href="{{ path('forgot_password') }}"> mot de passe oublié</a>
+        {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+        #}
+
+        <button class="btn btn-lg btn-primary mt-3" type="submit">Se connecter</button>
+    </form>
+    <a class="btn btn-primary my-4" href="{{ path('forgot_password') }}"> mot de passe oublié</a>
+    </div>
+    {% include 'footer.html.twig' %}
 {% endblock %}

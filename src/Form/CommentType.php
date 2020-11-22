@@ -33,7 +33,7 @@ class CommentType extends AbstractType
             ->add('content', TextType::class, [
                 
                 
-                'label' => 'content',
+                'label' => 'Commentaire',
             ])
         ;
     }

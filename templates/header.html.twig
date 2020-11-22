@@ -4,7 +4,7 @@
         <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">User</a>
+            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
         {% endif %}
         {% if app.user %}
             <li class="nav-item list-inline-item">

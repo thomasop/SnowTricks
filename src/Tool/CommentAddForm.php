@@ -44,16 +44,11 @@ class CommentAddForm
     public function form(Comment $comment, Trick $trick, FormInterface $form)
     {
         $form->handleRequest($this->request->getCurrentRequest());
-        //$trick = new Trick;
         if ($form->isSubmitted() && $form->isValid()) {
-            // dd($this->tokenStorage->getToken()->getUser()->getPseudo());
             $comment->setName($this->tokenStorage->getToken()->getUser()->getPseudo());
             $comment->setUserId($this->tokenStorage->getToken()->getUser());
             $comment->setTrick($trick);
             $comment->setDate(new \DateTime('now'));
-            //$trick->addVideo($video);
-            //dd($trick->addVideo($video));
-            //dd($comment);
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
             $this->session->getFlashBag()->add(

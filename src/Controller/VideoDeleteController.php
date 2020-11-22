@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Video;
 use App\Entity\Trick;
 use App\Repository\VideoRepository;
+use App\Tool\Remove;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -19,38 +20,35 @@ class VideoDeleteController extends AbstractController
 {
     private $session;
     private $tokenStorage;
+    private $remove;
 
     public function __construct(
         SessionInterface $session,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        Remove $remove
     ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
+        $this->remove = $remove;
     }
 
     /**
-    * @Route("/delete_video/{id}/{slug}", name="delete_video")
+    * @Route("/delete_video/{id}", name="delete_video")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $slug)
+    public function delete($id)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $trick = $this->getDoctrine()
-            ->getRepository(Trick::class)
-            ->findOneBy(['slug' => $slug]);
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
-            ->find($id);
-        if ($currentId == $trick->getUser()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->Remove($video);
-            $entityManager->flush();
-
+            ->findOneBy(['id' => $id]);
+        if ($currentId == $video->getTrickId()->getUser()) {
+            $this->remove->removeEntity($video);
             $this->session->getFlashBag()->add(
                 'success',
                 'Video supprimé!'
             );
-            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $video->getTrickId()->getSlug(), 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

@@ -40,6 +40,11 @@ class User implements UserInterface
      * @Assert\NotBlank(
      *      message = "Ce champ email est ok !"
      * )
+     * @Assert\Regex(
+     *     pattern="#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,}$#",
+     *     match=true,
+     *     message="Mot de passe incorrect: Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 8 caractères minimum!"
+     * )
      * @Assert\Length(
      *      min = 8,
      *      max = 100,

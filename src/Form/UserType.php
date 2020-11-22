@@ -31,12 +31,7 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'mapped' => false,
-            ])
-            
-            
-            
-            ->add('save', SubmitType::class)
-            
+            ])            
             ;
     }
 

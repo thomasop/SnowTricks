@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\{Image, Trick};
 use App\Repository\{ImageRepository, TrickRepository};
-use App\Tool\DeleteFile;
+use App\Tool\{DeleteFile, Remove};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,41 +18,38 @@ class ImageDeleteController extends AbstractController
     private $session;
     private $deleteFile;
     private $tokenStorage;
+    private $remove;
 
     public function __construct(
         SessionInterface $session,
         DeleteFile $deleteFile,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        Remove $remove
     ) {
         $this->session = $session;
         $this->deleteFile = $deleteFile;
         $this->tokenStorage = $tokenStorage;
+        $this->remove = $remove;
     }
 
     /**
-    * @Route("/delete_image/{id}/{slug}", name="delete_image")
+    * @Route("/delete_image/{id}", name="delete_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $slug)
+    public function delete($id)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $trick = $this->getDoctrine()
-            ->getRepository(Trick::class)
-            ->findOneBy(['slug' => $slug]);
         $image = $this->getDoctrine()
             ->getRepository(Image::class)
-            ->find($id);
-        if ($currentId == $trick->getUser()) {
+            ->findOneBy(['id' => $id]);
+        if ($currentId == $image->getTrickId()->getUser()) {
             $this->deleteFile->delete($image->getName());
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->Remove($image);
-            $entityManager->flush();
-
+            $this->remove->removeEntity($image);
             $this->session->getFlashBag()->add(
                 'success',
                 'Image supprimé!'
             );
-            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $image->getTrickId()->getSlug(), 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

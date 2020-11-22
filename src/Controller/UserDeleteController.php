@@ -4,24 +4,31 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Tool\DeleteFile;
+use App\Tool\{DeleteFile, Remove};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserDeleteController extends AbstractController
 {
     /** @var EntityManagerInterface */
     private $session;
     private $deleteFile;
+    private $tokenStorage;
+    private $remove;
 
     public function __construct(
         SessionInterface $session,
-        DeleteFile $deleteFile
+        DeleteFile $deleteFile,
+        TokenStorageInterface $tokenStorage,
+        Remove $remove
     ) {
         $this->session = $session;
         $this->deleteFile = $deleteFile;
+        $this->tokenStorage = $tokenStorage;
+        $this->remove = $remove;
     }
 
     /**
@@ -30,20 +37,20 @@ class UserDeleteController extends AbstractController
     */
     public function delete($id)
     {
+        $currentId = $this->tokenStorage->getToken()->getUser()->getId();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->Remove($user);
-        $entityManager->flush();
-        if($user->getAvatar() != "defaultvatar.png" ){
+
+        if($user->getAvatar() != "defaultavatar.png" ){
             $this->deleteFile->delete($user->getAvatar());
-        }
+        }    
+        $this->remove->removeEntity($user);
         $this->session->getFlashBag()->add(
             'success',
             'User supprimé!'
         );
         
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('app_user', ['id' => $currentId]);
     }
 }

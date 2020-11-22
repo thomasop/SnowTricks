@@ -1,0 +1,23 @@
+@media screen and (max-width: 900px)
+{
+    .bg {
+        height: 750px;
+    }
+
+    .button-up {
+        margin-bottom: 175px;
+    }
+
+    .imagetrick {
+        width: 720px;
+        height: 575px;
+    }
+
+    .button-add-trick {
+        margin-bottom: 190px;
+    }
+
+    .button-update-trick {
+        margin-bottom: 160px;
+    }
+}

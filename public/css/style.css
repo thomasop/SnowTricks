@@ -1,45 +1,36 @@
-.bg {
-  width: 100%;
-  height: auto;
-  top: -15px;
-  position: relative;
-}
-
-.button {
-  position: relative;
-  top: -125px;
-}
-
-.trick {
-  margin-top: 15px;
-}
-
-.boom {
-  margin-top: 100px;
-  top: 100px;
-}
-
 .header {
   position: fixed;
   z-index: 999;
   width: 100%;
 }
 
-.imagetrick {
-  width: 700px;
-  height: 550px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 25px;
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-.bgbg {
-  width: 200px;
-  height: 125px;
+html {
+  position: relative;
+  min-height: 100%;
 }
 
-.ok {
-  margin-top: 30px;
+ul {
+  list-style: none;
+}
+
+/* Home page */
+
+.bg {
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+
+.trick {
+  margin-top: 15px;
 }
 
 .card{
@@ -50,4 +41,99 @@
   padding-top: 3px;
   width: 100%;
   height: 260px;
+}
+
+.button {
+  position: relative;
+  top: -125px;
+}
+
+.button-up {
+  margin-bottom: 85px;
+}
+
+.full-trick {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+.scale-up-center:hover {
+	-webkit-animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+/* Comment page */
+
+.icon {
+  margin-left: 70%;
+  margin-top: -60px;
+  margin-bottom: 60px;
+}
+
+.imagetrick {
+  width: 720px;
+  height: 575px;
+  margin-bottom: 25px;
+}
+
+.images-comment {
+  width: 200px;
+  height: 125px;
+}
+
+.no-comment {
+  margin-bottom: 130px;
+}
+
+.none {
+  display: none;
+}
+
+.pagination {
+  margin-bottom: 50px;
+}
+
+/* One trick page */
+
+.trick-delete {
+  margin-top: 10px;
+  top: 10px;
+  margin-bottom: 80px;
+}
+
+
+/* form user page */
+
+.button-register {
+  margin-bottom: 90px;
+}
+
+/* One trick page */
+
+.button-add-trick {
+  margin-bottom: 150px;
+}
+
+.button-update-trick {
+  margin-bottom: 120px;
 }
