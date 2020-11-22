@@ -1,49 +1,49 @@
 @media screen and (max-width: 770px) {
-    .bg {
-      height: 500px;
-    }
+  .bg {
+    height: 500px;
+  }
 
-    .row {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 300px;
-    }
+  .row {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+  }
 
-    .col-4 {
-      max-width: 300px;
-    }
+  .col-4 {
+    max-width: 300px;
+  }
 
-    .button-up {
-      margin-bottom: 175px;
-    }
+  .button-up {
+    margin-bottom: 175px;
+  }
 
-    .pagination {
-      margin-bottom: 90px;
-    }
+  .pagination {
+    margin-bottom: 90px;
+  }
 
-    .no-comment {
-      margin-bottom: 250px;
-    }
+  .no-comment {
+    margin-bottom: 250px;
+  }
 
-    .load-media {
-      display: none;
-    }
-    
-    .imagetrick {
-      width: 620px;
-      height: 475px;
-    }
+  .load-media {
+    display: none;
+  }
+  
+  .imagetrick {
+    width: 620px;
+    height: 475px;
+  }
 
-    .button-register {
-      margin-bottom: 190px;
-    }
+  .button-register {
+    margin-bottom: 190px;
+  }
 
-    .none {
-      display: block;
-    }
+  .none {
+    display: block;
+  }
 
-    .button-add-trick {
-      margin-bottom: 200px;
-    }
+  .button-add-trick {
+    margin-bottom: 200px;
+  }
 }

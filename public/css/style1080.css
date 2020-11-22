@@ -1,21 +1,21 @@
 @media screen and (max-width: 1080px) {
-    .bg {
-      height: 850px;
-    }
+  .bg {
+    height: 850px;
+  }
 
-    .pagination {
-      margin-bottom: 85px;
-    }
+  .pagination {
+    margin-bottom: 85px;
+  }
 
-    .no-comment {
-      margin-bottom: 190px;
-    }
+  .no-comment {
+    margin-bottom: 190px;
+  }
 
-    .button-register {
-      margin-bottom: 160px;
-    }
+  .button-register {
+    margin-bottom: 160px;
+  }
 
-    .button-up {
-      margin-bottom: 170px;
-    }
+  .button-up {
+    margin-bottom: 170px;
+  }
 }
