@@ -40,7 +40,7 @@ class CommentRepository extends ServiceEntityRepository
         }
 
         $firstResult = ($page - 1) * $nbMaxByPage;
-        $qb = $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('a')
             ->andWhere('a.trick = :trick')
             ->setParameter('trick', $trick)
             ->orderBy('a.date', 'DESC')
@@ -48,7 +48,7 @@ class CommentRepository extends ServiceEntityRepository
             ->setMaxResults($nbMaxByPage)
             ->getQuery();
 
-        $paginator = new Paginator($qb);
+        $paginator = new Paginator($query);
 
         if (($paginator->count() <= $firstResult) && $page != 1) {
             throw new NotFoundHttpException('La page demandée n\'existe pas.'); // page 404, sauf pour la première page
