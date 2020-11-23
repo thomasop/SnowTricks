@@ -110,8 +110,16 @@
         <p>Description: {{ trick.description }}</p>
     </div>
     <div class="text-center">
-        <p>Categori: {{ trick.categoryId.title }}</p>
+        <p>Categori: {{ trick.categoryId.title }}</p> 
     </div>
+    <div class="text-center">
+        <p>Ajouté le: {{ trick.createdat|date('d/m/Y', "Europe/Paris") }} à {{ trick.createdat|date('H:i', "Europe/Paris") }}</p>
+    </div>
+   {% if (trick.updatedat != null) %}
+        <div class="text-center">
+            <p>Modifié le: {{ trick.updatedat|date('d/m/Y', "Europe/Paris") }} à {{ trick.updatedat|date('H:i', "Europe/Paris") }}</p>
+        </div>
+    {% endif %}
 </div>
 <div class="text-center my-3 border-top">
     <h3>Espace de discussion</h3>

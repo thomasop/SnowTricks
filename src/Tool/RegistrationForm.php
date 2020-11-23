@@ -52,9 +52,11 @@ class RegistrationForm
             if ($image === null) {
                 $image = 'defaultavatar.png';
                 $user->setAvatar($image);
+            } else {
+                $newAvatar = $this->fileUploader->upload($image);
+                $user->setAvatar($newAvatar);
             }
-            $newAvatar = $this->fileUploader->upload($image);
-            $user->setAvatar($newAvatar);
+            
             
             $user->setPassword(
                 $this->passwordEncoder->encodePassword(

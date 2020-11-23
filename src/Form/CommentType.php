@@ -13,14 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CommentType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             
             ->add('content', TextType::class, [
                 'label' => 'Commentaire',
                 'attr' => [
-                    'placeholder' => 'Ajoutez ou modifiez un commentaire',
+                    'placeholder' => 'Ajoutez un commentaire',
                 ],
             ])
         ;

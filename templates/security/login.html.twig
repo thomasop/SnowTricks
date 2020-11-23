@@ -7,15 +7,7 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-            
-            {% for item in app.user %}
-                <li><a href="{{ item.roles }}">{{ item.id }}</a></li>
-            {% endfor %}
-        </div>
-    {% endif %}
+    
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
@@ -29,6 +21,11 @@
         <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
     </ul>
 </header>
+{% if app.user %}
+    <div class="ml-4 mt-5">
+        Vous etes connecté avec l'Email {{ app.user.username }}, Vous pouvez vous <a class="btn btn-primary" href="{{ path('app_logout') }}">deconnecter</a> ou revenir sur la page d'<a class="btn btn-primary" href="{{ path('home') }}">accueil</a>
+    </div>
+{% else %}
 <div class="mx-4">
     <form method="post">
         <h3 class="h3 mb-3 font-weight-normal">Connectez vous</h3>
@@ -59,5 +56,6 @@
     </form>
     <a class="btn btn-primary my-4" href="{{ path('forgot_password') }}"> mot de passe oublié</a>
     </div>
+{% endif %}
     {% include 'footer.html.twig' %}
 {% endblock %}
