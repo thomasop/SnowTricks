@@ -19,4 +19,3 @@ $(function () {
 
     });
 });
-console.log($("div.tricks").slice(0, 6));
