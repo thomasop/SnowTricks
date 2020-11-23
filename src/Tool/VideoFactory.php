@@ -2,7 +2,8 @@
 
 namespace App\Tool;
 
-use App\Entity\{Trick, Video};
+use App\Entity\Trick;
+use App\Entity\Video;
 use App\Tool\VideoIdExtractor;
 
 class VideoFactory

@@ -4,15 +4,17 @@ namespace App\Tool;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class Remove {
-
+class Remove
+{
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function removeEntity(Object $entity) {
+    public function removeEntity(Object $entity)
+    {
         $this->entityManager->Remove($entity);
         $this->entityManager->flush();
     }

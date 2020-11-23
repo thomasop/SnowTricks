@@ -2,7 +2,9 @@
 
 namespace App\Tool;
 
-use App\Entity\{Image, Video, Comment};
+use App\Entity\Image;
+use App\Entity\Video;
+use App\Entity\Comment;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;

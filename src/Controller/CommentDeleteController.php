@@ -15,13 +15,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class CommentDeleteController extends AbstractController
 {
-    /** @var TrickAddHandler */
-    //private $handler;
-    /** @var Responder */
-    private $responder;
-    /** @var EntityManagerInterface */
+    /** @var SessionInterface */
     private $session;
+    /** @var Remove */
     private $remove;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
 
     public function __construct(

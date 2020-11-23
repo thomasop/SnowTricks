@@ -4,10 +4,17 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{User, Comment, Image, Trick, Video};
+use App\Entity\Comment;
+use App\Entity\Image;
+use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentType;
-use App\Tool\{CommentAddForm, Paging};
-use App\Repository\{VideoRepository, TrickRepository, CommentRepository, ImageRepository};
+use App\Tool\CommentAddForm;
+use App\Tool\Paging;
+use App\Repository\VideoRepository;
+use App\Repository\TrickRepository;
+use App\Repository\CommentRepository;
+use App\Repository\ImageRepository;
 use Doctrine\DBAL\Driver\Connection;
 
 class CommentController extends AbstractController

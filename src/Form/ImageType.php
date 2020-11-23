@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ImageType extends AbstractType
 {
@@ -19,9 +18,7 @@ class ImageType extends AbstractType
             'attr' => [
                 'placeholder' => 'Modifier ou ajouter une image',
             ],
-            
-        ])
-        ;
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

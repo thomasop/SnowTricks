@@ -21,7 +21,8 @@ class AppFixtures extends Fixture
         $user->setEmail('test@fixture.fr');
         $user->setAvatar('defaultavatar.png');
         $user->setPassword(
-            $this->passwordEncoder->encodePassword($user,
+            $this->passwordEncoder->encodePassword(
+                $user,
                 'Test1234?'
             )
         );
@@ -111,7 +112,7 @@ class AppFixtures extends Fixture
         $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
 
         $stalefish->addImage($image);
-        $stalefish->addVideo($video);        
+        $stalefish->addVideo($video);
         //
         $image = new Image();
         $video = new Video();

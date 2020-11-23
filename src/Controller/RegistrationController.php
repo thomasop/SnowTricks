@@ -5,26 +5,28 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Tool\RegistrationForm;
-use App\Tool\{EmailService, VerifyUserEmail};
+use App\Tool\EmailService;
+use App\Tool\VerifyUserEmail;
 use App\Repository\UserRepository;
-use App\Responders\RegistrationResponder;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RegistrationController extends AbstractController
 {
+    /** @var EmailService */
     private $emailService;
+    /** @var VerifyUserEmail */
     private $verifyUserEmail;
+    /** @var RegistrationForm */
+    private $registrationForm;
 
     public function __construct(
         RegistrationForm $registrationForm,
-        SessionInterface $session,
         EmailService $emailService,
         VerifyUserEmail $verifyUserEmail
     ) {
         $this->registrationForm = $registrationForm;
-        $this->session = $session;
         $this->emailService = $emailService;
         $this->verifyUserEmail = $verifyUserEmail;
     }
@@ -41,7 +43,6 @@ class RegistrationController extends AbstractController
             $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/email.html.twig');
             return $this->redirectToRoute('app_login');
         }
-        
         return $this->render('form/formuser.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -58,6 +59,5 @@ class RegistrationController extends AbstractController
         
         $this->verifyUserEmail->verifyEmail($user);
         return $this->redirectToRoute('app_login');
-        
     }
 }

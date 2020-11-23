@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class oneTrickController extends AbstractController
 {
+    /** @var SessionInterface */
     private $session;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
 
     public function __construct(

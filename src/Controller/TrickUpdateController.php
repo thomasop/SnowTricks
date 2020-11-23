@@ -16,11 +16,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class TrickUpdateController extends AbstractController
 {
-    /** @var TrickAddHandler */
-    /** @var Responder */
-    private $responder;
-    /** @var EntityManagerInterface */
+    /** @var TrickUpdateForm */
     private $trickUpdateForm;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
 
     public function __construct(

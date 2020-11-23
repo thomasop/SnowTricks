@@ -5,7 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\TrickRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
 
 class HomeController extends AbstractController

@@ -27,8 +27,8 @@ class FileUploader
                 $this->getTargetDirectory(),
                 $newFilename
             );
-        } catch (FileException $e) 
-        {}
+        } catch (FileException $e) {
+        }
         return $newFilename;
     }
 

@@ -2,8 +2,12 @@
 
 namespace App\Tool;
 
-use App\Entity\{Image, Video, Trick};
-use App\Tool\{FileUploader, VideoFactory, SlugBuilder};
+use App\Entity\Image;
+use App\Entity\Video;
+use App\Entity\Trick;
+use App\Tool\FileUploader;
+use App\Tool\VideoFactory;
+use App\Tool\SlugBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;

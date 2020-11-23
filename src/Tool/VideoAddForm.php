@@ -2,13 +2,13 @@
 
 namespace App\Tool;
 
-use App\Entity\{Trick, Video};
+use App\Entity\Trick;
+use App\Entity\Video;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
 
 class VideoAddForm
 {

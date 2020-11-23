@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Tool\{DeleteFile, Remove};
+use App\Tool\DeleteFile;
+use App\Tool\Remove;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,9 +43,9 @@ class UserDeleteController extends AbstractController
             ->getRepository(User::class)
             ->find($id);
 
-        if($user->getAvatar() != "defaultavatar.png" ){
+        if ($user->getAvatar() != "defaultavatar.png") {
             $this->deleteFile->delete($user->getAvatar());
-        }    
+        }
         $this->remove->removeEntity($user);
         $this->session->getFlashBag()->add(
             'success',

@@ -9,7 +9,8 @@ use App\Repository\TrickRepository;
 use App\Repository\ImageRepository;
 use App\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tool\{DeleteFile, Remove};
+use App\Tool\DeleteFile;
+use App\Tool\Remove;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,14 +23,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class TrickDeleteController extends AbstractController
 {
-    /** @var TrickAddHandler */
-    //private $handler;
-    /** @var Responder */
-    private $responder;
-    /** @var EntityManagerInterface */
+    /** @var SessionInterface */
     private $session;
+    /** @var DeleteFile */
     private $deleteFile;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
+    /** @var Remove */
     private $remove;
 
     public function __construct(

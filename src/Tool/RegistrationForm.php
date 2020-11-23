@@ -70,7 +70,6 @@ class RegistrationForm
             $this->session->getFlashBag()->add(
                 'success',
                 'Compte créé, veuillez verifier votre email!'
-
             );
             return true;
         }

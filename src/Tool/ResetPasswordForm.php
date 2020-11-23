@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ResetPasswordForm {
+class ResetPasswordForm
+{
 
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -32,7 +33,8 @@ class ResetPasswordForm {
         $this->session = $session;
     }
 
-    public function form(User $user, FormInterface $form) {
+    public function form(User $user, FormInterface $form)
+    {
         $form->handleRequest($this->request->getCurrentRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setToken(null);
@@ -43,7 +45,7 @@ class ResetPasswordForm {
                 )
             );
             $this->entityManager->persist($user);
-            $this->entityManager->flush();            
+            $this->entityManager->flush();
             $this->session->getFlashBag()->add(
                 'success',
                 'Mot de passe modifié !'

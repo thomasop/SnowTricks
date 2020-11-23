@@ -9,13 +9,10 @@ use App\Tool\EmailService;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\ResetPasswordForm;
 use App\Repository\UserRepository;
-use App\Responders\TrickAddResponder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -28,15 +25,11 @@ class ResetPasswordController extends AbstractController
     
     public function __construct(
         EntityManagerInterface $entityManager,
-        SessionInterface $session,
         EmailService $emailService,
-        UserPasswordEncoderInterface $passwordEncoder,
         ResetPasswordForm $resetPasswordForm
     ) {
         $this->entityManager = $entityManager;
-        $this->session = $session;
         $this->emailService = $emailService;
-        $this->passwordEncoder = $passwordEncoder;
         $this->resetPasswordForm = $resetPasswordForm;
     }
 
@@ -54,9 +47,8 @@ class ResetPasswordController extends AbstractController
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
             $user->setToken($this->generateToken());
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
             $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/emailreset.html.twig');
             return $this->redirectToRoute('app_login');
         }

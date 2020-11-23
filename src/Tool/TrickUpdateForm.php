@@ -2,8 +2,11 @@
 
 namespace App\Tool;
 
-use App\Entity\{Image, Trick, Video};
-use App\Tool\{DeleteFile, FileUploader};
+use App\Entity\Image;
+use App\Entity\Trick;
+use App\Entity\Video;
+use App\Tool\DeleteFile;
+use App\Tool\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;

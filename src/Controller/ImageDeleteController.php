@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\{Image, Trick};
-use App\Repository\{ImageRepository, TrickRepository};
-use App\Tool\{DeleteFile, Remove};
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Image;
+use App\Entity\Trick;
+use App\Repository\ImageRepository;
+use App\Repository\TrickRepository;
+use App\Tool\DeleteFile;
+use App\Tool\Remove;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -14,10 +16,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class ImageDeleteController extends AbstractController
 {
-    /** @var EntityManagerInterface */
+    /** @var SessionInterface */
     private $session;
+    /** @var DeleteFile */
     private $deleteFile;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
+    /** @var Remove */
     private $remove;
 
     public function __construct(

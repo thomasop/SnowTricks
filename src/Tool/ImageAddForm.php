@@ -2,7 +2,8 @@
 
 namespace App\Tool;
 
-use App\Entity\{Image, Trick};
+use App\Entity\Image;
+use App\Entity\Trick;
 use App\Tool\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;

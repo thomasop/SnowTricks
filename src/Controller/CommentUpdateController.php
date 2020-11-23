@@ -7,7 +7,6 @@ use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\CommentUpdateForm;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +16,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class CommentUpdateController extends AbstractController
 {
-    /** @var Responder */
-    private $responder;
-    /** @var EntityManagerInterface */
+    /** @var CommentUpdateForm */
     private $commentUpdateForm;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
+    /** @var SessionInterface */
     private $session;
 
     public function __construct(

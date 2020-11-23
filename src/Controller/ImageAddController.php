@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\{Trick, Image};
+use App\Entity\Trick;
+use App\Entity\Image;
 use App\Form\ImageType;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Tool\ImageAddForm;
@@ -16,21 +16,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ImageAddController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    /** @var ImageAddForm */
     private $imageAddForm;
+    /** @var TokenStorageInterface */
     private $tokenStorage;
+    /** @var SessionInterface */
     private $session;
     
     public function __construct(
-        EntityManagerInterface $entityManager,
         ImageAddForm $imageAddForm,
         TokenStorageInterface $tokenStorage,
         SessionInterface $session
     ) {
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
-        $this->entityManager = $entityManager;
         $this->imageAddForm = $imageAddForm;
     }
 
