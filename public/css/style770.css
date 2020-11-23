@@ -29,7 +29,7 @@
   .load-media {
     display: none;
   }
-  
+
   .imagetrick {
     width: 620px;
     height: 475px;
@@ -46,4 +46,5 @@
   .button-add-trick {
     margin-bottom: 200px;
   }
+  
 }
