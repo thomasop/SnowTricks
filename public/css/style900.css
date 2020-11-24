@@ -1,14 +1,10 @@
 @media screen and (max-width: 900px) {
-  .bg {
-    height: 750px;
-  }
-
   .imagetrick {
     width: 720px;
     height: 575px;
   }
 
-  .com-image-trick{
+  .com-image-trick {
     width: 720px;
   }
 

@@ -1,11 +1,10 @@
 @media screen and (max-width: 500px) {
-    .imagetrick {
-      width: 350px !important;
-      height: 205px !important;
-    }
+  .imagetrick {
+    width: 350px !important;
+    height: 205px !important;
+  }
 
-    .com-image-trick{
-        width: 350px !important;
-    }
+  .com-image-trick {
+    width: 350px !important;
+  }
 }
-  
