@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="/css/style1080.css">
         <link rel="stylesheet" href="/css/style1280.css">
-        <link rel="stylesheet" href="/css/style600.css">
+        <link rel="stylesheet" href="/css/style1080.css">
         <link rel="stylesheet" href="/css/style900.css">
         <link rel="stylesheet" href="/css/style770.css">
-        <link rel="stylesheet" href="/css/style1500.css">
+        <link rel="stylesheet" href="/css/style600.css">
+        <link rel="stylesheet" href="/css/style500.css">
     </head>
     <body>
         {% block body %}
@@ -20,7 +20,6 @@
         src="https://code.jquery.com/jquery-2.2.4.min.js" 
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
         crossorigin="anonymous"></script>
-        <script src"{{ asset('public/asset/js/add-collection-widget.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

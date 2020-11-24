@@ -36,7 +36,7 @@ class VideoAddController extends AbstractController
     * @Route("/add_video/{slug}", name="add_video")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($slug)
+    public function videoAdd($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $video = new Video();

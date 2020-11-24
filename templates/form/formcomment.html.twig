@@ -4,16 +4,29 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-<div class="mx-4">
-    <p class="mb-5">Modifiez un commentaire ici!</p>
-    {{ form_start(form) }}
-        <div class="form-group">
-            <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
-            <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
+    <article class="mx-4">
+        <p class="mb-5">Modifiez un commentaire ici!</p>
+        {{ form_start(form) }}
+            <section class="text-danger">{{ form_errors(form) }}</section>
+            <section class="form-group">
+                <div class="text-danger">{{ form_errors(form.content) }}</div>
+                {{ form_label(form.content) }}
+                <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
+                <small class="form-text text-muted">{{ form_help(form.content) }}</small>
+            </section>
+            <button class="btn btn-primary" type="submit">Modifiez</button>
+        {{ form_end(form) }}
+    </article>
+    <footer class="text-white bg-primary card-group footer">
+        <div class="card-body">
+            <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
         </div>
-        <button class="btn btn-primary" type="submit">Modifiez</button>
-    {{ form_end(form) }}
-</div>
-{% include 'footer.html.twig' %}
+        <div class="card-body">     
+            {% if app.user %}
+                <a class="text-dark" href="{{ path('app_logout') }}">Deconnexion</a>
+            {% else %}
+                <a class="text-dark" href="{{ path('app_login') }}">Connexion</a>
+            {% endif %}
+        </div>
+    </footer>
 {% endblock %}

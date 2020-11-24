@@ -24,33 +24,34 @@
             {% endif %}
         </ul>
     </header>
-    <div class="" style="">
-        <div class="">
-            <img src="../uploads/pictures/homepage.jpg" class="bg">
-        </div>
-        <div class="text-right mr-4">
-            <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
-        </div>
-
-    </div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="ml-4">
-            <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="50" height="50" title="White flower" alt="Flower"></a>
-        </div>
-    {% endif %}
-    <div class="trick">
-        <div class="text-center">
-            <h3 id="trick"> Les tricks</h3>
-        </div>
-        {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-        <div class="row mt-3 full-trick">
-            {% for i in trick %}
-            <div class="col-4 mb-3 card tricks border border-primary">
-                <div class="">
+    <main>
+        <article class="" style="">
+            <section class="home-picture">
+            </section>
+            <section class="text-center slogan">
+                    <h1>Site communautaire SnowTricks</h1>
+            </section>
+            <section class="text-right mr-4">
+                <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
+            </section>
+        </article>
+        {% if is_granted('ROLE_ADMIN') %}
+            <article class="ml-4">
+                <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="50" height="50" title="White flower" alt="Flower"></a>
+            </article>
+        {% endif %}
+        <article class="trick">
+            <section class="text-center">
+                <h3 id="trick"> Les tricks</h3>
+            </section>
+            {% for message in app.flashes('success') %}
+                <section class="alert alert-success">
+                    {{ message }}
+                </section>
+            {% endfor %}
+            <section class="row mt-3 full-trick">
+                {% for i in trick %}
+                <div class="col-4 mb-3 card tricks border border-primary">
                     <img class="card-image pg" src="/uploads/pictures/{{ i.picture }}" alt="Trick">
                     <div class="card-body">
                         <p class="text-center">{{ i.name }}</p>
@@ -71,17 +72,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-            
-        </div>
-    </div>
-    <div class="text-center ">
-        <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
-        <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
-    </div>
-    <div class="text-right mr-3 button-up">
-        <a href="#trick"><img src="../css/icons/arrow-up-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
-    </div>
+                {% endfor %}
+            </section>
+        </article>
+        <article class="text-center ">
+            <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
+            <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
+        </article>
+        <article class="text-right mr-3 button-up">
+            <a href="#trick"><img src="../css/icons/arrow-up-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
+        </article>
+    </main>
 {% include 'footer.html.twig' %}
 {% endblock %}

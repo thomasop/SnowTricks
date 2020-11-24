@@ -21,6 +21,13 @@ class TrickRepository extends ServiceEntityRepository
 
     public function findAll()
     {
+        $query = $this->createQueryBuilder('e')
+                    ->addOrderBy('e.id', 'DESC')
+                    ->getQuery()
+                    ->getResult()
+                            ;
+                            return $query;
+                            /*
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
@@ -32,6 +39,7 @@ class TrickRepository extends ServiceEntityRepository
 
         // returns an array of arrays (i.e. a raw data set)
         return $stmt->fetchAll();
+        */
     }
     // /**
     //  * @return Trick[] Returns an array of Trick objects

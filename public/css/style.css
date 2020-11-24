@@ -5,7 +5,6 @@
 }
 
 footer {
-  position: absolute;
   width: 100%;
   bottom: 0;
   left: 0;
@@ -14,7 +13,11 @@ footer {
 
 html {
   position: relative;
-  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 ul {
@@ -22,6 +25,25 @@ ul {
 }
 
 /* Home page */
+
+.home-picture {
+  background-image: url("../uploads/pictures/homepage.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+}
+
+.slogan {
+  color: white;
+  margin-top: -375px;
+  margin-bottom: 375px;
+}
+
+h1 {
+  font-size: 5vw;
+}
 
 .bg {
   height: auto;
@@ -45,11 +67,7 @@ ul {
 
 .button {
   position: relative;
-  top: -125px;
-}
-
-.button-up {
-  margin-bottom: 85px;
+  top: -165px;
 }
 
 .full-trick {
@@ -100,21 +118,30 @@ ul {
   margin-bottom: 25px;
 }
 
+.com-image-trick{
+  width: 720px;
+}
+
 .images-comment {
   width: 200px;
   height: 125px;
-}
-
-.no-comment {
-  margin-bottom: 130px;
 }
 
 .none {
   display: none;
 }
 
-.pagination {
-  margin-bottom: 50px;
+/* Login page */
+
+.foot {
+  position: absolute;
+}
+
+/* Register page */
+
+
+.article-register {
+  min-height: 100%;
 }
 
 /* One trick page */
@@ -125,18 +152,14 @@ ul {
   margin-bottom: 80px;
 }
 
-/* form user page */
-
-.button-register {
-  margin-bottom: 90px;
-}
-
 /* One trick page */
 
 .button-add-trick {
   margin-bottom: 150px;
 }
 
-.button-update-trick {
-  margin-bottom: 120px;
+/* form video and form image page */
+
+.footer {
+  position: absolute;
 }

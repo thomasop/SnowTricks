@@ -1,30 +1,26 @@
 @media screen and (max-width: 600px) {
-  .button-up {
-    margin-bottom: 295px !important;
-  }
-
   .imagetrick {
-    width: 470px !important;
-    height: 325px !important;
+    width: 470px;
+    height: 325px;
   }
 
-  .pagination {
-    margin-bottom: 150px !important;
-  }
-
-  .no-comment {
-    margin-bottom: 300px !important;
+  .com-image-trick{
+    width: 470px;
   }
 
   .button-register {
-    margin-bottom: 290px !important;
+    margin-bottom: -190px !important;
   }
 
   .button-add-trick {
     margin-bottom: 240px !important;
   }
 
-  .button-update-trick {
-    margin-bottom: 260px !important;
+  .foot {
+    margin-bottom: -100px;
+  }
+
+  .button-login {
+    margin-bottom: 250px !important;
   }
 }

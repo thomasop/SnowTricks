@@ -3,33 +3,44 @@
 {% block title %}user{% endblock %}
 
 {% block body %}
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endfor %}
-{% include 'header.html.twig' %}
-<div class="users-page">
-    {% for u in user%}
-        <div class="border-bottom mx-4">
-            <p>{{ u.pseudo }}</p>
-            <p>{{ u.email }}</p>
-            <div class="d-flex">
-                <p class="mr-2">Compte validé?</p>
-                {% if u.enabled == true %}
-                    <p>oui</p>
-                {% else %}
-                    <p>non</p>
-                {% endif %}
-            </div>
-            <div class="d-flex flex-column">
-                <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
-                <div>
-                    <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
-                </div>
-            </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
         </div>
     {% endfor %}
-</div>
-{% include 'footer.html.twig' %}
+    {% include 'header.html.twig' %}
+    <article class="users-page">
+        {% for u in user%}
+            <section class="border-bottom mx-4">
+                <p>{{ u.pseudo }}</p>
+                <p>{{ u.email }}</p>
+                <div class="d-flex">
+                    <p class="mr-2">Compte validé?</p>
+                    {% if u.enabled == true %}
+                        <p>oui</p>
+                    {% else %}
+                        <p>non</p>
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column">
+                    <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
+                    <div>
+                        <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
+                    </div>
+                </div>
+            </section>
+        {% endfor %}
+    </article>
+    <footer class="text-white bg-primary card-group footer">
+        <div class="card-body">
+            <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
+        </div>
+        <div class="card-body">     
+            {% if app.user %}
+                <a class="text-dark" href="{{ path('app_logout') }}">Deconnexion</a>
+            {% else %}
+                <a class="text-dark" href="{{ path('app_login') }}">Connexion</a>
+            {% endif %}
+        </div>
+    </footer>
 {% endblock %}

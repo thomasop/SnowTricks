@@ -14,8 +14,8 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('url', null, [
-            'required'   => false,
+            ->add('url', null, [
+                'required'   => false,
             ]);
     }
 

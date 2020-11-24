@@ -19,27 +19,22 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('pseudo', TextType::class, [
-                'label' => 'pseudo',
+                'label' => 'Pseudo:',
             ])
-
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email:'
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter le mot de passe'],
+                'first_options'  => ['label' => 'Mot de passe:'],
+                'second_options' => ['label' => 'Répéter le mot de passe:'],
                 'invalid_message' => 'Les mots de passe doivent etre similaires.',
             ])
             ->add('avatar', FileType::class, [
-                'label' => 'Avatar',
+                'label' => 'Avatar:',
                 'data_class' => null,
-                'attr' => [
-                'placeholder' => 'Ajouter un avatar'
-                ],
                 'required' => false
             ]);
     }

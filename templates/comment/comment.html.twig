@@ -5,212 +5,206 @@
 <script src="{{ asset('js/buttonLoadMedia.js') }}"></script>
 {% endblock %}
 {% block body %}
-
-
-<header class="header">
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <header class="header">
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
             <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
-        {% endif %}
-        {% if app.user %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
-        {% else %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-        {% endif %}
-    </ul>
-</header>
-<div>
-    <a class="btn btn-outline-primary ml-3" style="margin-top: 3.75rem" href="{{ path('home') }}">Retour a la liste des tricks</a></li>
-</div>
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endfor %}
-<center class="mx-auto w-100 mt-3">
-    <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
-</center>
-{% if is_granted('ROLE_ADMIN') %}
-    {% if app.user.id == trick.user.id %}
-        <div class="icon">
-            <a href="{{ path('one_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-            <a href="{{ path('update_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-        </div>
-    {% endif %}
-{% endif %}
-<div class="text-center mb-4">
-    <h5>{{ trick.name }}</h5>
-</div>
-
-<div class="mx-auto w-75 mb-5">
-    <div class="load-media omg">
-        <div class="d-flex flex-wrap justify-content-center">
-            {% for p in image %}
-                <div class="d-flex flex-column">
-                    <div class="mr-2">
-                        <img class="images-comment" src="/uploads/pictures/{{ p.name }}" alt="Trick">
-                    </div>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        {% if app.user.id == trick.user.id %}
-                            <div class="text-center">
-                                <a class="btn btn-primary" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-        <div class="d-flex flex-wrap justify-content-center mt-3">
-            {% for v in video%}
-                {% if v.url != null %}
-                    <div class="d-flex flex-column">
-                        <div class="mr-2">
-                            <iframe width="200" height="125"
-                                src="{{ v.url}}">
-                            </iframe>
-                        </div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            {% if app.user.id == trick.user.id %}
-                                <div class="text-center">
-                                    <a class="btn btn-primary" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                {% endif %}  
-            {% endfor %}
-        </div>
-    </div>
-    <div class="text-center">
-        <a href="#" id="loadMedia" class="none">
-            <button class="btn btn-outline-secondary">Afficher les médias</button>
-        </a>
-        <a href="#" id="hideMedia" class="none">
-            <button class="btn btn-outline-secondary">Cacher les médias</button>
-        </a>
-    </div>
-</div>
-{% if is_granted('ROLE_ADMIN') %}
-    {% if app.user.id == trick.user.id %}
-        <div class="text-center my-4">
-            <a class="btn btn-outline-primary" href="{{ path('add_video', {slug: trick.slug}) }}">Ajoutez une video</a></li>
-            <a class="btn btn-outline-primary" href="{{ path('add_image', {slug: trick.slug}) }}">Ajoutez une image</a></li>
-        </div>
-    {% endif %}
-{% endif %}
-<div class="mx-auto w-75 mb-5">
-    <div class="text-center">
-        <p>Description: {{ trick.description }}</p>
-    </div>
-    <div class="text-center">
-        <p>Categori: {{ trick.categoryId.title }}</p> 
-    </div>
-    <div class="text-center">
-        <p>Ajouté le: {{ trick.createdat|date('d/m/Y', "Europe/Paris") }} à {{ trick.createdat|date('H:i', "Europe/Paris") }}</p>
-    </div>
-   {% if (trick.updatedat != null) %}
-        <div class="text-center">
-            <p>Modifié le: {{ trick.updatedat|date('d/m/Y', "Europe/Paris") }} à {{ trick.updatedat|date('H:i', "Europe/Paris") }}</p>
-        </div>
-    {% endif %}
-</div>
-<div class="text-center my-3 border-top">
-    <h3>Espace de discussion</h3>
-</div>
-<div class="mx-auto col-lg-8">
-    {% if is_granted('ROLE_ADMIN') %}
-        {{ form_start(form) }}
-            <div class="form-group">
-                <label for="exampleInputEmail1">{{ form_label(form.content) }}:</label>
-                <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
-                <button class="btn btn-primary" type="submit">Ajoutez</button>
-            </div>
-        {{ form_end(form) }}
-    {% else %}
-        <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Connectez vous</a> ou <a class="btn btn-outline-primary" href="{{ path('app_register') }}">inscrivez-vous</a> pour envoyer un commentaire sur ce trick!
-    {% endif %}
-    {% if comment|length > 0 %}
-        {% for i in comment%}
-            <div class="d-flex flex-column border border-primary my-3">
-                <div class="d-flex flex-wrap  ">
-                    <div>
-                        <img class="mx-2 mt-2" src="/uploads/pictures/{{ i.userId.avatar }}" width="50" height="50">
-                    </div>
-                    <div>
-                        <p class="text-justify">{{ i.content }}</p>
-                        <p>écrit le {{ i.date|date('d/m/Y', "Europe/Paris") }} par {{ i.name }} à {{ i.date|date('H:i', "Europe/Paris") }}</p>
-                    </div>
-                </div>
-                <div>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        {% if app.user.id == i.userId.id %}
-                            <div>
-                                <a class="btn btn-primary" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
-                                <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">update comment</a>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
+            <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
+            {% endif %}
+            {% if app.user %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+            {% else %}
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </header>
+    <main>
+        <article>
+            <a class="btn btn-outline-primary ml-3" style="margin-top: 3.75rem" href="{{ path('home') }}">Retour a la liste des tricks</a>
+        </article>
+        {% for message in app.flashes('success') %}
+            <article class="alert alert-success">
+                {{ message }}
+            </article>
         {% endfor %}
-
-    {% else %}
-        <div class="mt-3 no-comment">
-            <p>Aucun commentaire sur ce trick</p>
-        </div>
-    {% endif %}
-    </div>
-    <div class="mx-auto pagination " style="width: 305px;">
-        {% if pagination.nbPages > 0 %}
-            <ul class="pagination">
-                {% if pagination.page > 1 %}
-                    <li>
-                        <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug, 'page': 1})) }}" class="btn btn-primary mx-1">
-                            1
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path(pagination.nomRoute,
-                            pagination.paramsRoute|merge({'slug':trick.slug, 'page': pagination.page-1})) }}" class="btn btn-primary mx-1">
-                            Page precedente
-                        </a>
-                    </li>
-                {% endif %}
-
-                {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
-                {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
-                    <li {% if p == pagination.page %}class="active"{% endif %}>
-                        <a class="btn btn-primary mx-1" href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug,'page': p})) }}">
-                            {{ p }}
-                        </a>
-                    </li>
-                {% endfor %}
-
-                {% if pagination.page < pagination.nbPages %}
-                    <li>
-                        <a href="{{ path(pagination.nomRoute,
-                            pagination.paramsRoute|merge({'slug': trick.slug, 'page': pagination.page+1})) }}" class="btn btn-primary mx-1">
-                            Page suivante
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path(pagination.nomRoute,
-                            pagination.paramsRoute|merge({'slug' :trick.slug, 'page': pagination.nbPages})) }}" class="btn btn-primary mx-1">
-                            {{ pagination.nbPages }}
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
+        <article class="mx-auto com-image-trick mt-3">
+            <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
+        </article>
+        {% if is_granted('ROLE_ADMIN') %}
+            {% if app.user.id == trick.user.id %}
+                <article class="icon">
+                    <a href="{{ path('one_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                    <a href="{{ path('update_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                </article>
+            {% endif %}
         {% endif %}
-    </div>
-</div>
+        <article class="text-center mb-4">
+            <h5>{{ trick.name }}</h5>
+        </article>
+
+        <article class="mx-auto w-75 mb-5">
+            <section class="load-media omg">
+                <div class="d-flex flex-wrap justify-content-center">
+                    {% for p in image %}
+                        <div class="d-flex flex-column">
+                            <div class="mr-2">
+                                <img class="images-comment" src="/uploads/pictures/{{ p.name }}" alt="Trick">
+                            </div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% if app.user.id == trick.user.id %}
+                                    <div class="text-center">
+                                        <a class="btn btn-primary" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-flex flex-wrap justify-content-center mt-3">
+                    {% for v in video%}
+                        {% if v.url != null %}
+                            <div class="d-flex flex-column">
+                                <div class="mr-2">
+                                    <iframe width="200" height="125"
+                                        src="{{ v.url}}">
+                                    </iframe>
+                                </div>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    {% if app.user.id == trick.user.id %}
+                                        <div class="text-center">
+                                            <a class="btn btn-primary" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        {% endif %}  
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="text-center none">
+                <a href="#" id="loadMedia" class="btn btn-outline-primary">Afficher les médias</a>
+                <a href="#" id="hideMedia" class="btn btn-outline-primary">Cacher les médias</a>
+            </section>
+        </article>
+        {% if is_granted('ROLE_ADMIN') %}
+            {% if app.user.id == trick.user.id %}
+                <article class="text-center my-4">
+                    <a class="btn btn-outline-primary" href="{{ path('add_video', {slug: trick.slug}) }}">Ajoutez une video</a>
+                    <a class="btn btn-outline-primary" href="{{ path('add_image', {slug: trick.slug}) }}">Ajoutez une image</a>
+                </article>
+            {% endif %}
+        {% endif %}
+        <article class="mx-auto w-75 mb-5">
+            <section class="text-center">
+                <p>Description: {{ trick.description }}</p>
+            </section>
+            <section class="text-center">
+                <p>Categori: {{ trick.categoryId.title }}</p> 
+            </section>
+            <section class="text-center">
+                <p>Ajouté le: {{ trick.createdat|date('d/m/Y', "Europe/Paris") }} à {{ trick.createdat|date('H:i', "Europe/Paris") }}</p>
+            </section>
+        {% if (trick.updatedat != null) %}
+                <section class="text-center">
+                    <p>Modifié le: {{ trick.updatedat|date('d/m/Y', "Europe/Paris") }} à {{ trick.updatedat|date('H:i', "Europe/Paris") }}</p>
+                </section>
+            {% endif %}
+        </article>
+        <article class="text-center my-3 border-top">
+            <h3>Espace de discussion</h3>
+        </article>
+        <article class="mx-auto col-lg-8">
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ form_start(form) }}
+                    <section class="form-group">
+                        {{ form_label(form.content) }}
+                        <div>{{ form_widget(form.content, { 'attr': {'class': 'form-control'} }) }}</div>
+                        <small id="emailHelp" class="form-text text-muted">{{ form_help(form.content) }}</small>
+                        <button class="btn btn-primary" type="submit">Ajoutez</button>
+                    </section>
+                {{ form_end(form) }}
+            {% else %}
+                <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Connectez vous</a> ou <a class="btn btn-outline-primary" href="{{ path('app_register') }}">inscrivez-vous</a> pour envoyer un commentaire sur ce trick!
+            {% endif %}
+            {% if comment|length > 0 %}
+                {% for i in comment%}
+                    <section class="d-flex flex-column border border-primary my-3">
+                        <div class="d-flex flex-wrap">
+                            <div>
+                                <img class="mx-2 mt-2" src="/uploads/pictures/{{ i.userId.avatar }}" width="50" height="50" alt="avatar">
+                            </div>
+                            <div>
+                                <p class="text-justify mx-2">{{ i.content }}</p>
+                                <p class="mx-2">écrit le {{ i.date|date('d/m/Y', "Europe/Paris") }} par {{ i.name }} à {{ i.date|date('H:i', "Europe/Paris") }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% if app.user.id == i.userId.id %}
+                                    <div>
+                                        <a class="btn btn-primary" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
+                                        <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">update comment</a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </section>
+                {% endfor %}
+            {% else %}
+                <section class="mt-3 mb-5">
+                    <p>Aucun commentaire sur ce trick</p>
+                </section>
+            {% endif %}
+        </article>
+        <article class="mx-auto pagination" style="width: 305px;">
+            {% if pagination.nbPages > 0 %}
+                <ul class="pagination">
+                    {% if pagination.page > 1 %}
+                        <li>
+                            <a href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug, 'page': 1})) }}" class="btn btn-primary mx-1">
+                                1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(pagination.nomRoute,
+                                pagination.paramsRoute|merge({'slug':trick.slug, 'page': pagination.page-1})) }}" class="btn btn-primary mx-1">
+                                Page precedente
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {# Affichage de toutes les pages entre p-4 et p+4 sauf si < 1 ou > nbPages #}
+                    {% for p in range(max(pagination.page-4, 1), min(pagination.page+4, pagination.nbPages)) %}
+                        <li {% if p == pagination.page %}class="active"{% endif %}>
+                            <a class="btn btn-primary mx-1" href="{{ path(pagination.nomRoute, pagination.paramsRoute|merge({'slug': trick.slug,'page': p})) }}">
+                                {{ p }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                    {% if pagination.page < pagination.nbPages %}
+                        <li>
+                            <a href="{{ path(pagination.nomRoute,
+                                pagination.paramsRoute|merge({'slug': trick.slug, 'page': pagination.page+1})) }}" class="btn btn-primary mx-1">
+                                Page suivante
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path(pagination.nomRoute,
+                                pagination.paramsRoute|merge({'slug' :trick.slug, 'page': pagination.nbPages})) }}" class="btn btn-primary mx-1">
+                                {{ pagination.nbPages }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </article>
+    </main>
 {% include 'footer.html.twig' %}
 {% endblock %}

@@ -37,7 +37,7 @@ class ImageAddController extends AbstractController
     * @Route("/add_image/{slug}", name="add_image")
     * @IsGranted("ROLE_ADMIN")
     */
-    public function commentAdd($slug)
+    public function imageAdd($slug)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
         $picture = new Image();
@@ -46,7 +46,6 @@ class ImageAddController extends AbstractController
             ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             $form = $this->createForm(ImageType::class, $picture);
-            
             if ($this->imageAddForm->form($picture, $trick, $form) === true) {
                 return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
             }

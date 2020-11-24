@@ -12,26 +12,28 @@
         <div class="text-danger">{{ form_errors(form) }}</div>
         <div class="form-group">
             <div class="text-danger">{{ form_errors(form.Name) }}</div>
-            <label for="exampleInputEmail1">{{ form_label(form.Name) }}:</label>
+            {{ form_label(form.Name) }}
             <div>{{ form_widget(form.Name, { 'attr': {'class': 'form-control'} }) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.Name) }}</small>
+            <small class="form-text text-muted">{{ form_help(form.Name) }}</small>
             
         </div>
         <div class="form-group">
             <div class="text-danger">{{ form_errors(form.description) }}</div>
-            <label for="exampleInputEmail1">{{ form_label(form.description) }}:</label>
+            {{ form_label(form.description) }}
             <div>{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.description) }}</small>
+            <small class="form-text text-muted">{{ form_help(form.description) }}</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">{{ form_label(form.picture) }}:</label>
+            <div class="text-danger">{{ form_errors(form.picture) }}</div>
+            {{ form_label(form.picture) }}
             <div>{{ form_widget(form.picture) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.picture) }}</small>
+            <small class="form-text text-muted">{{ form_help(form.picture) }}</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">{{ form_label(form.images) }}:</label>
+            <div class="text-danger">{{ form_errors(form.images) }}</div>
+            {{ form_label(form.images) }}
             <div>{{ form_widget(form.images) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.images) }}</small>
+            <small class="form-text text-muted">{{ form_help(form.images) }}</small>
         </div>
         <ul class="videos" id="video_list" style="list-style:none;" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
             {% for row in form.videos %}
@@ -40,9 +42,9 @@
             {% endfor %}
         </ul>
         <div class="form-group">
-            <label for="exampleInputEmail1">{{ form_label(form.categoryId) }}:</label>
+            {{ form_label(form.categoryId) }}
             <div>{{ form_widget(form.categoryId, { 'attr': {'class': 'form-control'} }) }}</div>
-            <small id="emailHelp" class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
+            <small class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
         </div>
         <button class="btn btn-primary button-add-trick" type="submit">Creez</button>
     {{ form_end(form) }}
