@@ -27,6 +27,10 @@
     width: 620px;
   }
 
+  .icon {
+    margin-left: 80%;
+  }
+
   .button-register {
     margin-bottom: -150px;
   }

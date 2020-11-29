@@ -24,7 +24,7 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="user", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 

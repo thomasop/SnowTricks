@@ -57,7 +57,7 @@
                         <p class="text-center">{{ i.name }}</p>
                         <div class="d-flex justify-content-around">
                             {% if is_granted('ROLE_ADMIN') %}
-                                {% if app.user.id == i.user_id %}
+                                {% if app.user.id == i.user.id %}
                                     <div>
                                         <a href="{{ path('one_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
                                     </div>
@@ -75,10 +75,12 @@
                 {% endfor %}
             </section>
         </article>
-        <article class="text-center ">
-            <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
-            <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
-        </article>
+        {% if trick|length > 6 %}
+            <article class="text-center ">
+                <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
+                <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
+            </article>
+        {% endif %}
         <article class="text-right mr-3 button-up">
             <a href="#trick"><img src="../css/icons/arrow-up-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
         </article>

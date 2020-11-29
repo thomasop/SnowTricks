@@ -2,4 +2,8 @@
   .bg {
     height: 850px;
   }
+
+  .icon {
+    margin-left: 75%;
+  }
 }

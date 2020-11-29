@@ -10,7 +10,7 @@
             <section class="text-danger">{{ form_errors(form) }}</section>
             <section class="form-group">
                 <div class="text-danger">{{ form_errors(form.pseudo) }}</div>
-                {{ form_label(form.pseudo) }}:
+                {{ form_label(form.pseudo) }}
                 <div>{{ form_widget(form.pseudo, { 'attr': {'class': 'form-control'} }) }}</div>
                 <small class="form-text text-muted">{{ form_help(form.pseudo) }}</small>
             </section>

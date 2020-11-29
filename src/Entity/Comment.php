@@ -20,12 +20,13 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $trick;
 
     /**
-    * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+    * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments", cascade={"persist"})
+    * @ORM\JoinColumn(name="userId", referencedColumnName="id", onDelete="CASCADE")
     */
     private $userId;
 

@@ -59,7 +59,7 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == trick.user.id %}
                                     <div class="text-center">
-                                        <a class="btn btn-primary" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
+                                        <a class="btn btn-primary mt-2" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
                                     </div>
                                 {% endif %}
                             {% endif %}
@@ -78,7 +78,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                     {% if app.user.id == trick.user.id %}
                                         <div class="text-center">
-                                            <a class="btn btn-primary" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
+                                            <a class="btn btn-primary mt-2" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
                                         </div>
                                     {% endif %}
                                 {% endif %}
@@ -95,8 +95,8 @@
         {% if is_granted('ROLE_ADMIN') %}
             {% if app.user.id == trick.user.id %}
                 <article class="text-center my-4">
-                    <a class="btn btn-outline-primary" href="{{ path('add_video', {slug: trick.slug}) }}">Ajoutez une video</a>
                     <a class="btn btn-outline-primary" href="{{ path('add_image', {slug: trick.slug}) }}">Ajoutez une image</a>
+                    <a class="btn btn-outline-primary" href="{{ path('add_video', {slug: trick.slug}) }}">Ajoutez une video</a>
                 </article>
             {% endif %}
         {% endif %}
