@@ -25,24 +25,24 @@ class TrickType extends AbstractType
         $builder
             
             ->add('Name', TextType::class, [
-                'label' => 'Titre:',
+                'label' => 'Titre :',
                 'attr' => [
                     'placeholder' => 'Titre du trick',
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description:',
+                'label' => 'Description :',
                 'attr' => [
                     'placeholder' => 'Description du trick',
                 ],
             ])
             ->add('picture', FileType::class, [
-                'label' => 'Image principale:',
+                'label' => 'Image principale :',
                 'required' => false,
                 'mapped' => false
             ])
             ->add('images', FileType::class, [
-                'label' => 'Images secondaires:',
+                'label' => 'Images secondaires :',
                 'multiple' => true,
                 'required' => false,
                 'mapped' => false
@@ -58,7 +58,7 @@ class TrickType extends AbstractType
             ->add('categoryId', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'title',
-                'label' => 'Catégorie:',
+                'label' => 'Catégorie :',
             ]);
     }
 

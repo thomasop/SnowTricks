@@ -1,10 +1,10 @@
 <footer class="text-white bg-primary mt-3 card-group">
     <div class="card-body">
-        <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
+        <p>Bienvenue sur SnowTricks, le site qui répertorie les différents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
     </div>
     <div class="card-body">     
         {% if app.user %}
-            <a class="text-dark" href="{{ path('app_logout') }}">Deconnexion</a>
+            <a class="text-dark" href="{{ path('app_logout') }}">Déconnexion</a>
         {% else %}
             <a class="text-dark" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}

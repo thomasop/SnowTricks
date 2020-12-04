@@ -1,6 +1,6 @@
 
 $("#hideMedia").hide();
-if (window.innerWidth < 770){
+if (window.innerWidth < 570){
     $(function (){
         $("#loadMedia").click(function(e){
             e.preventDefault();

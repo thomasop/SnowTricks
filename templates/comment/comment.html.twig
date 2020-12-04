@@ -9,13 +9,15 @@
         <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="http://localhost:8000/#trick">Tricks</a></li>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="nav-item list-inline-item">
                 <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
             {% endif %}
             {% if app.user %}
                 <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+                <a class="navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a></li>
             {% else %}
                 <li class="nav-item list-inline-item">
                 <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
@@ -26,40 +28,41 @@
     </header>
     <main>
         <article>
-            <a class="btn btn-outline-primary ml-3" style="margin-top: 3.75rem" href="{{ path('home') }}">Retour a la liste des tricks</a>
+            <a class="btn btn-outline-primary ml-3 return" href="{{ path('home') }}">Retour à la liste des tricks</a>
         </article>
         {% for message in app.flashes('success') %}
             <article class="alert alert-success">
                 {{ message }}
             </article>
         {% endfor %}
-        <article class="mx-auto com-image-trick mt-3">
-            <img class="imagetrick" src="/uploads/pictures/{{ trick.picture }}" alt="Trick">
+        <article class="mx-auto mt-3" style="background: url(/uploads/pictures/{{ trick.picture }});background-repeat: no-repeat;background-size: cover;background-position: center;height: 40vw;width: 80%;">
+            
         </article>
         {% if is_granted('ROLE_ADMIN') %}
             {% if app.user.id == trick.user.id %}
                 <article class="icon">
-                    <a href="{{ path('one_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
-                    <a href="{{ path('update_trick', {slug: trick.slug}) }}"><img class="scale-up-center" src="/css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                    <a href="{{ path('one_trick', {slug: trick.slug}) }}"><img class="scale-up-center icon-comment" src="/css/icons/trash-fill.svg" title="White flower" alt="Flower"></a>
+                    <a href="{{ path('update_trick', {slug: trick.slug}) }}"><img class="scale-up-center icon-comment" src="/css/icons/brush-fill.svg" title="White flower" alt="Flower"></a>
                 </article>
             {% endif %}
         {% endif %}
         <article class="text-center mb-4">
-            <h5>{{ trick.name }}</h5>
+            <h3>{{ trick.name }}</h3>
         </article>
 
         <article class="mx-auto w-75 mb-5">
+            <h5 class="text-center mt-5">Médias :</h5>
             <section class="load-media omg">
-                <div class="d-flex flex-wrap justify-content-center">
+                <div class="d-flex flex-wrap justify-content-center mt-3">
                     {% for p in image %}
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column my-1">
                             <div class="mr-2">
                                 <img class="images-comment" src="/uploads/pictures/{{ p.name }}" alt="Trick">
                             </div>
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == trick.user.id %}
                                     <div class="text-center">
-                                        <a class="btn btn-primary mt-2" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
+                                        <a class="btn btn-outline-danger mt-2" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
                                     </div>
                                 {% endif %}
                             {% endif %}
@@ -71,14 +74,14 @@
                         {% if v.url != null %}
                             <div class="d-flex flex-column">
                                 <div class="mr-2">
-                                    <iframe width="200" height="125"
+                                    <iframe allowfullscreen width="200" height="125"
                                         src="{{ v.url}}">
                                     </iframe>
                                 </div>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     {% if app.user.id == trick.user.id %}
                                         <div class="text-center">
-                                            <a class="btn btn-primary mt-2" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
+                                            <a class="btn btn-outline-danger mt-2" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
                                         </div>
                                     {% endif %}
                                 {% endif %}
@@ -88,8 +91,8 @@
                 </div>
             </section>
             <section class="text-center none">
-                <a href="#" id="loadMedia" class="btn btn-outline-primary">Afficher les médias</a>
-                <a href="#" id="hideMedia" class="btn btn-outline-primary">Cacher les médias</a>
+                <a href="#" id="loadMedia" class="btn btn-primary">Afficher les médias</a>
+                <a href="#" id="hideMedia" class="btn btn-primary">Cacher les médias</a>
             </section>
         </article>
         {% if is_granted('ROLE_ADMIN') %}
@@ -102,21 +105,21 @@
         {% endif %}
         <article class="mx-auto w-75 mb-5">
             <section class="text-center">
-                <p>Description: {{ trick.description }}</p>
+                <p><h5>Description : </h5>{{ trick.description }}</p>
             </section>
             <section class="text-center">
-                <p>Categori: {{ trick.categoryId.title }}</p> 
+                <p><h5>Categorie : </h5>{{ trick.categoryId.title }}</p> 
             </section>
             <section class="text-center">
-                <p>Ajouté le: {{ trick.createdat|date('d/m/Y', "Europe/Paris") }} à {{ trick.createdat|date('H:i', "Europe/Paris") }}</p>
+                <p><h5>Ajouté le : </h5>{{ trick.createdat|date('d/m/Y', "Europe/Paris") }} à {{ trick.createdat|date('H:i', "Europe/Paris") }}</p>
             </section>
         {% if (trick.updatedat != null) %}
                 <section class="text-center">
-                    <p>Modifié le: {{ trick.updatedat|date('d/m/Y', "Europe/Paris") }} à {{ trick.updatedat|date('H:i', "Europe/Paris") }}</p>
+                    <p><h5>Modifié le : </h5>{{ trick.updatedat|date('d/m/Y', "Europe/Paris") }} à {{ trick.updatedat|date('H:i', "Europe/Paris") }}</p>
                 </section>
             {% endif %}
         </article>
-        <article class="text-center my-3 border-top">
+        <article class="text-center my-3 border-top border-primary">
             <h3>Espace de discussion</h3>
         </article>
         <article class="mx-auto col-lg-8">
@@ -148,7 +151,7 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == i.userId.id %}
                                     <div>
-                                        <a class="btn btn-primary" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
+                                        <a class="btn btn-danger" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
                                         <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">update comment</a>
                                     </div>
                                 {% endif %}

@@ -9,13 +9,15 @@
         <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="http://localhost:8000/#trick">Tricks</a></li>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="nav-item list-inline-item">
                 <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
             {% endif %}
             {% if app.user %}
                 <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_logout') }}">deconnexion</a></li>
+                <a class="navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a></li>
             {% else %}
                 <li class="nav-item list-inline-item">
                 <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
@@ -29,20 +31,20 @@
             <section class="home-picture">
             </section>
             <section class="text-center slogan">
-                    <h1>Site communautaire SnowTricks</h1>
+                <h1>Site communautaire SnowTricks </h1>
             </section>
             <section class="text-right mr-4">
                 <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
             </section>
         </article>
         {% if is_granted('ROLE_ADMIN') %}
-            <article class="ml-4">
-                <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="50" height="50" title="White flower" alt="Flower"></a>
+            <article class="ml-4 trick-add">
+                <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="55" height="55" title="White flower" alt="Flower"></a>
             </article>
         {% endif %}
         <article class="trick">
-            <section class="text-center">
-                <h3 id="trick"> Les tricks</h3>
+            <section class="text-center mb-5">
+                <h2 id="trick"> Les tricks</h2>
             </section>
             {% for message in app.flashes('success') %}
                 <section class="alert alert-success">
@@ -51,10 +53,10 @@
             {% endfor %}
             <section class="row mt-3 full-trick">
                 {% for i in trick %}
-                <div class="col-4 mb-3 card tricks border border-primary">
+                <div class="col-4 mb-3 card tricks border-tricks border-primary">
                     <img class="card-image pg" src="/uploads/pictures/{{ i.picture }}" alt="Trick">
                     <div class="card-body">
-                        <p class="text-center">{{ i.name }}</p>
+                        <p class="text-center font-weight-bold">{{ i.name }}</p>
                         <div class="d-flex justify-content-around">
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == i.user.id %}
@@ -77,8 +79,8 @@
         </article>
         {% if trick|length > 6 %}
             <article class="text-center ">
-                <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">More<i class="fas fa-plus-circle fa-3x"></i></a>
-                <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Less<i class="fas fa-minus-circle fa-3x"></i></a>              
+                <a class="btn btn-outline-primary" href="#" id="loadMoreTrick">Plus de tricks<i class="fas fa-plus-circle fa-3x"></i></a>
+                <a class="btn btn-outline-primary" href="#" id="loadLessTrick">Moins de tricks<i class="fas fa-minus-circle fa-3x"></i></a>              
             </article>
         {% endif %}
         <article class="text-right mr-3 button-up">

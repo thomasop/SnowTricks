@@ -4,29 +4,17 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-    <article class="mx-4">
-        <p class="mb-5">Ajoutez une image ici!</p>
+    <article class="mx-5">
+        <h3 class="my-5 text-center">Ajoutez une image ici !</h3>
         {{ form_start(form) }}
             <section class="text-danger">{{ form_errors(form) }}</section>
             <section class="form-group">
                 <div class="text-danger">{{ form_errors(form.name) }}</div>
                 {{ form_label(form.name) }}
-                <div>{{ form_widget(form.name) }}</div>
+                <div class="file-user">{{ form_widget(form.name) }}</div>
                 <small class="form-text text-muted">{{ form_help(form.name) }}</small>
             </section>
             <button class="btn btn-primary" type="submit">Ajoutez</button>
         {{ form_end(form) }}
     </article>
-    <footer class="text-white bg-primary card-group footer">
-        <div class="card-body">
-            <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
-        </div>
-        <div class="card-body">     
-            {% if app.user %}
-                <a class="text-dark" href="{{ path('app_logout') }}">Deconnexion</a>
-            {% else %}
-                <a class="text-dark" href="{{ path('app_login') }}">Connexion</a>
-            {% endif %}
-        </div>
-    </footer>
 {% endblock %}

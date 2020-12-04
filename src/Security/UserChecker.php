@@ -18,7 +18,7 @@ class UserChecker implements UserCheckerInterface
 
         if (!$user->getEnabled() == true) {
             // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException('Your user account no longer exists.');
+            throw new CustomUserMessageAccountStatusException('Votre compte utilisateur n\'est pas encore validé. Vérifiez vos mails.');
         }
     }
 

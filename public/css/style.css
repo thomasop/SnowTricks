@@ -36,12 +36,12 @@ ul {
 }
 
 .slogan {
-  color: white;
+  color: black;
   margin-top: -375px;
   margin-bottom: 375px;
 }
 
-h1 {
+.slogan h1 {
   font-size: 5vw;
 }
 
@@ -51,8 +51,16 @@ h1 {
   display: block;
 }
 
+.trick-add {
+  margin-top: -50px;
+}
+
 .trick {
-  margin-top: 15px;
+  margin-top: -50px;
+}
+
+.border-tricks {
+  border: 3px solid;
 }
 
 .card {
@@ -71,8 +79,8 @@ h1 {
 }
 
 .full-trick {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 @-webkit-keyframes scale-up-center {
@@ -107,15 +115,24 @@ h1 {
 /* Comment page */
 
 .icon {
-  margin-left: 65%;
-  margin-top: -60px;
-  margin-bottom: 60px;
+  margin-left: 77vw;
+  margin-top: -70px;
+  margin-bottom: 70px;
+}
+
+.return {
+  margin-top: 60px;
 }
 
 .imagetrick {
   width: 720px;
   height: 575px;
   margin-bottom: 25px;
+}
+
+.icon-comment {
+  width: 4vw;
+  height: 4vw;
 }
 
 .com-image-trick {
@@ -137,18 +154,11 @@ h1 {
   position: absolute;
 }
 
-/* Register page */
-
-.article-register {
-  min-height: 100%;
-}
-
 /* One trick page */
 
 .trick-delete {
   margin-top: 10px;
   top: 10px;
-  margin-bottom: 80px;
 }
 
 /* One trick page */

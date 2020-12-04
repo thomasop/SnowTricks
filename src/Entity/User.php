@@ -17,6 +17,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     errorPath="pseudo",
  *     message="Ce pseudo est deja utilisé."
  * )
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     errorPath="email",
+ *     message="Ce email est deja utilisé."
+ * )
  */
 class User implements UserInterface
 {

@@ -23,4 +23,12 @@
   .button-login {
     margin-bottom: 250px !important;
   }
+
+  .file-user {
+    overflow: hidden;
+  }
+
+  .load-media {
+    display: none;
+  }
 }

@@ -20,8 +20,8 @@ class ResetPasswordType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent etre similaires.',
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe:'],
-                'second_options' => ['label' => 'Répéter le mot de passe:'],
+                'first_options'  => ['label' => 'Mot de passe :'],
+                'second_options' => ['label' => 'Répéter le mot de passe :'],
                 'mapped' => false,
             ]);
     }

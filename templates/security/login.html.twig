@@ -3,7 +3,6 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block body %}
-
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -13,28 +12,21 @@
             {{ message }}
         </div>
     {% endfor %}
-    <header>
-        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-        </ul>
-    </header>
+    {% include 'header.html.twig' %}
     {% if app.user %}
         <div class="ml-4 mt-5">
             Vous etes connecté avec l'Email {{ app.user.username }}, Vous pouvez vous <a class="btn btn-primary" href="{{ path('app_logout') }}">deconnecter</a> ou revenir sur la page d'<a class="btn btn-primary" href="{{ path('home') }}">accueil</a>
         </div>
     {% else %}
-    <div class="mx-4">
+    <div class="mx-5 mt-5">
         <form method="post">
-            <h3 class="h3 mb-3 font-weight-normal">Connectez vous</h3>
+            <h3 class="h3 mb-5 text-center">Connectez vous</h3>
             <div class="form-group">
-                <label for="inputEmail">Email:</label>
+                <label for="inputEmail">Email :</label>
                 <input type="email" value="" name="email" id="inputEmail" class="form-control" required autofocus>
             </div>
             <div class="form-group">
-                <label for="inputPassword">Password:</label>
+                <label for="inputPassword">Mot de passe :</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </div>
             <input type="hidden" name="_csrf_token"
@@ -54,19 +46,7 @@
 
             <button class="btn btn-lg btn-primary mt-3" type="submit">Se connecter</button>
         </form>
-        <a class="btn btn-primary mt-4 button-login" href="{{ path('forgot_password') }}"> Mot de passe oublié</a>
+        <a class="btn btn-primary mt-4 button-login" href="{{ path('forgot_password') }}"> Mot de passe oublié ?</a>
         </div>
     {% endif %}
-    <footer class="text-white bg-primary card-group foot">
-        <div class="card-body">
-            <p>Bienvenue sur SnowTricks, le site qui répertorie les differents tricks du Snowboard, vous pouvez voir nos tricks <a class="text-dark" href="/#trick">ici</a></p>
-        </div>
-        <div class="card-body">     
-            {% if app.user %}
-                <a class="text-dark" href="{{ path('app_logout') }}">Deconnexion</a>
-            {% else %}
-                <a class="text-dark" href="{{ path('app_login') }}">Connexion</a>
-            {% endif %}
-        </div>
-    </footer>
 {% endblock %}

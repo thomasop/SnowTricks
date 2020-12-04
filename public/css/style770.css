@@ -14,10 +14,6 @@
     max-width: 300px;
   }
 
-  .load-media {
-    display: none;
-  }
-
   .imagetrick {
     width: 620px;
     height: 475px;
@@ -25,10 +21,6 @@
 
   .com-image-trick {
     width: 620px;
-  }
-
-  .icon {
-    margin-left: 80%;
   }
 
   .button-register {
