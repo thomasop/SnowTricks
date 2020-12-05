@@ -1,3 +1,6 @@
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/96e306c369e24df984dcf501535ffb5c)](https://app.codacy.com/gh/thomasop/SnowTricks?utm_source=github.com&utm_medium=referral&utm_content=thomasop/SnowTricks&utm_campaign=Badge_Grade)
+
 Openclassroom-P6-SnowTricks
 
 Welcome in your Symfony site.
