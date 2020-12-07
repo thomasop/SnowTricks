@@ -59,10 +59,6 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Image(
-     *      maxSize = "500k",
-     *      maxSizeMessage = "Votre avatar ne doit pas dépasser 500 ko",
-     * )
      */
     private $picture;
 

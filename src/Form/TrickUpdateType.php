@@ -40,7 +40,14 @@ class TrickUpdateType extends AbstractType
             ->add('picture', FileType::class, [
                 'label' => 'Image principale :',
                 'required' => false,
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new Img([
+                        'maxSize' => '1M',
+                        'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                        'mimeTypesMessage' => "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+                    ])
+                ]
             ])
             ->add('categoryId', EntityType::class, [
                 'class' => Category::class,

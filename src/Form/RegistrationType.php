@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Validator\Constraints\Image as Img;
 
 class RegistrationType extends AbstractType
 {
@@ -35,7 +36,14 @@ class RegistrationType extends AbstractType
             ->add('avatar', FileType::class, [
                 'label' => 'Avatar :',
                 'data_class' => null,
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Img([
+                        'maxSize' => '500K',
+                        'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                        'mimeTypesMessage' => "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+                    ])
+                ]
             ]);
     }
 

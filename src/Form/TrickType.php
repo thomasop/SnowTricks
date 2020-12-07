@@ -39,13 +39,29 @@ class TrickType extends AbstractType
             ->add('picture', FileType::class, [
                 'label' => 'Image principale :',
                 'required' => false,
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new Img([
+                        'maxSize' => '1M',
+                        'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                        'mimeTypesMessage' => "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+                    ])
+                ]
             ])
             ->add('images', FileType::class, [
                 'label' => 'Images secondaires :',
                 'multiple' => true,
                 'required' => false,
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new All([
+                        new Img([
+                            'maxSize' => '1M',
+                            'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                            'mimeTypesMessage' => "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+                        ])
+                    ])
+                ]
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,

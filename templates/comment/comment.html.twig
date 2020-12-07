@@ -51,45 +51,47 @@
         </article>
 
         <article class="mx-auto w-75 mb-5">
-            <h5 class="text-center mt-5">Médias :</h5>
-            <section class="load-media omg">
-                <div class="d-flex flex-wrap justify-content-center mt-3">
-                    {% for p in image %}
-                        <div class="d-flex flex-column my-1">
-                            <div class="mr-2">
-                                <img class="images-comment" src="/uploads/pictures/{{ p.name }}" alt="Trick">
-                            </div>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                {% if app.user.id == trick.user.id %}
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-danger mt-2" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">delete image</a>
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="d-flex flex-wrap justify-content-center mt-3">
-                    {% for v in video%}
-                        {% if v.url != null %}
-                            <div class="d-flex flex-column">
+            {% if image or video %}
+                <h5 class="text-center mt-5">Médias :</h5>
+                <section class="load-media omg">
+                    <div class="d-flex flex-wrap justify-content-center mt-3">
+                        {% for p in image %}
+                            <div class="d-flex flex-column my-1">
                                 <div class="mr-2">
-                                    <iframe allowfullscreen width="200" height="125"
-                                        src="{{ v.url}}">
-                                    </iframe>
+                                    <img class="images-comment" src="/uploads/pictures/{{ p.name }}" alt="Trick">
                                 </div>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     {% if app.user.id == trick.user.id %}
                                         <div class="text-center">
-                                            <a class="btn btn-outline-danger mt-2" href="{{ path('delete_video', {id: v.id }) }}">delete video</a>
+                                            <a class="btn btn-outline-danger mt-2" href="{{ path('delete_image', {id: p.id, slug: trick.slug}) }}">Supprimez l'image</a>
                                         </div>
                                     {% endif %}
                                 {% endif %}
                             </div>
-                        {% endif %}  
-                    {% endfor %}
-                </div>
-            </section>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-center mt-3">
+                        {% for v in video%}
+                            {% if v.url != null %}
+                                <div class="d-flex flex-column">
+                                    <div class="mr-2">
+                                        <iframe allowfullscreen width="200" height="125"
+                                            src="{{ v.url}}">
+                                        </iframe>
+                                    </div>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        {% if app.user.id == trick.user.id %}
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-danger mt-2" href="{{ path('delete_video', {id: v.id }) }}">Supprimez la video</a>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            {% endif %}  
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
             <section class="text-center none">
                 <a href="#" id="loadMedia" class="btn btn-primary">Afficher les médias</a>
                 <a href="#" id="hideMedia" class="btn btn-primary">Cacher les médias</a>
@@ -151,8 +153,8 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == i.userId.id %}
                                     <div>
-                                        <a class="btn btn-danger" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">delete comment</a>
-                                        <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">update comment</a>
+                                        <a class="btn btn-danger" href="{{ path('delete_comment', {id: i.id, slug: i.trick.slug}) }}">Supprimez le commentaire</a>
+                                        <a class="btn btn-primary" href="{{ path('update_comment', {id: i.id, slug: i.trick.slug }) }}">Modifiez le commentaire</a>
                                     </div>
                                 {% endif %}
                             {% endif %}
