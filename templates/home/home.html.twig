@@ -1,50 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}SnowTricks{% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/buttonMoreTricks.js') }}"></script>
 {% endblock %}
 {% block body %}
-    <header class="header">
-        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="http://localhost:8000/#trick">Tricks</a></li>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
-            {% endif %}
-            {% if app.user %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a></li>
-            {% else %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-            {% endif %}
-        </ul>
-    </header>
+    {% include 'header.html.twig' %}
     <main>
         <article class="" style="">
             <section class="home-picture">
             </section>
             <section class="text-center slogan">
-                <h1>Site communautaire SnowTricks </h1>
+                <h1 class="text-shadow-pop-bottom">Site communautaire SnowTricks </h1>
             </section>
             <section class="text-right mr-4">
-                <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" title="White flower" alt="Flower"></a>
+                <a href="#trick" class="button"><img src="../css/icons/arrow-down-square.svg" width="42" height="46" alt="Flower"></a>
             </section>
         </article>
         {% if is_granted('ROLE_ADMIN') %}
             <article class="ml-4 trick-add">
-                <a href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="55" height="55" title="White flower" alt="Flower"></a>
+                <a class="btn btn-outline-primary" href="{{ path('add_trick') }}"><img class="scale-up-center" src="../css/icons/plus.svg" width="40" height="40" alt="Flower"></a>
             </article>
         {% endif %}
         <article class="trick">
             <section class="text-center mb-5">
-                <h2 id="trick"> Les tricks</h2>
+                <h2 class="text-shadow-drop-right" id="trick"> Les tricks</h2>
             </section>
             {% for message in app.flashes('success') %}
                 <section class="alert alert-success">
@@ -61,15 +41,15 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if app.user.id == i.user.id %}
                                     <div>
-                                        <a href="{{ path('one_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/trash-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                                        <a href="{{ path('one_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/trash-fill.svg" width="22" height="26" alt="Flower"></a>
                                     </div>
                                     <div>
-                                        <a href="{{ path('update_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/brush-fill.svg" width="22" height="26" title="White flower" alt="Flower"></a>
+                                        <a href="{{ path('update_trick', {slug: i.slug}) }}"><img class="scale-up-center" src="../css/icons/brush-fill.svg" width="22" height="26" alt="Flower"></a>
                                     </div>
                                 {% endif %}
                             {% endif %}
                             <div class="text-center">
-                                <a class="btn btn-primary" href="{{ path('comment', {slug: i.slug, page: '1'}) }}">Lire la suite</a>
+                                <a class="btn btn-outline-primary" href="{{ path('comment', {slug: i.slug, page: '1'}) }}">Lire la suite</a>
                             </div>
                         </div>
                     </div>

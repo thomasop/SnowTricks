@@ -1,39 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Modifiez un trick{% endblock %}
-
 {% block body %}
 {% include 'header.html.twig' %}
-    <article class="mx-5">
-        <h3 class="my-5">Modifiez un trick ici !</h3>
-        {{ form_start(form) }}
-            <section class="text-danger">{{ form_errors(form) }}</section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.Name) }}</div>
-                {{ form_label(form.Name) }}
-                <div>{{ form_widget(form.Name, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.Name) }}</small>
-            </section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.description) }}</div>
-                {{ form_label(form.description) }}
-                <div>{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.description) }}</small>
-            </section>
-            <p>Image principale sur ce trick : </p>
-            <img class="mb-2" style="width: 150px; height: 115px;" src="/uploads/pictures/{{ trick }}" alt="Trick">
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.picture) }}</div>
-                {{ form_label(form.picture) }}
-                <div class="file-user">{{ form_widget(form.picture) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.picture) }}</small>
-            </section>
-            <section class="form-group">
-                {{ form_label(form.categoryId) }}
-                <div>{{ form_widget(form.categoryId, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
-            </section>
-            <button class="btn btn-primary mb-5" type="submit">Modifiez</button>
-        {{ form_end(form) }}
-    </article>
+    <main>
+        <article class="mx-5">
+            <h3 class="mb-5 text-center text-shadow-drop-right margin-user">Modifiez un trick ici !</h3>
+            {{ form_start(form) }}
+                <section class="text-danger">{{ form_errors(form) }}</section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.Name) }}</div>
+                    {{ form_label(form.Name) }}
+                    <div>{{ form_widget(form.Name, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.Name) }}</small>
+                </section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.description) }}</div>
+                    {{ form_label(form.description) }}
+                    <div>{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.description) }}</small>
+                </section>
+                <p>Image principale sur ce trick : </p>
+                <img class="mb-2" style="width: 150px; height: 115px;" src="/uploads/pictures/{{ trick }}" alt="Trick">
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.picture) }}</div>
+                    {{ form_label(form.picture) }}
+                    <div class="file-user">{{ form_widget(form.picture) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.picture) }}</small>
+                </section>
+                {% do form.images.setRendered() %}
+                {% do form.videos.setRendered() %}
+                <section class="form-group">
+                    {{ form_label(form.categoryId) }}
+                    <div>{{ form_widget(form.categoryId, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
+                </section>
+                <button class="btn btn-outline-primary" type="submit">Modifiez</button>
+            {{ form_end(form) }}
+        </article>
+    </main>
 {% endblock %}

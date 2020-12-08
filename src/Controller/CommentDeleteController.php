@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\Remove;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -33,15 +35,14 @@ class CommentDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_comment/{id}/{slug}", name="delete_comment")
+    * @Route("/delete_comment/{id}/{slug}", name="delete_comment", requirements={"slug"="[a-z0-9-]+", "id"="\d+"})
+    * @ParamConverter("comment", options={"mapping": {"id": "id"}})
+    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id, $slug)
+    public function delete(Comment $comment, Trick $trick)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $comment = $this->getDoctrine()
-            ->getRepository(Comment::class)
-            ->find($id);
         if ($currentId == $comment->getUserId()) {
             if (!$comment) {
                 throw $this->createNotFoundException('Pas de commentaire trouvé avec l\'id '.$id);
@@ -51,7 +52,7 @@ class CommentDeleteController extends AbstractController
                 'success',
                 'Commentaire supprimé!'
             );
-            return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
+            return $this->redirectToRoute('comment', ['slug' => $trick->getSlug(), 'page' => '1']);
         }
         $this->session->getFlashBag()->add(
             'success',

@@ -9,26 +9,28 @@
         </div>
     {% endfor %}
     {% include 'header.html.twig' %}
-    <article class="users-page">
-        {% for u in user%}
-            <section class="border-bottom mx-4">
-                <p>{{ u.pseudo }}</p>
-                <p>{{ u.email }}</p>
-                <div class="d-flex">
-                    <p class="mr-2">Compte validé?</p>
-                    {% if u.enabled == true %}
-                        <p>oui</p>
-                    {% else %}
-                        <p>non</p>
-                    {% endif %}
-                </div>
-                <div class="d-flex flex-column">
-                    <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
-                    <div>
-                        <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
+    <main>
+        <article class="margin-user">
+            {% for u in user%}
+                <section class="border-bottom border-primary mx-4">
+                    <p>{{ u.pseudo }}</p>
+                    <p>{{ u.email }}</p>
+                    <div class="d-flex">
+                        <p class="mr-2">Compte validé?</p>
+                        {% if u.enabled == true %}
+                            <p>oui</p>
+                        {% else %}
+                            <p>non</p>
+                        {% endif %}
                     </div>
-                </div>
-            </section>
-        {% endfor %}
-    </article>
+                    <div class="d-flex flex-column">
+                        <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
+                        <div>
+                            <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
+                        </div>
+                    </div>
+                </section>
+            {% endfor %}
+        </article>
+    </main>
 {% endblock %}

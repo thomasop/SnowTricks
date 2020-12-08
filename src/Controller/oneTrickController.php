@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -27,15 +28,13 @@ class oneTrickController extends AbstractController
     }
 
     /**
-    * @Route("/one_trick/{slug}", name="one_trick")
+    * @Route("/one_trick/{slug}", name="one_trick", requirements={"slug"="[a-z0-9-]+"})
+    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function oneTrick($slug)
+    public function oneTrick(Trick $trick)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $trick = $this->getDoctrine()
-            ->getRepository(Trick::class)
-            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             return $this->render('trick/trick.html.twig', [
                 'trick' => $trick

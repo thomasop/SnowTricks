@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
         $stalefish->setCategoryId($grabs);
 
         $image->setName('stalefish.jpg');
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/jm19nEvmZgM");
 
         $stalefish->addImage($image);
         $stalefish->addVideo($video);
@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
         $tailGrab->setCategoryId($grabs);
 
         $image->setName('tailGrab-1.jpg');
-        $video->setUrl("https://www.youtube.com/embed/_Qq-YoXwNQY");
+        $video->setUrl("https://www.youtube.com/embed/M5NTCfdObfs");
 
         $tailGrab->addImage($image);
         $tailGrab->addVideo($video);
@@ -143,7 +143,7 @@ class AppFixtures extends Fixture
         $noseGrab->setCategoryId($grabs);
 
         $image->setName('noseGrab.jpg');
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/KqSi94FT7EE");
 
         $noseGrab->addImage($image);
         $noseGrab->addVideo($video);
@@ -160,7 +160,7 @@ class AppFixtures extends Fixture
         $r180->setCategoryId($rotations);
 
         $image->setName('180-1.jpg');
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/HRNXjMBakwM");
 
         $r180->addImage($image);
         $r180->addVideo($video);
@@ -177,7 +177,7 @@ class AppFixtures extends Fixture
         $r360->setCategoryId($rotations);
 
         $image->setName('360-2.jpg');
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/PYcSjBOOPTc");
 
         $r180->addImage($image);
         $r180->addVideo($video);
@@ -194,7 +194,7 @@ class AppFixtures extends Fixture
         $r540->setCategoryId($rotations);
 
         $image->setName('540-2.jpg');
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/1vtZXU15e38");
 
         $r540->addImage($image);
         $r540->addVideo($video);
@@ -211,7 +211,7 @@ class AppFixtures extends Fixture
         $r720->setCategoryId($rotations);
 
         $image->setName("720-1.jpg");
-        $video->setUrl("https://www.youtube.com/embed/OparOr70iu0");
+        $video->setUrl("https://www.youtube.com/embed/H2MKP1epC7k");
 
         $r720->addVideo($video);
         $r720->addImage($image);

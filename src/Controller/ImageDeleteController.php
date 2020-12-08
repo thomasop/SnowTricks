@@ -11,6 +11,7 @@ use App\Tool\Remove;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -38,15 +39,13 @@ class ImageDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_image/{id}", name="delete_image")
+    * @Route("/delete_image/{id}", name="delete_image", requirements={"id"="\d+"})
+    * @ParamConverter("image", options={"mapping": {"id": "id"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id)
+    public function delete(Image $image)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $image = $this->getDoctrine()
-            ->getRepository(Image::class)
-            ->findOneBy(['id' => $id]);
         if ($currentId == $image->getTrickId()->getUser()) {
             $this->deleteFile->delete($image->getName());
             $this->remove->removeEntity($image);

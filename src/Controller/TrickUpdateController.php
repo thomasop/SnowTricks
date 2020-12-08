@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Form\TrickUpdateType;
+use App\Form\TrickType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\TrickUpdateForm;
 use Symfony\Component\HttpFoundation\File\File;
@@ -30,21 +30,19 @@ class TrickUpdateController extends AbstractController
     }
 
     /**
-    * @Route("/update_trick/{slug}", name="update_trick")
+    * @Route("/update_trick/{slug}", name="update_trick", requirements={"slug"="[a-z0-9-]+"})
+    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($slug, Trick $trick)
+    public function new(Trick $trick)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $trick = $this->getDoctrine()
-            ->getRepository(Trick::class)
-            ->findOneBy(['slug' => $slug]);
         if ($currentId == $trick->getUser()) {
             $file = new File($this->getParameter('pictures_directory').'/'.$trick->getPicture());
             $trick->setPicture($file);
-            $form = $this->createForm(TrickUpdateType::class, $trick, ['method' => 'PUT']);
+            $form = $this->createForm(TrickType::class, $trick, ['method' => 'PUT']);
             if ($this->trickUpdateForm->form($trick, $form) === true) {
-                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
+                return $this->redirectToRoute('comment', ['slug' => $trick->getSlug(), 'page' => '1']);
             }
             return $this->render('form/formupdatetrick.html.twig', [
                 'form' => $form->createView(),

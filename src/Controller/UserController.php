@@ -12,10 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/{id}", name="app_user")
+     * @Route("/users", name="app_user")
      * @IsGranted("ROLE_SUPER_ADMIN")
      */
-    public function index($id)
+    public function index()
     {
         $user = $this->getDoctrine()
             ->getRepository(User::class)

@@ -4,17 +4,19 @@
 
 {% block body %}
 {% include 'header.html.twig' %}
-    <article class="mx-5">
-        <h3 class="my-5 text-center">Ajoutez une video ici !</h3>
-        {{ form_start(form) }}
-            <section class="text-danger">{{ form_errors(form) }}</section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.url) }}</div>
-                {{ form_label(form.url) }}
-                <div>{{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.url) }}</small>
-            </section>        
-            <button class="btn btn-lg btn-primary" type="submit">Ajoutez</button>
-        {{ form_end(form) }}
-    </article>
+    <main>
+        <article class="mx-5">
+            <h3 class="mb-5 margin-user text-shadow-drop-right text-center">Ajoutez une video ici !</h3>
+            {{ form_start(form) }}
+                <section class="text-danger">{{ form_errors(form) }}</section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.url) }}</div>
+                    {{ form_label(form.url) }}
+                    <div>{{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.url) }}</small>
+                </section>        
+                <button class="btn btn-outline-lg btn-primary" type="submit">Ajoutez</button>
+            {{ form_end(form) }}
+        </article>
+    </main>
 {% endblock %}

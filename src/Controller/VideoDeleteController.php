@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -33,15 +34,13 @@ class VideoDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_video/{id}", name="delete_video")
+    * @Route("/delete_video/{id}", name="delete_video", requirements={"id"="\d+"})
+    * @ParamConverter("video", options={"mapping": {"id": "id"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($id)
+    public function delete(Video $video)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $video = $this->getDoctrine()
-            ->getRepository(Video::class)
-            ->findOneBy(['id' => $id]);
         if ($currentId == $video->getTrickId()->getUser()) {
             $this->remove->removeEntity($video);
             $this->session->getFlashBag()->add(

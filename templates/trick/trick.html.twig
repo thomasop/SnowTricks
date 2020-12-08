@@ -9,8 +9,8 @@
     </div>
 {% endfor %}
 {% include 'header.html.twig' %}
-<div class="trick-delete mx-4">
-    <h3 class="my-5">Suppression d'un trick</h3>
+<div class="mx-4">
+    <h3 class="mb-5 margin-user text-shadow-drop-right text-center">Suppression d'un trick</h3>
     <p class="">Nom : {{ trick.name }}</p>
     <p>Description : {{ trick.description }}</p>
     <div>
@@ -51,8 +51,8 @@
     </div>
     <div class="mt-4">
         <p>Voulez vous vraiment supprimer ce trick?</p>
-        <a class="btn btn-danger mb-4" href="{{ path('delete_trick', {slug: trick.slug}) }}">oui</a>
-        <a class="btn btn-primary mb-4" href="http://localhost:8000/#trick">non</a>
+        <a class="btn btn-outline-danger mb-4" href="{{ path('delete_trick', {slug: trick.slug}) }}">oui</a>
+        <a class="btn btn-outline-primary mb-4" href="http://localhost:8000/#trick">non</a>
     </div>
 </div>
 {% endblock %}

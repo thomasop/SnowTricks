@@ -4,40 +4,42 @@
 
 {% block body %}
     {% include 'header.html.twig' %}
-    <article class="mx-5">
-        <h3 class="my-5 text-center">Inscrivez vous ici !</h3>
-        {{ form_start(form) }}
-            <section class="text-danger">{{ form_errors(form) }}</section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.pseudo) }}</div>
-                {{ form_label(form.pseudo) }}
-                <div>{{ form_widget(form.pseudo, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.pseudo) }}</small>
-            </section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.email) }}</div>
-                {{ form_label(form.email) }}
-                <div>{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.email) }}</small>
-            </section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.password.first) }}</div>
-                {{ form_label(form.password.first) }}
-                <div>{{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.password.first) }}</small>
-            </section>
-            <section class="form-group">
-                {{ form_label(form.password.second) }}
-                <div>{{ form_widget(form.password.second, { 'attr': {'class': 'form-control'} }) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.password.second) }}</small>
-            </section>
-            <section class="form-group">
-                <div class="text-danger">{{ form_errors(form.avatar) }}</div>
-                {{ form_label(form.avatar) }}
-                <div class="file-user">{{ form_widget(form.avatar) }}</div>
-                <small class="form-text text-muted">{{ form_help(form.avatar) }}</small>
-            </section>
-            <button class="btn btn-primary " type="submit">Inscrivez vous</button>
-        {{ form_end(form) }}
-    </article>
+    <main>
+        <article class="mx-5">
+            <h3 class="text-center text-shadow-drop-right margin-user mb-5">Inscrivez vous ici !</h3>
+            {{ form_start(form) }}
+                <section class="text-danger">{{ form_errors(form) }}</section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.pseudo) }}</div>
+                    {{ form_label(form.pseudo) }}
+                    <div>{{ form_widget(form.pseudo, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.pseudo) }}</small>
+                </section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.email) }}</div>
+                    {{ form_label(form.email) }}
+                    <div>{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.email) }}</small>
+                </section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.password.first) }}</div>
+                    {{ form_label(form.password.first) }}
+                    <div>{{ form_widget(form.password.first, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.password.first) }}</small>
+                </section>
+                <section class="form-group">
+                    {{ form_label(form.password.second) }}
+                    <div>{{ form_widget(form.password.second, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.password.second) }}</small>
+                </section>
+                <section class="form-group">
+                    <div class="text-danger">{{ form_errors(form.avatar) }}</div>
+                    {{ form_label(form.avatar) }}
+                    <div class="file-user">{{ form_widget(form.avatar) }}</div>
+                    <small class="form-text text-muted">{{ form_help(form.avatar) }}</small>
+                </section>
+                <button class="btn btn-outline-primary " type="submit">Inscrivez vous</button>
+            {{ form_end(form) }}
+        </article>
+    </main>
 {% endblock %}

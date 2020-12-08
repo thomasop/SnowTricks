@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tool\CommentUpdateForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -34,19 +36,18 @@ class CommentUpdateController extends AbstractController
     }
 
     /**
-    * @Route("/update_comment/{id}/{slug}", name="update_comment")
+    * @Route("/update_comment/{id}/{slug}", name="update_comment", requirements={"slug"="[a-z0-9-]+", "id"="\d+"})
+    * @ParamConverter("comment", options={"mapping": {"id": "id"}})
+    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new($id, $slug, Request $request, Comment $comment)
+    public function new(Comment $comment, Trick $trick, Request $request)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        $commentId = $this->getDoctrine()
-            ->getRepository(Comment::class)
-            ->find($id);
-        if ($currentId == $commentId->getUserId()) {
+        if ($currentId == $comment->getUserId()) {
             $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);
             if ($this->commentUpdateForm->form($comment, $form) === true) {
-                return $this->redirectToRoute('comment', ['slug' => $slug, 'page' => '1']);
+                return $this->redirectToRoute('comment', ['slug' => $trick->getSlug(), 'page' => '1']);
             }
             return $this->render('form/formcomment.html.twig', [
                 'form' => $form->createView()

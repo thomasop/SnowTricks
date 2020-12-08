@@ -8,7 +8,7 @@ class Paging
     {
         $paging = array(
             'page' => $page,
-            'nbPages' => ceil(count($comments) / 5),
+            'nbPages' => ceil(count($comments) / 10),
             'nomRoute' => 'comment',
             'paramsRoute' => array()
         );

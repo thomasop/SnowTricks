@@ -5,27 +5,7 @@
 <script src="{{ asset('js/buttonLoadMedia.js') }}"></script>
 {% endblock %}
 {% block body %}
-    <header class="header">
-        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="{{ path('home') }}">Accueil</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="http://localhost:8000/#trick">Tricks</a></li>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_user', {id: app.user.id}) }}">Utilisateurs</a>
-            {% endif %}
-            {% if app.user %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a></li>
-            {% else %}
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_login') }}">Connexion</a></li>
-                <li class="nav-item list-inline-item">
-                <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a></li>
-            {% endif %}
-        </ul>
-    </header>
+    {% include 'header.html.twig' %}
     <main>
         <article>
             <a class="btn btn-outline-primary ml-3 return" href="{{ path('home') }}">Retour à la liste des tricks</a>
@@ -47,9 +27,8 @@
             {% endif %}
         {% endif %}
         <article class="text-center mb-4">
-            <h3>{{ trick.name }}</h3>
+            <h2 class="text-shadow-drop-right">{{ trick.name }}</h2>
         </article>
-
         <article class="mx-auto w-75 mb-5">
             {% if image or video %}
                 <h5 class="text-center mt-5">Médias :</h5>
@@ -168,6 +147,7 @@
             {% endif %}
         </article>
         <article class="mx-auto pagination" style="width: 305px;">
+        {% if comment|length > 10 %}
             {% if pagination.nbPages > 0 %}
                 <ul class="pagination">
                     {% if pagination.page > 1 %}
@@ -209,6 +189,7 @@
                     {% endif %}
                 </ul>
             {% endif %}
+        {% endif %}
         </article>
     </main>
 {% include 'footer.html.twig' %}

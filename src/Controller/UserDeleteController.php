@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserDeleteController extends AbstractController
@@ -33,16 +34,13 @@ class UserDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_user/{id}", name="user_delete")
+    * @Route("/delete_user/{id}", name="user_delete", requirements={"id"="\d+"})
+    * @ParamConverter("user", options={"mapping": {"id": "id"}})
     * @IsGranted("ROLE_SUPER_ADMIN")
     */
-    public function delete($id)
+    public function delete(User $user)
     {
         $currentId = $this->tokenStorage->getToken()->getUser()->getId();
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($id);
-
         if ($user->getAvatar() != "defaultavatar.png") {
             $this->deleteFile->delete($user->getAvatar());
         }

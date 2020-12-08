@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -45,16 +46,13 @@ class TrickDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_trick/{slug}", name="delete_trick")
+    * @Route("/delete_trick/{slug}", name="delete_trick", requirements={"slug"="a[a-z0-9-]+"})
+    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function delete($slug)
+    public function delete(Trick $trick)
     {
         $currentId = $this->tokenStorage->getToken()->getUser();
-        
-        $trick = $this->getDoctrine()
-            ->getRepository(Trick::class)
-            ->findOneBy(['slug' => $slug]);
         $video = $this->getDoctrine()
             ->getRepository(Video::class)
             ->findOneBy(['trickId' => $trick->getId()]);

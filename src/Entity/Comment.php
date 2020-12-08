@@ -41,7 +41,7 @@ class Comment
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Assert\NotBlank(
      *      message = "Ce champ est requis !"
      * )
