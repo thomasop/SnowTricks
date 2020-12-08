@@ -221,7 +221,6 @@ class Trick
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
             if ($image->getTrickId() === $this) {
                 $image->setTrickId(null);
             }
@@ -252,7 +251,6 @@ class Trick
     {
         if ($this->videos->contains($video)) {
             $this->videos->removeElement($video);
-            // set the owning side to null (unless already changed)
             if ($video->getTrickId() === $this) {
                 $video->setTrickId(null);
             }
@@ -283,7 +281,6 @@ class Trick
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
             }

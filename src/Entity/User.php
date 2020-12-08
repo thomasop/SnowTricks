@@ -256,24 +256,7 @@ class User implements UserInterface
 
         return $this;
     }
-    /**
-     * Returns the roles granted to the user.
-     *
-     *     public function getRoles()
-     *     {
-     *         return ['ROLE_USER'];
-     *     }
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return string[] The user roles
-     */
     
-
-    
-
     /**
      * Returns the salt that was originally used to encode the password.
      *
