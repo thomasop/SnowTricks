@@ -36,8 +36,9 @@
                     <small class="form-text text-muted">{{ form_help(form.images) }}</small>
                 </section>
                 <ul class="videos" id="video_list" style="list-style:none;" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                    {{ form_label(form.videos) }} : 
                     {% for row in form.videos %}
-                    <li>{{ form_row(row) }}</li>
+                        <li>{{ form_widget(form.videos) }}</li>
                     {% endfor %}
                 </ul>
                 <section class="form-group">

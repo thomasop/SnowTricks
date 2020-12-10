@@ -22,14 +22,17 @@ class ResetPasswordController extends AbstractController
     private $entityManager;
     private $emailService;
     private $resetPasswordForm;
+    private $session;
     
     public function __construct(
         EntityManagerInterface $entityManager,
         EmailService $emailService,
-        ResetPasswordForm $resetPasswordForm
+        ResetPasswordForm $resetPasswordForm,
+        SessionInterface $session
     ) {
         $this->entityManager = $entityManager;
         $this->emailService = $emailService;
+        $this->session = $session;
         $this->resetPasswordForm = $resetPasswordForm;
     }
 
@@ -45,12 +48,22 @@ class ResetPasswordController extends AbstractController
             $email = $form->get('email')->getData();
             
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["email" => $email]);
-            $user->setToken($this->generateToken());
+            if ($user) {
+                $user->setToken($this->generateToken());
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/emailreset.html.twig');
-            return $this->redirectToRoute('app_login');
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'Adresse mail trouvé, veuillez verifier votre email pour changer votre mot de passe!'
+                );
+                $this->emailService->mail($user->getEmail(), $user->getToken(), 'security/emailreset.html.twig');
+                return $this->redirectToRoute('app_login');
+            }
+            $this->session->getFlashBag()->add(
+                'success',
+                'Adresse mail pas trouvé, rentrez une adresse mail valide!!'
+            );
         }
         return $this->render('form/formforgotpassword.html.twig', [
             'form' => $form->createView(),

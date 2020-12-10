@@ -227,7 +227,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Trick[]
+     * @return Collection|Comment[]
      */
     public function getComments(): Collection
     {

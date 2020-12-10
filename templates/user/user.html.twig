@@ -4,7 +4,7 @@
 
 {% block body %}
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
+        <div class="alert alert-success margin-user">
             {{ message }}
         </div>
     {% endfor %}
@@ -24,7 +24,7 @@
                         {% endif %}
                     </div>
                     <div class="d-flex flex-column">
-                        <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Trick" width="80" height="80">
+                        <img class="" src="/uploads/pictures/{{ u.avatar }}" alt="Logo" width="80" height="80">
                         <div>
                             <a class="btn btn-primary my-3" href="{{ path('user_delete', {id: u.id}) }}">Supprimez</a>
                         </div>

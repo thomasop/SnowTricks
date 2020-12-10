@@ -44,6 +44,13 @@ class UserDeleteController extends AbstractController
         if ($user->getAvatar() != "defaultavatar.png") {
             $this->deleteFile->delete($user->getAvatar());
         }
+        foreach ($user->getTricks() as $img) {
+            foreach ($img->getImages() as $pic) {
+                $this->deleteFile->delete($pic->getName());
+            }
+            $this->deleteFile->delete($img->getPicture());
+        }
+        
         $this->remove->removeEntity($user);
         $this->session->getFlashBag()->add(
             'success',

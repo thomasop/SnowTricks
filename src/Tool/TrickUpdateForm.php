@@ -46,16 +46,16 @@ class TrickUpdateForm
         
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('picture')->getData();
-            
             if ($images == null) {
                 $trick->setPicture($trick->getPicture()->getBasename());
             } elseif ($trick->getPicture()->getBasename() != "default.jpg") {
                 $this->deleteFile->delete($trick->getPicture()->getBasename());
-            } else {
+                $newImage = $this->fileUploader->upload($images);
+                $trick->setPicture($newImage);
+            } elseif ($trick->getPicture()->getBasename() == "default.jpg"){
                 $newImage = $this->fileUploader->upload($images);
                 $trick->setPicture($newImage);
             }
-            
             $trick->setUpdatedAt(new \DateTime('now'));
             $this->entityManager->flush();
             $this->session->getFlashBag()->add(

@@ -15,8 +15,12 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('url', null, [
-                'required'   => false,
-                'label' => 'Lien youtube :',
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Video youtube uniquement',
+                    'class' => 'form-control'
+                ],
             ]);
     }
 

@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Modifiez un trick{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/collectionAddVideo.js') }}"></script>
+{% endblock %}
 {% block body %}
 {% include 'header.html.twig' %}
     <main>
@@ -28,14 +31,12 @@
                     <div class="file-user">{{ form_widget(form.picture) }}</div>
                     <small class="form-text text-muted">{{ form_help(form.picture) }}</small>
                 </section>
-                {% do form.images.setRendered() %}
-                {% do form.videos.setRendered() %}
                 <section class="form-group">
                     {{ form_label(form.categoryId) }}
                     <div>{{ form_widget(form.categoryId, { 'attr': {'class': 'form-control'} }) }}</div>
                     <small class="form-text text-muted">{{ form_help(form.categoryId) }}</small>
                 </section>
-                <button class="btn btn-outline-primary" type="submit">Modifiez</button>
+                <button class="btn btn-outline-primary mb-4" type="submit">Modifiez</button>
             {{ form_end(form) }}
         </article>
     </main>

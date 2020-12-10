@@ -21,6 +21,22 @@ ul {
   list-style: none;
 }
 
+.deco-link {
+  text-decoration: none;
+}
+
+.nav-link {
+  background-color: #007bff;
+  border: solid 1px #007bff;
+  border-radius: 10px;
+}
+
+.external-collapse.navbar-collapse {
+    display: -webkit-box!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+
 /* Home page */
 
 .home-picture {
@@ -259,6 +275,10 @@ ul {
 
 .footer {
   position: absolute;
+}
+
+.video-form {
+  width: 100%;
 }
 
 /* Login page */

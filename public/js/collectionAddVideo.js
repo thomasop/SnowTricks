@@ -58,7 +58,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button" class="btn btn-outline-primary my-1">Supprimez une video</button>');
+    var $removeFormButton = $('<button type="button" class="btn btn-outline-primary my-2">Supprimez une video</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on("click", function(e) {

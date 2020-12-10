@@ -1,21 +1,26 @@
-<header class="header">
-    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand text-focus-in" href="{{ path('home') }}">Accueil</a></li>
-        <li class="nav-item list-inline-item">
-        <a class="navbar-brand text-focus-in" href="http://localhost:8000/#trick">Tricks</a></li>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand text-focus-in" href="{{ path('app_user') }}">Utilisateurs</a>
-        {% endif %}
-        {% if app.user %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand text-focus-in" href="{{ path('app_logout') }}">Déconnexion</a></li>
-        {% else %}
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand text-focus-in" href="{{ path('app_login') }}">Connexion</a></li>
-            <li class="nav-item list-inline-item">
-            <a class="navbar-brand text-focus-in" href="{{ path('app_register') }}">Inscription</a></li>
-        {% endif %}
-    </ul>
+
+<header class="header pos-f-t">
+    <nav class="navbar navbar-dark d-flex justify-content-around bg-primary px-0 py-0 mb-3">
+        <a class="text-dark" href="{{ path('home') }}"><img src="../../uploads/pictures/logosnowtrick.png" alt="logo" width="40px" height="40px"></a>
+        <button type="button" class="navbar-toggler pull-right my-2" data-toggle="collapse" data-target="#navbarToggleExternalContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div id="navbarToggleExternalContent" class="external-collapse collapse col-lg-2 col-md-2 col-sm-3 col-xs-12" style="float: right">  
+        <ul class="nav-pills flex-column nav-link text-center">
+            <li class="nav-item my-1"><a style="text-decoration: none" class="text-white text-focus-in" href="{{ path('home') }}"><i class=""></i> Accueil </a></li>
+            <li class="nav-item"><a style="text-decoration: none" class="text-white text-focus-in" href="https://snowtricks.thomas-dasilva.fr/#trick"><i class=""></i> Tricks </a></li>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="nav-item my-1"><a style="text-decoration: none" class="text-white text-focus-in" href="{{ path('app_user') }}"><i class=""></i> Utilisateurs </a></li>
+            {% endif %}
+            {% if app.user %}
+                <li class="nav-item"><a style="text-decoration: none" class="text-white text-focus-in" href="{{ path('app_logout') }}"><i class=""></i> Déconnexion </a></li>
+            {% else %}
+                <li class="nav-item mb-1"><a style="text-decoration: none" class="text-white text-focus-in" href="{{ path('app_login') }}"><i class=""></i> Connexion </a></li>
+                <li class="nav-item mb-1"><a style="text-decoration: none" class="text-white text-focus-in" href="{{ path('app_register') }}"><i class=""></i> Inscription </a></li>
+            {% endif %}
+        </ul>
+    </div>
 </header>
+

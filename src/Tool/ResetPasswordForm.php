@@ -38,19 +38,26 @@ class ResetPasswordForm
         $form->handleRequest($this->request->getCurrentRequest());
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setToken(null);
-            $user->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            #^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,}$#
+            if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,}$#', $form->get('password')->getData())){
+                $user->setPassword(
+                    $this->passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $this->session->getFlashBag()->add(
+                    'success',
+                    'Mot de passe modifié !'
+                );
+                return true;
+            }
             $this->session->getFlashBag()->add(
                 'success',
-                'Mot de passe modifié !'
+                'Mot de passe incorrect: Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 8 caractères minimum!'
             );
-            return true;
         }
         return false;
     }

@@ -46,7 +46,7 @@ class TrickDeleteController extends AbstractController
     }
 
     /**
-    * @Route("/delete_trick/{slug}", name="delete_trick", requirements={"slug"="a[a-z0-9-]+"})
+    * @Route("/delete_trick/{slug}", name="delete_trick", requirements={"slug"="[a-z0-9-]+"})
     * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */

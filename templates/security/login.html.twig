@@ -3,16 +3,11 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block body %}
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
     
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+    
+    
     {% include 'header.html.twig' %}
+    
     {% if is_granted('ROLE_ADMIN') %}
         <div class="ml-4">
             <p>Vous etes connecté avec l'Email {{ app.user.username }}, Vous pouvez vous <a class="btn btn-primary" href="{{ path('app_logout') }}">deconnecter</a> ou revenir sur la page d'<a class="btn btn-primary" href="{{ path('home') }}">accueil</a></p>
@@ -21,6 +16,14 @@
     <div class="mx-5 mt-5">
         <form method="post">
             <h3 class="mb-5 text-center text-shadow-drop-right margin-user">Connectez vous</h3>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="form-group">
                 <label for="inputEmail">Email :</label>
                 <input type="email" value="" name="email" id="inputEmail" class="form-control" required autofocus>

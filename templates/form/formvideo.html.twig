@@ -11,8 +11,8 @@
                 <section class="text-danger">{{ form_errors(form) }}</section>
                 <section class="form-group">
                     <div class="text-danger">{{ form_errors(form.url) }}</div>
-                    {{ form_label(form.url) }}
-                    <div>{{ form_widget(form.url, { 'attr': {'class': 'form-control'} }) }}</div>
+                    <p>Video : </p>
+                    <div>{{ form_widget(form.url) }}</div>
                     <small class="form-text text-muted">{{ form_help(form.url) }}</small>
                 </section>        
                 <button class="btn btn-outline-lg btn-primary" type="submit">Ajoutez</button>
