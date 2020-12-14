@@ -32,9 +32,9 @@ ul {
 }
 
 .external-collapse.navbar-collapse {
-    display: -webkit-box!important;
-    display: -ms-flexbox!important;
-    display: flex!important;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
 }
 
 /* Home page */
