@@ -16,7 +16,7 @@ class UserTest extends KernelTestCase
 		$name = "okfl";
 		$user = (new User())
 		->setPseudo($name)
-		->setPassword("dfdgggddggdg")
+		->setPassword("T1234est?")
 		->setEmail("tdss33@hotmail.com");
 		self::bootKernel();
 		$error = self::$container->get('validator')->validate($user);
@@ -53,6 +53,6 @@ class UserTest extends KernelTestCase
     public function testRoles()
 	{
 		$user = new User();
-		$this->assertEquals(['ROLE_USER'], $user->getRoles());
+		$this->assertEquals(['ROLE_ADMIN'], $user->getRoles());
 	}
 }

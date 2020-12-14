@@ -9,13 +9,9 @@ class SecurityControllerTest extends WebTestCase
 {
     private $client = null;
   
-  public function setUp()
-  {
-    $this->client = static::createClient();
-  }
-  
   public function testSecurityIsUp()
   {
+    $this->client = static::createClient();
     $this->client->request('GET', '/SnowTricks/login');
     
     static::assertEquals(
@@ -25,10 +21,20 @@ class SecurityControllerTest extends WebTestCase
   }
   public function testSecurityIsDown()
   {
+    $this->client = static::createClient();
     $this->client->request('GET', '/SnowTricks/logout');
-    //dd(Response::HTTP_OK);
     static::assertEquals(
       Response::HTTP_FOUND,
+      
+      $this->client->getResponse()->getStatusCode()
+    );
+  }
+  public function testRegisterIsDown()
+  {
+    $this->client = static::createClient();
+    $this->client->request('GET', '/register');
+    static::assertEquals(
+      Response::HTTP_OK,
       
       $this->client->getResponse()->getStatusCode()
     );

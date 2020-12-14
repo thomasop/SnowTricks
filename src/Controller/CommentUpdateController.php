@@ -37,12 +37,16 @@ class CommentUpdateController extends AbstractController
 
     /**
     * @Route("/update_comment/{id}/{slug}", name="update_comment", requirements={"slug"="[a-z0-9-]+", "id"="\d+"})
-    * @ParamConverter("comment", options={"mapping": {"id": "id"}})
-    * @ParamConverter("trick", options={"mapping": {"slug": "slug"}})
     * @IsGranted("ROLE_ADMIN")
     */
-    public function new(Comment $comment, Trick $trick, Request $request)
+    public function new($id, $slug, Request $request)
     {
+        $comment = $this->getDoctrine()
+            ->getRepository(Comment::class)
+            ->findBy(['id' => $id]);
+        $trick = $this->getDoctrine()
+            ->getRepository(Trick::class)
+            ->findBy(['slug' => $slug]);
         $currentId = $this->tokenStorage->getToken()->getUser();
         if ($currentId == $comment->getUserId()) {
             $form = $this->createForm(CommentType::class, $comment, ['method' => 'PUT']);

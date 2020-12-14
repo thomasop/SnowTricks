@@ -9,14 +9,10 @@ class CommentControllerTest extends WebTestCase
 {
     private $client = null;
   
-  public function setUp()
-  {
-    $this->client = static::createClient();
-  }
-  
   public function testCommentIsUp()
   {
-    $this->client->request('GET', '/comment/1');
+    $this->client = static::createClient();
+    $this->client->request('GET', '/comment/720/1');
     
     static::assertEquals(
       Response::HTTP_OK,
@@ -26,7 +22,8 @@ class CommentControllerTest extends WebTestCase
 
   public function testAddCommentIsUp()
   {
-    $this->client->request('GET', '/add_comment/1');
+    $this->client = static::createClient();
+    $this->client->request('GET', '/comment/720/1');
     
     static::assertEquals(
       Response::HTTP_OK,
@@ -36,7 +33,8 @@ class CommentControllerTest extends WebTestCase
 
   public function testDeleteCommentIsUp()
   {
-    $this->client->request('GET', '/delete_comment/12/10');
+    $this->client = static::createClient();
+    $this->client->request('GET', '/delete_comment/2/720');
     
     static::assertEquals(
       Response::HTTP_FOUND,
@@ -45,10 +43,11 @@ class CommentControllerTest extends WebTestCase
   }
   public function testUpdateCommentIsUp()
   {
-    $this->client->request('GET', '/update_comment/12/10');
+    $this->client = static::createClient();
+    $this->client->request('GET', '/update_comment/2/720');
     
     static::assertEquals(
-      Response::HTTP_OK,
+      Response::HTTP_FOUND,
       $this->client->getResponse()->getStatusCode()
     );
   }

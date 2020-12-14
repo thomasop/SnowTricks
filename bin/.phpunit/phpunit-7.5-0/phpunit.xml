@@ -29,4 +29,7 @@
     <php>
         <const name="PHPUNIT_TESTSUITE" value="true"/>
     </php>
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+    </php>
 </phpunit>
