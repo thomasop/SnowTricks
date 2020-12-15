@@ -48,7 +48,9 @@ class UserDeleteController extends AbstractController
             foreach ($img->getImages() as $pic) {
                 $this->deleteFile->delete($pic->getName());
             }
-            $this->deleteFile->delete($img->getPicture());
+            if ($img->getPicture() != "default.jpg") {
+                $this->deleteFile->delete($img->getPicture());
+            }
         }
         
         $this->remove->removeEntity($user);

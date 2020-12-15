@@ -10,6 +10,7 @@ use App\Tool\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
+use App\Tool\SlugBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -56,6 +57,8 @@ class TrickUpdateForm
                 $newImage = $this->fileUploader->upload($images);
                 $trick->setPicture($newImage);
             }
+            $slugBuilder = new SlugBuilder();
+            $trick->setSlug($slugBuilder->buildSlug($trick->getName()));
             $trick->setUpdatedAt(new \DateTime('now'));
             $this->entityManager->flush();
             $this->session->getFlashBag()->add(
